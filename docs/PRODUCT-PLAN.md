@@ -13,7 +13,7 @@ The platform must not be presented as a clinical service, patient portal, crisis
 ## Experience and visual direction
 
 - Arabic-first experience with complete English parity; correct RTL/LTR behavior, typography, dates, navigation, forms, and transactional messages.
-- Preserve the association's approved identity and official logo. Do not replace the official logo with a conceptual placeholder in production.
+- Use the official PACP logo supplied by the association as the primary identity asset. Preserve its proportions, colors, and Arabic/English naming; do not redraw or replace it with a conceptual mark. Prepare optimized web variants (SVG if supplied, otherwise transparent PNG/WebP) while retaining the original source file.
 - Palette: association green, red, black, and white; restrained neutral surfaces.
 - Distinctive 3D visual signature: a performant hero scene and selected section accents using Three.js / React Three Fiber where justified; CSS depth, lighting, and motion for lighter components.
 - Motion must respect `prefers-reduced-motion`; provide static fallbacks, keyboard access, adequate contrast, and mobile-friendly performance.
@@ -75,7 +75,7 @@ The platform must not be presented as a clinical service, patient portal, crisis
 
 ## Payment strategy
 
-Support both Palestinian/local payment methods and international card payments, but do not hard-code a gateway or advertise payment as active before all of the following are verified:
+**Current decision: payment provider selection and onboarding are deferred to the verification and contracting workstream.** The target capability is both Palestinian/local payment methods and international card payments. Do not hard-code a gateway or advertise payment as active before all of the following are verified:
 1. The provider accepts a Palestinian legal entity and the association's registration documents.
 2. Merchant onboarding, settlement account, currencies, fees, refund/dispute process, and settlement schedule are confirmed in writing.
 3. The provider offers a supported integration/API or hosted checkout.
