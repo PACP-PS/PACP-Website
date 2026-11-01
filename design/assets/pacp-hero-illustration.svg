@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" role="img" aria-labelledby="title desc">
+<title id="title">PACP mental wellbeing illustration</title><desc id="desc">A softly dimensional profile silhouette with a green brain, heart and olive leaves.</desc>
+<defs>
+ <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".52" stop-color="#f4eee3"/><stop offset="1" stop-color="#c8d7cb"/></linearGradient>
+ <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b4d87b"/><stop offset=".45" stop-color="#39864e"/><stop offset="1" stop-color="#06472e"/></linearGradient>
+ <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c2df82"/><stop offset=".5" stop-color="#5c9d45"/><stop offset="1" stop-color="#075b36"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f06b69"/><stop offset="1" stop-color="#b80e1a"/></linearGradient>
+ <radialGradient id="halo"><stop stop-color="#fff" stop-opacity=".95"/><stop offset=".72" stop-color="#c8e2d1" stop-opacity=".5"/><stop offset="1" stop-color="#78ae8b" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="18"/></filter>
+ <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#16452c" flood-opacity=".22"/></filter>
+</defs>
+<ellipse cx="375" cy="520" rx="245" ry="45" fill="#174b31" opacity=".16" filter="url(#shadow)"/>
+<circle cx="380" cy="290" r="260" fill="url(#halo)"/>
+<g fill="none" stroke="#fff" stroke-width="3" opacity=".7"><ellipse cx="380" cy="290" rx="245" ry="190" transform="rotate(-24 380 290)"/><ellipse cx="380" cy="290" rx="220" ry="165" transform="rotate(48 380 290)"/></g>
+<g filter="url(#soft)">
+ <path d="M380 510c-6-50-10-84-7-124-57-7-99-48-108-110-8-57 13-126 68-161 55-36 137-28 179 20 35 40 40 99 23 142-10 26-27 43-45 59-17 15-22 30-18 53l12 64c4 22-12 42-35 42H380z" fill="url(#skin)" stroke="#b8cbbd" stroke-width="3"/>
+ <path d="M277 278c-25-57-9-128 37-169 31-28 74-42 119-34 40 7 74 30 94 64-27-14-51-13-74-3-28 12-47 36-54 65-15-21-36-32-59-28-32 5-53 42-63 105z" fill="#fff" opacity=".28"/>
+ <path d="M310 207c-12-44 8-82 43-101 37-21 85-15 110 12 18 19 22 45 14 68-9 25-32 41-57 41-14 0-23-5-34-14-11 16-31 26-51 22-12-2-20-11-25-28z" fill="url(#green)" stroke="#e7f4e9" stroke-width="5"/>
+ <g fill="#d8edc9" opacity=".92"><circle cx="357" cy="148" r="15"/><circle cx="393" cy="132" r="18"/><circle cx="429" cy="151" r="15"/><circle cx="345" cy="185" r="14"/><circle cx="388" cy="185" r="19"/><circle cx="426" cy="187" r="13"/></g>
+ <path d="M389 167c-19-27-49-2-20 24l20 19 20-19c29-26-1-51-20-24z" fill="url(#red)" stroke="#fff" stroke-width="4"/>
+</g>
+<g fill="url(#leaf)" stroke="#e7f2df" stroke-width="2" filter="url(#soft)">
+ <path d="M130 408c-83-2-115-58-112-125 70 3 118 41 112 125z"/>
+ <path d="M164 340c-60-48-53-112-13-159 51 44 65 100 13 159z"/>
+ <path d="M211 467c-79 29-136-7-157-68 67-27 124-9 157 68z"/>
+ <path d="M622 400c82-3 117-56 116-123-71 4-119 42-116 123z"/>
+ <path d="M589 326c60-49 52-112 11-158-50 45-64 101-11 158z"/>
+ <path d="M548 465c78 30 136-5 158-66-67-28-124-11-158 66z"/>
+</g>
+<g fill="none" stroke="#dcebd8" stroke-width="3" opacity=".85"><path d="M54 530Q178 390 280 305"/><path d="M706 525Q579 392 480 303"/></g>
+<path d="M0 570c90-72 151-59 226-15 48 29 93 31 143 4 66-36 118-27 172 4 76 44 143 23 219-25v82H0z" fill="#075b36" opacity=".95"/>
+<path d="M0 570c90-72 151-59 226-15 48 29 93 31 143 4 66-36 118-27 172 4 76 44 143 23 219-25" fill="none" stroke="#d71920" stroke-width="7"/>
+</svg>
