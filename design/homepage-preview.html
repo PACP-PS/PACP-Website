@@ -25,5 +25,31 @@
 </main>
 <footer class="footer" id="contact"><div class="footgrid"><div><h3>الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</h3><p>نحو مجتمع نفسي واعٍ وداعم<br>تعزيز الممارسة المهنية وتطوير المعرفة العلمية لخدمة الصحة النفسية في فلسطين.</p></div><div><h3>روابط سريعة</h3><p><a href="#about">عن الجمعية</a><br><a href="#membership">العضوية</a><br><a href="#training">التدريب والفعاليات</a></p></div><div><h3>تواصل معنا</h3><p>info@pacp.ps<br>+970 59-409-0972<br>بيت لحم، شارع القدس–الخليل، عمارة ميلانو، الطابق الأول</p></div></div><div class="copyright">© PACP — جميع الحقوق محفوظة</div></footer>
 <script>
-const lang=document.getElementById('lang');let en=false;lang.addEventListener('click',()=>{en=!en;document.documentElement.lang=en?'en':'ar';document.documentElement.dir=en?'ltr':'rtl';lang.textContent=en?'عربي':'EN';document.querySelector('.hero h1').textContent=en?'Palestinian Association of Clinical Psychologists':'الجمعية الفلسطينية لاختصاصيي علم النفس العيادي';document.querySelector('.tagline').textContent=en?'Towards a mentally aware and supportive society':'نحو مجتمع نفسي واعٍ وداعم';});
+const langButton=document.getElementById('lang');
+const nav=document.querySelector('.nav');
+const translations=[
+['.nav .active','Home'],['.nav a:nth-child(2)','About Us'],['.nav a:nth-child(3)','Services & Activities'],['.nav a:nth-child(4)','Scientific Resources'],['.nav a:nth-child(5)','News & Events'],['.nav a:nth-child(6)','Contact Us'],
+['.eyebrow','The professional association for clinical psychology in Palestine'],
+['.hero h1','Palestinian Association of Clinical Psychologists'],['.tagline','Towards a mentally aware and supportive society'],
+['.hero-copy>p','We advance professional practice and scientific knowledge and support mental health services in Palestine through collaboration, training and specialized initiatives.'],
+['.actions .primary','Discover PACP ←'],['.actions .secondary','Become a Member'],
+['.priority a:nth-child(1) strong','Professional Standards'],['.priority a:nth-child(2) strong','Support for Specialists'],['.priority a:nth-child(3) strong','Scientific Research'],['.priority a:nth-child(4) strong','Training & Continuing Development'],['.priority a:nth-child(5) strong','Professional Partnerships'],['.priority a:nth-child(6) strong','Mental Health Awareness'],
+['#events .panelbar','Latest News'],['#events .empty','Official association news and announcements will appear here once approved.'],
+['.quote b','Together, we advance our profession and strengthen mental health in Palestine'],
+['#training .panelbar','Upcoming Events & Training'],['#training .empty','Approved courses and events will appear here once dates are published.'],
+['.join h2','Be part of a supportive professional community'],['.join p','Explore membership categories, eligibility requirements and member services.'],['.join .btn','Explore Membership ←'],
+['.footgrid>div:first-child h3','Palestinian Association of Clinical Psychologists'],['.footgrid>div:first-child p','Towards a mentally aware and supportive society<br>Advancing professional practice and scientific knowledge for mental health in Palestine.'],
+['.footgrid>div:nth-child(2) h3','Quick Links'],['.footgrid>div:nth-child(2) p','About PACP<br>Membership<br>Training & Events'],
+['.footgrid>div:nth-child(3) h3','Contact Us']
+];
+translations.forEach(([s])=>{const e=document.querySelector(s);if(e)e.dataset.ar=e.innerHTML;});
+langButton.addEventListener('click',()=>{
+ const english=document.documentElement.lang!=='en';
+ document.documentElement.lang=english?'en':'ar';document.documentElement.dir=english?'ltr':'rtl';
+ langButton.textContent=english?'عربي':'EN';
+ translations.forEach(([s,t])=>{const e=document.querySelector(s);if(e)e.innerHTML=english?t:e.dataset.ar;});
+});
+const menu=document.querySelector('.menu');
+menu.addEventListener('click',()=>{const open=nav.classList.toggle('mobile-open');menu.setAttribute('aria-expanded',String(open));});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('mobile-open');menu.setAttribute('aria-expanded','false');}));
 </script></body></html>
