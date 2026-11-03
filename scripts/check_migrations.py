@@ -6,7 +6,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 MIG = ROOT / "supabase" / "migrations"
-EXPECTED = [f"000{i}_" for i in range(1, 6)]
+EXPECTED = [f"000{i}_" for i in range(0, 6)]
 issues = []
 files = sorted(MIG.glob("*.sql"))
 for prefix in EXPECTED:
@@ -17,10 +17,12 @@ if issues:
     print("\n".join(issues))
     sys.exit(1)
 
-sources = {p.name[:4]: p.read_text(encoding="utf-8") for p in files if p.name[:4] in {"0001","0002","0003","0004","0005"}}
+sources = {p.name[:4]: p.read_text(encoding="utf-8") for p in files if p.name[:4] in {"0000","0001","0002","0003","0004","0005"}}
 base = (ROOT / "docs" / "DATABASE-SCHEMA-DRAFT.sql").read_text(encoding="utf-8")
 checks = [
     ("baseline defines membership application", "create table public.membership_applications" in base.lower()),
+    ("versioned baseline defines membership application", "create table public.membership_applications" in sources["0000"].lower()),
+    ("versioned baseline contains original schema", base.strip() in sources["0000"]),
     ("baseline defines members", "create table public.members (" in base.lower()),
     ("0001 enables RLS", "enable row level security" in sources["0001"].lower()),
     ("0002 has application events", "create table if not exists public.membership_application_events" in sources["0002"].lower()),
