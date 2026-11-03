@@ -27,7 +27,6 @@ set search_path = pg_catalog, public, auth
 as $$
 declare
   v_actor uuid := auth.uid();
-  v_role text;
   v_app public.membership_applications%rowtype;
   v_member_id uuid;
   v_code text;
@@ -40,10 +39,7 @@ begin
     raise exception 'Authentication required' using errcode = '28000';
   end if;
 
-  select role into v_role from public.profiles where id = v_actor;
-  if v_role is null then
-    raise exception 'No authorized staff profile' using errcode = '42501';
-  end if;
+  -- Authorization is evaluated against trusted staff_role_assignments via 0004 helpers.
 
   select * into v_app
   from public.membership_applications
@@ -59,7 +55,7 @@ begin
   end if;
 
   if p_action in ('start_review','request_changes') then
-    if v_role not in ('membership_officer','membership_approver') then
+    if not public.can_review_membership() then
       raise exception 'Insufficient permission for review action' using errcode = '42501';
     end if;
     if p_action = 'start_review' then
@@ -88,7 +84,7 @@ begin
   end if;
 
   if p_action in ('approve','reject') then
-    if v_role <> 'membership_approver' then
+    if not public.has_staff_role('membership_approver') then
       raise exception 'Only an authorized membership approver may decide' using errcode = '42501';
     end if;
     if v_app.status <> 'under_review' then
