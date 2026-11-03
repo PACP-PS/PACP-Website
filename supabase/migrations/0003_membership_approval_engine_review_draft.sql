@@ -59,7 +59,7 @@ begin
   end if;
 
   if p_action in ('start_review','request_changes') then
-    if v_role not in ('membership_officer','membership_approver','admin') then
+    if v_role not in ('membership_officer','membership_approver') then
       raise exception 'Insufficient permission for review action' using errcode = '42501';
     end if;
     if p_action = 'start_review' then
@@ -88,7 +88,7 @@ begin
   end if;
 
   if p_action in ('approve','reject') then
-    if v_role not in ('membership_approver','admin') then
+    if v_role <> 'membership_approver' then
       raise exception 'Only an authorized membership approver may decide' using errcode = '42501';
     end if;
     if v_app.status <> 'under_review' then
@@ -179,7 +179,7 @@ revoke all on sequence public.pacp_membership_code_seq from public, anon, authen
 
 commit;
 
--- REQUIRED BEFORE USE:
+-- IMPORTANT: profiles.role is still a draft source of authority. Replace with trusted\n-- staff_role_assignments and role-check helper before using this function.\n-- REQUIRED BEFORE USE:
 -- 1) Validate submitted_data keys against the final application form.
 -- 2) Review role assignment out-of-band; never let a user update profiles.role.
 -- 3) Add and test RLS/policies for the new workflow tables.
