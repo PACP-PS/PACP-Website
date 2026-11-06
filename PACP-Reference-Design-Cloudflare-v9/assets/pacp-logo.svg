@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="title desc">
+<title id="title">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</title><desc id="desc">شعار دائري باللون الأخضر والأحمر والأسود يتوسطه رمز علم النفس وأوراق نباتية وملامح إنسان.</desc>
+<defs>
+ <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a7442"/><stop offset=".5" stop-color="#03472e"/><stop offset="1" stop-color="#0c8b4d"/></linearGradient>
+ <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a8d66b"/><stop offset=".5" stop-color="#4b963e"/><stop offset="1" stop-color="#075b36"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ef4b4e"/><stop offset="1" stop-color="#bd101b"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#082f1d" flood-opacity=".2"/></filter>
+ <path id="topArc" d="M 135,500 A 365,365 0 0 1 865,500"/><path id="bottomArc" d="M 135,540 A 365,365 0 0 0 865,540"/>
+</defs>
+<circle cx="500" cy="500" r="474" fill="none" stroke="url(#ring)" stroke-width="24"/>
+<circle cx="500" cy="500" r="445" fill="#fff" stroke="#dbe9de" stroke-width="5"/>
+<text font-family="Arial,sans-serif" font-size="45" font-weight="700" fill="#063d28" letter-spacing="1"><textPath href="#topArc" startOffset="50%" text-anchor="middle">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</textPath></text>
+<text font-family="Arial,sans-serif" font-size="35" font-weight="700" fill="#111" letter-spacing=".3"><textPath href="#bottomArc" startOffset="50%" text-anchor="middle">Palestinian Association of Clinical Psychologists</textPath></text>
+<path d="M95 500l30-30 30 30-30 30zM845 500l30-30 30 30-30 30z" fill="#d71920"/>
+<g filter="url(#shadow)">
+ <rect x="305" y="190" width="390" height="620" rx="78" fill="#fff" stroke="#075b36" stroke-width="13"/>
+ <path d="M500 210c-65 64-75 128-35 181 15 20 27 29 35 35 8-6 20-15 35-35 40-53 30-117-35-181z" fill="url(#leaf)"/>
+ <path d="M500 285c-43 45-48 88-20 126 8 11 15 19 20 23 5-4 12-12 20-23 28-38 23-81-20-126z" fill="#03472e" stroke="#fff" stroke-width="8"/>
+ <path d="M455 385c-72-62-128-56-165-15 34 60 92 91 165 72zM545 385c72-62 128-56 165-15-34 60-92 91-165 72z" fill="url(#leaf)"/>
+ <path d="M402 330c-35-44-33-82 0-111 40 24 53 61 31 105zM598 330c35-44 33-82 0-111-40 24-53 61-31 105z" fill="#06472f"/>
+ <text x="500" y="650" text-anchor="middle" font-family="Georgia,serif" font-size="300" font-weight="700" fill="url(#red)">Ψ</text>
+ <path d="M342 465c-52-26-75 12-52 42-36 15-33 58 4 66-26 35 5 69 37 55 8 43 57 46 70 7 39 6 59-37 31-61 29-25 9-67-27-66-9-37-44-53-63-43z" fill="#15191a" stroke="#fff" stroke-width="9"/>
+ <path d="M350 482c-22-11-37 7-25 22-22 10-18 31 5 35-15 22 5 40 24 28 8 27 36 27 43 2 25 3 34-22 17-37 20-15 7-39-15-38-5-22-29-31-49-12z" fill="none" stroke="#fff" stroke-width="8"/>
+ <path d="M649 455c47 6 70 41 62 78-5 22-24 36-29 56-6 23 8 48-14 70-22 22-50 26-83 39 13-31 2-58 12-85 8-23 24-39 28-66 5-34-5-62 24-92z" fill="#17191a" stroke="#fff" stroke-width="7"/>
+ <path d="M410 720c-43-40-80-37-105-5 28 42 65 57 105 44zM590 720c43-40 80-37 105-5-28 42-65 57-105 44z" fill="url(#leaf)"/>
+ <path d="M500 690c-35 28-46 58 0 94 46-36 35-66 0-94z" fill="#111"/>
+ <path d="M305 500c-60-48-105-28-137 20 53 4 94 29 133 69M695 500c60-48 105-28 137 20-53 4-94 29-133 69" fill="none" stroke="url(#red)" stroke-width="22" stroke-linecap="round"/>
+</g></svg>
