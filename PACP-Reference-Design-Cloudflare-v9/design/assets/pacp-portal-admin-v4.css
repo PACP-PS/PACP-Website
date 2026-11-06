@@ -1,0 +1,21 @@
+/* PACP v4 portal/admin visual layer — preview only */
+:root{--pacp-green:#075b36;--pacp-dark:#03452d;--pacp-red:#c9102c;--pacp-glass:#ffffffed;--pacp-border:#dbe9e3}
+html{scroll-behavior:smooth}
+body{font-family:Alexandria,Tajawal,"Noto Sans Arabic",Tahoma,sans-serif!important;background:radial-gradient(ellipse at 95% 5%,#e1f3eb,transparent 38%),linear-gradient(135deg,#f6fafb,#fff 60%,#eef7f2)!important}
+a,button,input,select,textarea{font-family:inherit}
+header,nav,.header,.topbar,.navbar{backdrop-filter:blur(13px)}
+main,section,.container,.wrap{max-width:100%}
+.card,.panel,.stat,.stat-card,.kpi,.tile,.box,.widget,article{border-color:var(--pacp-border);box-shadow:0 8px 25px #003d3010}
+button,.btn,[type=submit]{transition:filter .2s ease,transform .2s ease}
+button:hover,.btn:hover,[type=submit]:hover{filter:brightness(.97)}
+:focus-visible{outline:3px solid var(--pacp-red)!important;outline-offset:3px}
+.pacp-preview-strip{position:sticky;top:0;z-index:99999;background:linear-gradient(90deg,#03452d,#076c43);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px clamp(12px,3vw,35px);font-size:11px;line-height:1.7;box-shadow:0 3px 12px #003d3025}
+.pacp-preview-strip a{color:#fff;text-decoration:none}
+.pacp-preview-strip .pacp-strip-brand{display:flex;gap:10px;align-items:center;font-weight:700}
+.pacp-preview-strip img{width:34px;height:34px;object-fit:contain;background:#fff;border-radius:50%;padding:3px}
+.pacp-preview-strip .pacp-strip-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.pacp-preview-strip .pacp-strip-links a{border-bottom:2px solid transparent;padding-bottom:3px}
+.pacp-preview-strip .pacp-strip-links a:hover{border-color:#d11931}
+.pacp-preview-warning{background:#fff7eb;color:#6b441b;border:1px solid #e7d3b1;border-right:4px solid #c9102c;padding:10px 15px;font-size:11px;line-height:1.9}
+@media(max-width:760px){.pacp-preview-strip{flex-direction:column;align-items:stretch}.pacp-preview-strip .pacp-strip-links{gap:8px}.pacp-preview-strip .pacp-strip-links a{font-size:10px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}button,.btn,[type=submit]{transition:none}}
