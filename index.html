@@ -283,6 +283,28 @@
 .membership-3d .card-waves{position:absolute!important;inset:auto -15% -44% -15%!important;height:70%!important;transform:rotate(-12deg)!important;background:linear-gradient(155deg,rgba(5,101,67,.04) 0 27%,rgba(255,255,255,.6) 28% 38%,rgba(2,116,73,.75) 39% 63%,rgba(5,57,43,.9) 64% 100%)!important;border-radius:48% 52% 0 0!important;pointer-events:none}
 .membership-3d .card-front .card-body:after{content:"✦  MEMBER  ✦";font-size:9px;letter-spacing:2px;color:#0b7351;font-weight:800;position:absolute;bottom:-17px;right:0}
 @media(prefers-reduced-motion:reduce){.membership-3d .card-rotator{transition:none!important}}
+
+/* v20: layered luminous glass membership ID — preserve readable emblem and interaction. */
+.membership-3d .card-front{
+ background:linear-gradient(132deg,rgba(255,255,255,.80),rgba(219,255,242,.50) 46%,rgba(19,143,102,.46) 100%),radial-gradient(circle at 90% 85%,#066846,#b8f0d8 67%,#fff)!important;
+ backdrop-filter:blur(20px) saturate(1.6)!important;
+ -webkit-backdrop-filter:blur(20px) saturate(1.6)!important;
+}
+.membership-3d .card-back{
+ background:linear-gradient(125deg,rgba(255,255,255,.86),rgba(190,246,220,.57) 54%,rgba(5,116,81,.48)),radial-gradient(circle at 80% 90%,#06714d,#e1fff1)!important;
+ backdrop-filter:blur(20px) saturate(1.5)!important;
+ -webkit-backdrop-filter:blur(20px) saturate(1.5)!important;
+}
+.membership-3d .card-face{
+ border:1.5px solid rgba(255,255,255,.95)!important;
+ box-shadow:inset 2px 2px 4px rgba(255,255,255,.95),inset -2px -2px 12px rgba(9,91,66,.15),0 20px 34px rgba(4,79,54,.22)!important;
+}
+.membership-3d .card-face:after{
+ content:"";position:absolute;z-index:2;inset:0;pointer-events:none;
+ background:linear-gradient(118deg,rgba(255,255,255,.56) 0%,rgba(255,255,255,.08) 29%,rgba(255,255,255,.38) 39%,transparent 52%,rgba(255,255,255,.11) 100%)!important;
+ border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)!important;
+}
+.membership-3d .card-front .card-waves{opacity:.7!important}
 </style></head><body><main class="page"><div class="leaf" aria-hidden="true">🌿</div><header class="header"><a class="brand brand-integrated" href="#top" aria-label="الرئيسية"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="الشعار الأصلي للجمعية الفلسطينية لاختصاصيي علم النفس العيادي"><span class="brand-copy"><strong>PACP</strong><small>الجمعية الفلسطينية<br>لاختصاصيي علم النفس العيادي</small></span></a><nav class="nav" aria-label="التنقل الرئيسي"><a class="active" href="#top">الرئيسية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav><div class="actions"><a class="pill primary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية ↗</a><a class="pill" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/member-portal-preview.html">تسجيل الدخول ◉</a><button class="pill" id="lang" type="button" aria-label="اللغة الإنجليزية">🌐 EN</button><button class="menu-toggle" id="menu" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button></div><nav class="mobile-nav" id="mobileNav" aria-label="التنقل على الهاتف"><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav></header><section class="hero" id="top"><div class="hero-content"><div class="eyebrow">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</div><h1>نحو مجتمع نفسي<br><span>واعٍ وداعم</span></h1><p>منصة مهنية تجمع اختصاصيي علم النفس العيادي، وتعزز الممارسة العيادية، وتدعم التطوير المهني وخدمة المجتمع الفلسطيني.</p><div class="hero-ctas"><a class="cta" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية ←</a><a class="cta secondary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">تعرف على الجمعية ◉</a></div></div><div class="hero-art" id="heroArt" aria-label="مشهد دماغ عصبي ثلاثي الأبعاد ومدينة القدس"><div class="brain-stage" id="brainStage" hidden aria-hidden="true"><canvas id="brainCanvas" aria-label="مجسم دماغ عصبي متحرك" role="img"></canvas><span class="brain-fallback-label">مشهد توضيحي عند تعذر تحميل العرض ثلاثي الأبعاد</span></div><img class="brain brain-fallback reference-brain" src="/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp" alt="دماغ مضيء مع رموز علم النفس والخدمات المهنية"></div><div class="jerusalem-hero jerusalem-composite" role="img" aria-label="مشهد القدس داخل قوس متصل مع موجات العلم الفلسطيني">
 <svg class="jerusalem-vector" viewBox="0 0 620 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
 <defs>
