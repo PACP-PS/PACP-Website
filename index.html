@@ -375,6 +375,64 @@
 .hero>.pacp-brain-independent{position:relative!important;order:3!important;width:min(88%,370px)!important;height:260px!important;margin:12px auto 0!important}
 .hero>.hero-content{transform:none!important}
 }
+
+/* v24: structural layout fix. Image is a grid cell, NEVER an absolutely-positioned overlay. */
+@media(min-width:851px){
+.hero{
+ display:grid!important;
+ grid-template-columns:minmax(0,30%) minmax(0,38%) minmax(0,32%)!important;
+ column-gap:0!important;
+ align-items:center!important;
+ overflow:visible!important;
+ direction:ltr!important;
+}
+.hero>.pacp-brain-independent{
+ position:relative!important;
+ grid-column:1!important;grid-row:1!important;
+ justify-self:center!important;align-self:center!important;
+ display:block!important;visibility:visible!important;opacity:1!important;
+ width:100%!important;max-width:460px!important;height:auto!important;max-height:450px!important;
+ aspect-ratio:649/439!important;
+ left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+ margin:0!important;
+ object-fit:contain!important;
+ transform:none!important;animation:pacp-independent-float 8s ease-in-out infinite alternate!important;
+ z-index:9!important;
+}
+.hero>.hero-content{
+ position:relative!important;
+ grid-column:2!important;grid-row:1!important;
+ justify-self:stretch!important;align-self:center!important;
+ width:100%!important;max-width:none!important;
+ margin:0!important;transform:none!important;
+ padding:20px 14px!important;
+ z-index:10!important;direction:rtl!important;
+}
+.hero>.hero-content h1{font-size:clamp(32px,3.2vw,49px)!important}
+.hero>.hero-content p{font-size:clamp(12px,1.2vw,16px)!important}
+.hero>.hero-art{display:none!important}
+.hero>.jerusalem-composite{
+ grid-column:2 / 4!important;grid-row:1!important;
+ width:100%!important;height:450px!important;
+ justify-self:stretch!important;align-self:center!important;
+ margin:0!important;transform:none!important;
+ z-index:1!important;
+ pointer-events:none!important;
+}
+.hero>.jerusalem-composite .jerusalem-v2-art{width:100%!important;height:100%!important;object-fit:contain!important;object-position:right center!important}
+}
+@media(max-width:850px){
+.hero{display:flex!important;flex-direction:column!important;direction:rtl!important}
+.hero>.hero-content{order:1!important}
+.hero>.pacp-brain-independent{
+ order:2!important;position:relative!important;display:block!important;
+ width:min(90%,380px)!important;height:auto!important;aspect-ratio:649/439!important;
+ left:auto!important;right:auto!important;top:auto!important;
+ margin:8px auto!important;animation:pacp-independent-float 8s ease-in-out infinite alternate!important
+}
+.hero>.jerusalem-composite{order:3!important;position:relative!important;width:100%!important}
+.hero>.hero-art{display:none!important}
+}
 </style></head><body><main class="page"><div class="leaf" aria-hidden="true">🌿</div><header class="header"><a class="brand brand-integrated" href="#top" aria-label="الرئيسية"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="الشعار الأصلي للجمعية الفلسطينية لاختصاصيي علم النفس العيادي"><span class="brand-copy"><strong>PACP</strong><small>الجمعية الفلسطينية<br>لاختصاصيي علم النفس العيادي</small></span></a><nav class="nav" aria-label="التنقل الرئيسي"><a class="active" href="#top">الرئيسية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav><div class="actions"><a class="pill primary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية ↗</a><a class="pill" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/member-portal-preview.html">تسجيل الدخول ◉</a><button class="pill" id="lang" type="button" aria-label="اللغة الإنجليزية">🌐 EN</button><button class="menu-toggle" id="menu" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button></div><nav class="mobile-nav" id="mobileNav" aria-label="التنقل على الهاتف"><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav></header><section class="hero" id="top"><img class="pacp-brain-independent" src="/assets/brain-scene-v2.webp" alt="مشهد الدماغ العصبي المضيء للجمعية" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp'"><div class="hero-content"><div class="eyebrow">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</div><h1>نحو مجتمع نفسي<br><span>واعٍ وداعم</span></h1><p>منصة مهنية تجمع اختصاصيي علم النفس العيادي، وتعزز الممارسة العيادية، وتدعم التطوير المهني وخدمة المجتمع الفلسطيني.</p><div class="hero-ctas"><a class="cta" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية ←</a><a class="cta secondary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">تعرف على الجمعية ◉</a></div></div><div class="hero-art" id="heroArt" aria-label="مشهد دماغ عصبي ثلاثي الأبعاد ومدينة القدس"><div class="brain-stage" id="brainStage" hidden aria-hidden="true"><canvas id="brainCanvas" aria-label="مجسم دماغ عصبي متحرك" role="img"></canvas><span class="brain-fallback-label">مشهد توضيحي عند تعذر تحميل العرض ثلاثي الأبعاد</span></div><img class="brain brain-fallback reference-brain" src="/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp" alt="دماغ مضيء مع رموز علم النفس والخدمات المهنية"></div><div class="jerusalem-hero jerusalem-composite" role="img" aria-label="مشهد القدس داخل قوس متصل مع موجات العلم الفلسطيني">
 <svg class="jerusalem-vector" viewBox="0 0 620 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
 <defs>
