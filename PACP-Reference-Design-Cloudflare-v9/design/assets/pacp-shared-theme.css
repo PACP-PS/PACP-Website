@@ -1,0 +1,22 @@
+/* PACP shared visual system — matched to approved hero concept */
+:root{--g:#075b36;--d:#03452d;--l:#5d9d45;--r:#c9102c;--ink:#10252a;--muted:#53665e;--paper:#f6fafb;--line:#dce9e5}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 6% 8%,#d9f1e9 0,transparent 34%),linear-gradient(145deg,#f7fbfd,#fff 56%,#ecf6f1)}
+.head{background:#fffffff0;backdrop-filter:blur(15px);box-shadow:0 5px 24px #0b473610}
+.nav{max-width:1400px;min-height:76px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;max-width:300px}
+.brand .pacp-logo{width:58px;height:58px;object-fit:contain;flex:none}
+.links{gap:19px}
+.links a{padding:10px 0;position:relative}
+.links a:hover:after,.links a[aria-current=page]:after{content:"";height:3px;background:var(--r);position:absolute;bottom:0;right:0;left:0;border-radius:3px}
+.hero{background:radial-gradient(ellipse at 83% 0%,#d0f0e7 0%,transparent 50%),linear-gradient(115deg,#fff,#eef8f4);border-bottom:1px solid #e1eeea;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-80px;bottom:-110px;width:330px;height:220px;border-radius:50%;border:2px solid #fff;box-shadow:0 -8px 0 #c9102c11;pointer-events:none}
+.hero h1{color:#063d31;letter-spacing:-.6px}
+.hero h1:after{content:"";display:block;width:88px;height:4px;border-radius:50%;background:var(--r);margin-top:17px}
+.card{background:linear-gradient(145deg,#fff,#f7fbfa);border:1px solid #fff;box-shadow:0 12px 28px #053b3412;transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 32px #053b3420}
+.callout{background:#e9f7f1;border-inline-start-color:var(--r)}
+.footer{background:linear-gradient(100deg,#063f2d,#075b36)}
+.lang{display:none}
+@media(max-width:760px){.brand .pacp-logo{width:42px;height:42px}.nav{min-height:60px}.brand{font-size:10px}.card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}.card:hover{transform:none}}

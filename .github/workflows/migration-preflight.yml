@@ -1,0 +1,27 @@
+name: Migration static preflight
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/**'
+      - 'docs/DATABASE-SCHEMA-DRAFT.sql'
+      - 'scripts/check_migrations.py'
+      - '.github/workflows/migration-preflight.yml'
+  push:
+    branches: ['rebuild/platform-foundation']
+    paths:
+      - 'supabase/migrations/**'
+      - 'docs/DATABASE-SCHEMA-DRAFT.sql'
+      - 'scripts/check_migrations.py'
+      - '.github/workflows/migration-preflight.yml'
+permissions:
+  contents: read
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check migration files and key security constructs
+        run: python3 scripts/check_migrations.py
