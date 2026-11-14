@@ -19,3 +19,37 @@ button:hover,.btn:hover,[type=submit]:hover{filter:brightness(.97)}
 .pacp-preview-warning{background:#fff7eb;color:#6b441b;border:1px solid #e7d3b1;border-right:4px solid #c9102c;padding:10px 15px;font-size:11px;line-height:1.9}
 @media(max-width:760px){.pacp-preview-strip{flex-direction:column;align-items:stretch}.pacp-preview-strip .pacp-strip-links{gap:8px}.pacp-preview-strip .pacp-strip-links a{font-size:10px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}button,.btn,[type=submit]{transition:none}}
+
+/* PACP portal & administration unified visual language v5 — presentation only.
+   No changes to authentication, data access, role gates, or form actions. */
+:root{--pacp-green:#006b45;--pacp-dark:#03452f;--pacp-red:#d31d35;--pacp-glass:#ffffffed;--pacp-border:#d8ebe6;--pacp-cyan:#138eaf;--pacp-gold:#d49b2f;--pacp-rose:#c93a63}
+body{background:radial-gradient(ellipse at 8% 15%,#daf3f0a8,transparent 42%),radial-gradient(ellipse at 92% 65%,#e0eefa9c,transparent 48%),linear-gradient(150deg,#f9fcfd,#edf8f7 75%,#f9fcfd)!important;color:#13352d}
+.pacp-preview-strip{background:linear-gradient(115deg,#003c2c,#087349 62%,#00553a);border-bottom:1px solid #ffffff4a}
+.pacp-preview-strip .pacp-strip-links a{border-radius:9px;padding:5px 8px}
+.pacp-preview-strip .pacp-strip-links a:hover{background:#ffffff1c;border-color:transparent}
+.pacp-preview-warning{background:linear-gradient(110deg,#fffbf2,#fff4e8);border-right:4px solid #d1972c}
+.shell .side,.shell .sidebar{background:linear-gradient(155deg,#042f25,#006a45 68%,#06805b)!important}
+.shell .side:before,.shell .sidebar:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 15% 8%,#50ead321,transparent 43%);z-index:0}
+.shell .side>* ,.shell .sidebar>*{position:relative;z-index:1}
+.shell .main,.shell>.main{min-width:0}
+.content .panel,.content .metric,.content .stat,.content .banner,.content .shortcut,.wrap .course,.wrap .card,.wrap .metric,.wrap .panel,.wrap .stat,.wrap .notice,.panel,.course,.metric,.shortcut,.quick{
+ border:1px solid #ffffffd8!important;border-radius:20px;box-shadow:0 11px 26px #014d3b14!important;
+}
+.content .panel,.content .metric,.content .stat,.content .shortcut,.wrap .course,.wrap .card,.wrap .metric,.wrap .panel,.wrap .stat,.panel,.course,.metric,.shortcut,.quick{
+ background:linear-gradient(145deg,#fffffffa,#f0f9f9ed)!important;
+}
+.content .panel:hover,.content .shortcut:hover,.wrap .course:hover,.quick:hover{box-shadow:0 14px 30px #01553c24!important}
+.content .panelhead,.content .heading,.wrap .heading{border-color:#dcf0e8}
+.content .shortcut:nth-child(4n+1),.quick:nth-child(4n+1){--tile-accent:#078663;--tile-soft:#d8f4e8}
+.content .shortcut:nth-child(4n+2),.quick:nth-child(4n+2){--tile-accent:#ac7620;--tile-soft:#fff0d1}
+.content .shortcut:nth-child(4n+3),.quick:nth-child(4n+3){--tile-accent:#0087a7;--tile-soft:#d8f2fa}
+.content .shortcut:nth-child(4n+4),.quick:nth-child(4n+4){--tile-accent:#c53157;--tile-soft:#ffe2ec}
+.content .shortcut .ico,.quick .quickicon{display:grid;place-items:center;width:44px;height:44px;min-width:44px;border-radius:14px;background:linear-gradient(145deg,#fff,var(--tile-soft,#e1f4eb));color:var(--tile-accent,#087a54);box-shadow:0 4px 13px #0867491e;font-weight:800}
+.content .shortcut .ico svg,.quick .quickicon svg{width:25px;height:25px;stroke:currentColor}
+.tabs button.active,.tabs button[aria-selected=true]{background:#006b45!important;color:#fff!important;box-shadow:0 4px 12px #006b4528}
+.tabs button:not(.active){background:#eaf6f2;color:#235744}
+input,select,textarea{max-width:100%;border-color:#c9e2da!important;border-radius:11px;accent-color:#006b45}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #0b9775!important;outline-offset:1px}
+button,.btn,[type=submit]{border-radius:11px}
+.content .notice,.wrap .notice{border-radius:13px}
+@media(max-width:760px){.content .panel,.wrap .panel{border-radius:16px}.pacp-preview-strip{gap:6px}.shell .side,.shell .sidebar{background:#055c41!important}}
