@@ -1079,6 +1079,41 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 .pacp-card-instruction{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){.pacp-card-panel,.pacp-card-shell{transition:none!important}}
+
+/* v41: mobile-first legibility refinement for independent membership card. */
+@media(max-width:600px){
+ .services>.pacp-card-showcase{width:100%!important;max-width:100%!important;padding:20px 8px 12px!important;gap:12px!important}
+ .pacp-card-showcase .pacp-card-shell{width:min(100%,420px)!important;aspect-ratio:1.42!important;height:auto!important;transform:none!important}
+ .pacp-card-showcase:hover .pacp-card-shell{transform:none!important}
+ .pacp-card-showcase .pacp-card-panel{padding:12px 14px!important;gap:6px!important;border-radius:18px!important}
+ .pacp-card-showcase .pacp-card-organization img{width:42px!important;height:50px!important}
+ .pacp-card-showcase .pacp-card-organization strong{font-size:11px!important}
+ .pacp-card-showcase .pacp-card-organization span{font-size:8px!important}
+ .pacp-card-showcase .pacp-card-organization small{font-size:7px!important}
+ .pacp-card-showcase .pacp-card-heading-title strong{font-size:14px!important}
+ .pacp-card-showcase .pacp-card-heading-title span{font-size:9px!important}
+ .pacp-card-showcase .pacp-card-avatar{width:62px!important;height:73px!important}
+ .pacp-card-showcase .pacp-card-person strong{font-size:16px!important}
+ .pacp-card-showcase .pacp-card-person span{font-size:11px!important}
+ .pacp-card-showcase .pacp-card-person b{font-size:12px!important}
+ .pacp-card-showcase .pacp-card-noqr{width:44px!important;height:52px!important}
+ .pacp-card-showcase .pacp-card-dates span{font-size:9px!important}
+ .pacp-card-showcase .pacp-card-dates strong{font-size:11px!important}
+ .pacp-card-showcase .pacp-card-demo{font-size:8px!important}
+ .pacp-card-showcase .pacp-card-back-header strong{font-size:16px!important}
+ .pacp-card-showcase .pacp-card-back-header span{font-size:9px!important}
+ .pacp-card-showcase .pacp-card-back-content p{font-size:10px!important;line-height:1.55!important}
+ .pacp-card-showcase .pacp-card-back-brand span{font-size:9px!important}
+ .pacp-card-showcase .pacp-card-back-code strong{font-size:10px!important}
+ .pacp-card-showcase .pacp-card-back-code small{font-size:8px!important}
+ .pacp-card-showcase .pacp-card-back-bottom{font-size:8px!important}
+}
+@media(max-width:360px){
+ .pacp-card-showcase .pacp-card-shell{aspect-ratio:1.34!important}
+ .pacp-card-showcase .pacp-card-organization img{width:34px!important;height:43px!important}
+ .pacp-card-showcase .pacp-card-heading-title strong{font-size:12px!important}
+ .pacp-card-showcase .pacp-card-back-content p{font-size:9px!important}
+}
 </style></head><body><main class="page"><div class="leaf" aria-hidden="true">🌿</div><header class="header"><a class="brand brand-integrated" href="#top" aria-label="الرئيسية"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="الشعار الأصلي للجمعية الفلسطينية لاختصاصيي علم النفس العيادي"><span class="brand-copy"><strong>PACP</strong><small>الجمعية الفلسطينية<br>لاختصاصيي علم النفس العيادي</small></span></a><nav class="nav" aria-label="التنقل الرئيسي"><a class="active" href="#top">الرئيسية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav><div class="actions"><a class="pill primary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية ↗</a><a class="pill" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/member-portal-preview.html">تسجيل الدخول ◉</a><button class="pill" id="lang" type="button" aria-label="اللغة الإنجليزية">🌐 EN</button><button class="menu-toggle" id="menu" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button></div><nav class="mobile-nav" id="mobileNav" aria-label="التنقل على الهاتف"><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav></header><section class="hero" id="top"><img class="pacp-brain-independent" src="/assets/brain-scene-v2.webp" alt="مشهد الدماغ العصبي المضيء للجمعية" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp'"><div class="hero-content"><div class="eyebrow">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</div><h1>نحو مجتمع نفسي<br><span>واعٍ وداعم</span></h1><p>منصة مهنية تجمع الاختصاصيين، وتعزز الممارسة العيادية،<br class="desktop-only-break"> وتدعم التطوير المهني، وخدمة المجتمع الفلسطيني.</p><div class="hero-ctas"><a class="cta" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية →</a><a class="cta secondary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">تعرف على الجمعية ⊙</a></div></div><div class="hero-art" id="heroArt" aria-label="مشهد دماغ عصبي ثلاثي الأبعاد ومدينة القدس"><div class="brain-stage" id="brainStage" hidden aria-hidden="true"><canvas id="brainCanvas" aria-label="مجسم دماغ عصبي متحرك" role="img"></canvas><span class="brain-fallback-label">مشهد توضيحي عند تعذر تحميل العرض ثلاثي الأبعاد</span></div><img class="brain brain-fallback reference-brain" src="/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp" alt="دماغ مضيء مع رموز علم النفس والخدمات المهنية"></div><div class="jerusalem-hero jerusalem-composite" role="img" aria-label="مشهد القدس داخل قوس متصل مع موجات العلم الفلسطيني">
 <svg class="jerusalem-vector" viewBox="0 0 620 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
 <defs>
