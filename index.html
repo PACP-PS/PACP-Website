@@ -1152,95 +1152,69 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 .pacp-card-showcase .pacp-card-demo{position:relative;z-index:1}
 @media(max-width:900px){.pacp-membership-feature{grid-template-columns:1fr!important}.pacp-membership-feature>.pacp-card-showcase{max-width:440px!important}}
 @media(max-width:600px){.pacp-membership-feature .pacp-card-shell{width:min(100%,390px)!important;aspect-ratio:1.43!important;transform:none!important}.pacp-card-showcase .pacp-card-heading-title strong{font-size:14px!important}.pacp-card-showcase .pacp-card-person strong{font-size:14px!important}.pacp-card-showcase .pacp-card-person span{font-size:10px!important}.pacp-card-showcase .pacp-card-back-header strong{font-size:14px!important}.pacp-card-showcase .pacp-card-back-content p{font-size:9px!important}}
-/* PACP reference-matched complete card reconstruction v45. All selectors scoped. */
-.pacp-membership-feature{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:26px!important}
-.pacp-membership-feature>.pacp-rebuilt-card{width:100%!important;max-width:470px!important;min-height:0!important;justify-self:center!important;margin:0!important;padding:0!important;gap:12px!important;cursor:pointer}
-.pacp-rebuilt-card .pacp-card-shell{width:min(100%,450px)!important;aspect-ratio:1.55!important;height:auto!important;transform:rotate(-1.2deg)!important;filter:drop-shadow(0 14px 14px #003d342c)!important}
-.pacp-rebuilt-card:hover .pacp-card-shell{transform:rotate(-.4deg) translateY(-3px)!important}
-.pacp-rebuilt-card .pacp-card-panel{box-sizing:border-box!important;position:absolute!important;inset:0!important;padding:14px 16px!important;border:3px solid #65e9d1!important;border-radius:22px!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:5px!important;overflow:hidden!important;box-shadow:inset 0 0 0 3px #ffffffe0,inset 0 0 19px #02d5b18a,0 0 16px #00c8b777,0 8px 20px #005d4530!important}
-.pacp-rebuilt-card .pacp-card-face-front{background:linear-gradient(145deg,#ffffff 0%,#e6f0f1 33%,#fcffff 60%,#dcebe7 100%)!important;color:#122d26!important}
-.pacp-rebuilt-card .pacp-card-face-front:before{content:"";position:absolute;top:-24px;left:-20px;width:45%;height:44px;background:linear-gradient(155deg,#076844 0 34%,#fff 35% 42%,#d11e30 43% 57%,#00563a 58%);border-radius:60%;pointer-events:none}
-.pacp-rebuilt-card .pacp-card-face-front:after{content:"";position:absolute;bottom:-21px;right:-7%;width:114%;height:62px;border-radius:65% 0 0 0;background:linear-gradient(166deg,#ffffff00 0 28%,#087447 29% 48%,#ffffff 49% 56%,#d91d30 57% 68%,#00643f 69%);pointer-events:none}
-.pacp-rebuilt-card .pacp-card-face-back{background:linear-gradient(180deg,#00663f 0%,#00865a 34%,#f5fbfa 34.2%,#e8f2f1 100%)!important;color:#102c25!important}
-.pacp-rebuilt-card .pacp-card-face-back:before{content:"";position:absolute;top:30%;left:-4%;width:108%;height:30px;background:linear-gradient(178deg,#d91d30 0 23%,#fff 24% 37%,#fff0 38%);border-radius:60%;pointer-events:none;z-index:1}
-.pacp-rebuilt-card .pacp-card-face-back:after{content:"";position:absolute;bottom:-16px;right:-4%;width:108%;height:50px;background:linear-gradient(169deg,#fff0 0 27%,#087a4e 28% 48%,#fff 49% 55%,#d92134 56% 67%,#005d3b 68%);pointer-events:none}
-.pacp-rebuilt-card .pcr-front-header{display:flex;align-items:center;justify-content:space-between;gap:9px;position:relative;z-index:2;border-bottom:1px solid #c5d9d5;padding-bottom:8px}
-.pacp-rebuilt-card .pcr-brand{display:flex;align-items:center;gap:8px;min-width:0}
-.pacp-rebuilt-card .pcr-brand img{width:49px;height:58px;object-fit:contain;flex:none}
-.pacp-rebuilt-card .pcr-brand>div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pacp-rebuilt-card .pcr-brand b{font-size:12px;line-height:1.23;color:#0d231e}
-.pacp-rebuilt-card .pcr-brand span{font-size:8px;line-height:1.25;color:#c71e2e;font-weight:850;text-align:left}
-.pacp-rebuilt-card .pcr-title{display:flex;flex-direction:column;gap:5px;align-items:center;border-right:1px solid #688f80;padding-right:11px;flex:none}
-.pacp-rebuilt-card .pcr-title strong{font-size:19px;line-height:1.2;color:#006b3d}
-.pacp-rebuilt-card .pcr-title span{font-size:10px;font-weight:800;background:#006e44;color:white;padding:4px 10px;border-radius:18px}
-.pacp-rebuilt-card .pcr-front-middle{display:flex;align-items:center;gap:12px;position:relative;z-index:2;min-height:98px}
-.pacp-rebuilt-card .pcr-portrait{width:82px;height:96px;border:3px solid #096a45;border-radius:18px;overflow:hidden;flex:none;background:#f5f9f7}
-.pacp-rebuilt-card .pcr-portrait svg{width:100%;height:100%;display:block}
-.pacp-rebuilt-card .pcr-person{display:flex;flex-direction:column;gap:5px;min-width:0}
-.pacp-rebuilt-card .pcr-person>strong{font-size:19px;line-height:1.15;white-space:nowrap}
-.pacp-rebuilt-card .pcr-person>span{font-size:14px;color:#d1192d;font-weight:850;text-align:right}
-.pacp-rebuilt-card .pcr-member-id{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:12px;background:#dceae6}
-.pacp-rebuilt-card .pcr-member-id>span{font-size:20px;color:#08784b}
-.pacp-rebuilt-card .pcr-member-id>div{display:flex;flex-direction:column;gap:2px}
-.pacp-rebuilt-card .pcr-member-id small{font-size:9px;color:#254b3e}
-.pacp-rebuilt-card .pcr-member-id b{font-size:12px;color:#073e2c;white-space:nowrap}
-.pacp-rebuilt-card .pcr-qr{width:66px;flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;margin-right:auto}
-.pacp-rebuilt-card .pcr-qr svg{width:64px;height:64px;border:1px solid #b2d5c9;border-radius:6px}
-.pacp-rebuilt-card .pcr-qr small{font-size:7px;color:#37594d;font-weight:900}
-.pacp-rebuilt-card .pcr-dates{display:flex;justify-content:space-around;gap:12px;position:relative;z-index:2;background:#ffffffe0;border-radius:18px;padding:8px 6px;margin-top:1px}
-.pacp-rebuilt-card .pcr-dates>div{display:flex;flex-direction:column;gap:4px}
-.pacp-rebuilt-card .pcr-dates span{font-size:10px;font-weight:750}
-.pacp-rebuilt-card .pcr-dates i{font-size:14px;color:#c51e31;font-style:normal}
-.pacp-rebuilt-card .pcr-dates strong{font-size:12px;text-align:right}
-.pacp-rebuilt-card .pcr-notice{position:relative;z-index:2;align-self:center;font-size:8px;font-weight:800;color:#9e2733;background:#ffffffdb;padding:2px 9px;border-radius:12px}
-.pacp-rebuilt-card .pcr-back-hero{min-height:32%;position:relative;display:flex;justify-content:center;align-items:center;z-index:2}
-.pacp-rebuilt-card .pcr-back-heading{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;color:white;max-width:78%}
-.pacp-rebuilt-card .pcr-back-heading strong{font-size:18px;line-height:1.25;color:white}
-.pacp-rebuilt-card .pcr-back-heading span{font-size:10px;line-height:1.35;font-weight:700;color:#e8fff7}
-.pacp-rebuilt-card .pcr-dome{position:absolute;right:0;bottom:0;width:76px;height:58px}
-.pacp-rebuilt-card .pcr-back-body{display:grid;grid-template-columns:1fr 1fr;gap:13px;align-items:center;flex:1;padding:13px 0 6px;position:relative;z-index:2}
-.pacp-rebuilt-card .pcr-back-body p{font-size:11px;line-height:1.65;font-weight:650;color:#142e28;margin:0}
-.pacp-rebuilt-card .pcr-back-body p[lang=en]{border-right:1px solid #89b7a6;padding-right:10px;text-align:left}
-.pacp-rebuilt-card .pcr-back-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:2;padding:6px 9px;background:#ffffffb8;border-radius:13px}
-.pacp-rebuilt-card .pcr-back-brand{display:flex;align-items:center;gap:6px}
-.pacp-rebuilt-card .pcr-back-brand img{width:35px;height:43px;object-fit:contain}
-.pacp-rebuilt-card .pcr-back-brand>div{display:flex;flex-direction:column;gap:2px}
-.pacp-rebuilt-card .pcr-back-brand strong{font-size:9px;line-height:1.2}
-.pacp-rebuilt-card .pcr-back-brand small{font-size:7px;color:#b41d2d;line-height:1.2}
-.pacp-rebuilt-card .pcr-barcode{display:flex;flex-direction:column;gap:4px;align-items:center}
-.pacp-rebuilt-card .pcr-barcode span{display:block;width:114px;height:30px;background:repeating-linear-gradient(90deg,#142820 0 2px,#fff 2px 4px,#142820 4px 5px,#fff 5px 8px,#142820 8px 12px,#fff 12px 15px)}
-.pacp-rebuilt-card .pcr-barcode strong{font-size:10px}
-.pacp-rebuilt-card .pcr-back-notice{align-self:center;position:relative;z-index:2;font-size:8px;color:#7a2531;background:#ffffffd9;border-radius:10px;padding:2px 8px;font-weight:900}
-.pacp-rebuilt-card .pacp-card-instruction{font-size:11px;color:#0b6046}
-@media(max-width:900px){.pacp-membership-feature{grid-template-columns:1fr!important}.pacp-membership-feature>.pacp-rebuilt-card{max-width:450px!important}}
-@media(max-width:600px){.pacp-membership-feature>.pacp-rebuilt-card{width:100%!important;max-width:390px!important}.pacp-rebuilt-card .pacp-card-shell{width:min(100%,390px)!important;aspect-ratio:1.42!important;transform:none!important}.pacp-rebuilt-card:hover .pacp-card-shell{transform:none!important}.pacp-rebuilt-card .pacp-card-panel{padding:10px 11px!important;border-radius:16px!important;border-width:2px!important;gap:4px!important}.pacp-rebuilt-card .pcr-brand{gap:4px}.pacp-rebuilt-card .pcr-brand img{width:34px;height:40px}.pacp-rebuilt-card .pcr-brand b{font-size:9px}.pacp-rebuilt-card .pcr-brand span{font-size:6px}.pacp-rebuilt-card .pcr-title{padding-right:5px;gap:3px}.pacp-rebuilt-card .pcr-title strong{font-size:12px}.pacp-rebuilt-card .pcr-title span{font-size:7px;padding:3px 6px}.pacp-rebuilt-card .pcr-front-middle{gap:7px;min-height:65px}.pacp-rebuilt-card .pcr-portrait{width:53px;height:64px;border-width:2px;border-radius:12px}.pacp-rebuilt-card .pcr-person{gap:3px}.pacp-rebuilt-card .pcr-person>strong{font-size:14px}.pacp-rebuilt-card .pcr-person>span{font-size:10px}.pacp-rebuilt-card .pcr-member-id{gap:4px;padding:3px 5px}.pacp-rebuilt-card .pcr-member-id>span{font-size:13px}.pacp-rebuilt-card .pcr-member-id small{font-size:7px}.pacp-rebuilt-card .pcr-member-id b{font-size:9px}.pacp-rebuilt-card .pcr-qr{width:42px}.pacp-rebuilt-card .pcr-qr svg{width:40px;height:40px}.pacp-rebuilt-card .pcr-qr small{font-size:5px}.pacp-rebuilt-card .pcr-dates{padding:5px 4px}.pacp-rebuilt-card .pcr-dates span{font-size:7px}.pacp-rebuilt-card .pcr-dates strong{font-size:9px}.pacp-rebuilt-card .pcr-notice{font-size:6px}.pacp-rebuilt-card .pcr-back-heading strong{font-size:13px}.pacp-rebuilt-card .pcr-back-heading span{font-size:8px}.pacp-rebuilt-card .pcr-dome{width:50px;height:40px}.pacp-rebuilt-card .pcr-back-body{gap:8px;padding:6px 0}.pacp-rebuilt-card .pcr-back-body p{font-size:8px;line-height:1.45}.pacp-rebuilt-card .pcr-back-body p[lang=en]{padding-right:7px}.pacp-rebuilt-card .pcr-back-footer{padding:4px 6px}.pacp-rebuilt-card .pcr-back-brand img{width:24px;height:29px}.pacp-rebuilt-card .pcr-back-brand strong{font-size:7px}.pacp-rebuilt-card .pcr-back-brand small{font-size:5px}.pacp-rebuilt-card .pcr-barcode span{width:75px;height:20px}.pacp-rebuilt-card .pcr-barcode strong{font-size:8px}.pacp-rebuilt-card .pcr-back-notice{font-size:6px}}
-@media(prefers-reduced-motion:reduce){.pacp-rebuilt-card .pacp-card-panel,.pacp-rebuilt-card .pacp-card-shell{transition:none!important}}
-/* v46 final contrast/edge pass for reference-glass card */
-.pacp-rebuilt-card .pacp-card-panel{border:3px solid #4cf8de!important;outline:1px solid #d5fff8!important;outline-offset:-7px!important;box-shadow:inset 0 0 0 2px #ffffffef,inset 0 0 12px 3px #39f6d7a6,0 0 0 1px #0dcab1,0 0 19px 3px #21e6c8aa,0 13px 24px #0058433b!important}
-.pacp-rebuilt-card .pcr-notice,.pacp-rebuilt-card .pcr-back-notice{font-size:7px!important;background:#ffffffd9!important;color:#8e3940!important;border:1px solid #e2c1c4!important;box-shadow:none!important;letter-spacing:0!important}
-.pacp-rebuilt-card .pcr-qr svg{display:block!important}
-.pacp-rebuilt-card .pcr-qr small{font-size:6px!important;color:#315b4c!important}
-@media(max-width:600px){.pacp-rebuilt-card .pacp-card-panel{border-width:2px!important;outline-offset:-5px!important}.pacp-rebuilt-card .pcr-notice{font-size:6px!important}}
-/* v47: reference geometry, not only palette — front logo left / title right; portrait left / demo QR right. */
-.pacp-rebuilt-card .pcr-front-header{direction:ltr!important;flex-direction:row!important}
-.pacp-rebuilt-card .pcr-brand{direction:ltr!important;flex-direction:row!important}
-.pacp-rebuilt-card .pcr-brand>div{direction:rtl!important;text-align:right!important}
-.pacp-rebuilt-card .pcr-brand span{text-align:left!important;direction:ltr!important}
-.pacp-rebuilt-card .pcr-title{direction:rtl!important;border-right:0!important;border-left:1px solid #688f80!important;padding-right:0!important;padding-left:12px!important}
-.pacp-rebuilt-card .pcr-front-middle{direction:ltr!important;flex-direction:row!important}
-.pacp-rebuilt-card .pcr-person{direction:rtl!important;text-align:right!important;flex:1!important}
-.pacp-rebuilt-card .pcr-qr{margin-right:0!important;margin-left:auto!important}
-.pacp-rebuilt-card .pcr-front-header,.pacp-rebuilt-card .pcr-front-middle{width:100%!important}
-.pacp-rebuilt-card .pcr-portrait{box-shadow:0 2px 8px #00553b26!important}
-.pacp-rebuilt-card .pcr-back-hero{overflow:hidden!important}
-.pacp-rebuilt-card .pcr-dome{right:0!important;bottom:-2px!important;opacity:.95}
-.pacp-rebuilt-card .pcr-back-body{direction:rtl!important}
-.pacp-rebuilt-card .pcr-back-footer{direction:rtl!important}
-.pacp-rebuilt-card .pcr-back-brand{direction:rtl!important}
-.pacp-rebuilt-card .pcr-back-brand>div{direction:rtl!important;text-align:right!important}
-.pacp-rebuilt-card .pcr-front-middle .pcr-qr svg{background:white;box-shadow:0 0 0 2px #fff,0 0 0 3px #74bb9e}
-.pacp-rebuilt-card .pcr-qr small{white-space:nowrap}
-@media(max-width:600px){.pacp-rebuilt-card .pcr-title{padding-left:5px!important}.pacp-rebuilt-card .pcr-front-header{gap:5px!important}.pacp-rebuilt-card .pcr-front-middle{gap:6px!important}.pacp-rebuilt-card .pcr-brand>div{max-width:150px!important}.pacp-rebuilt-card .pcr-person{min-width:0!important}.pacp-rebuilt-card .pcr-member-id b{font-size:clamp(7px,2.3vw,9px)!important}}
+/* PACP membership v48 — definitive standalone card system, single cascade.
+   This intentionally replaces the old v45–v47 override chain. */
+.pacp-membership-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(18px,4vw,48px)}
+.pacp-membership-feature>.pacp-rebuilt-card{width:100%;max-width:465px;min-height:0;justify-self:center;margin:0;padding:12px 0 0;gap:12px;cursor:pointer}
+.pacp-rebuilt-card .pacp-card-shell{position:relative;width:min(100%,420px);height:auto;aspect-ratio:1.59;transform:rotate(-1deg);transition:transform .35s ease;filter:drop-shadow(0 17px 17px #003e343b);margin:auto;perspective:1300px}
+.pacp-rebuilt-card:hover .pacp-card-shell{transform:rotate(0deg) translateY(-3px)}
+.pacp-rebuilt-card .pacp-card-panel{box-sizing:border-box;position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;gap:5px;padding:clamp(9px,2vw,14px) clamp(11px,2.6vw,17px);border:2.5px solid #55f9df;border-radius:20px;overflow:hidden;color:#123a30;box-shadow:inset 0 0 0 2px #fffc,inset 0 0 12px #4cf9db9c,0 0 0 1px #0cbbab,0 0 15px #16d7bc8a,0 11px 24px #004d4333}
+.pacp-rebuilt-card .pacp-card-face-front{background:linear-gradient(130deg,#fff 0%,#e2eeee 36%,#f8fcfb 60%,#dcebe6 100%)}
+.pacp-rebuilt-card .pacp-card-face-front:before{content:"";position:absolute;left:-13%;top:-39px;width:61%;height:64px;transform:rotate(-8deg);border-radius:50%;background:linear-gradient(165deg,#026940 0 44%,#fff 45% 53%,#c82839 54% 67%,#00683f 68%);pointer-events:none}
+.pacp-rebuilt-card .pacp-card-face-front:after{content:"";position:absolute;right:-8%;bottom:-36px;width:115%;height:76px;border-radius:55% 0 0 0;transform:rotate(-3deg);background:linear-gradient(167deg,transparent 0 38%,#087247 39% 54%,#fefefe 55% 60%,#d72237 61% 70%,#056a48 71%);pointer-events:none}
+.pacp-rebuilt-card .pcr-front-header{position:relative;z-index:2;direction:ltr;display:flex;justify-content:space-between;align-items:center;gap:6px;padding:0 0 7px;border-bottom:1px solid #a6cbc0}
+.pacp-rebuilt-card .pcr-brand{direction:ltr;display:flex;align-items:center;gap:6px;min-width:0}
+.pacp-rebuilt-card .pcr-brand img{width:clamp(34px,9vw,47px);height:55px;object-fit:contain;flex:none}
+.pacp-rebuilt-card .pcr-brand>div{direction:rtl;text-align:right;min-width:0;display:flex;flex-direction:column;gap:1px}
+.pacp-rebuilt-card .pcr-brand b{color:#0c3327;font-size:clamp(7px,1.45vw,11px);line-height:1.28}
+.pacp-rebuilt-card .pcr-brand span{text-align:left;direction:ltr;font-size:clamp(6px,1vw,8px);font-weight:700;color:#bd2735;line-height:1.2}
+.pacp-rebuilt-card .pcr-title{direction:rtl;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-left:1px solid #85afa2;padding-left:clamp(5px,1.4vw,12px);flex:none}
+.pacp-rebuilt-card .pcr-title strong{font-size:clamp(13px,2.4vw,19px);line-height:1.2;color:#006a43;white-space:nowrap}
+.pacp-rebuilt-card .pcr-title span{font-size:clamp(7px,1.3vw,10px);font-weight:750;background:#006f49;color:#fff;padding:3px 8px;border-radius:12px;white-space:nowrap}
+.pacp-rebuilt-card .pcr-front-middle{position:relative;z-index:2;direction:ltr;display:grid;grid-template-columns:minmax(49px,78px) minmax(0,1fr) minmax(55px,70px);align-items:center;gap:clamp(6px,1.5vw,12px);min-height:80px}
+.pacp-rebuilt-card .pcr-portrait{width:100%;height:auto;aspect-ratio:0.84;border:2px solid #096e4e;border-radius:13px;overflow:hidden;background:#eef6f1;box-shadow:0 3px 8px #00463220}
+.pacp-rebuilt-card .pcr-portrait svg{display:block;width:100%;height:100%}
+.pacp-rebuilt-card .pcr-person{direction:rtl;text-align:right;display:flex;flex-direction:column;gap:4px;min-width:0}
+.pacp-rebuilt-card .pcr-person>strong{font-size:clamp(11px,2.4vw,19px);line-height:1.2;white-space:nowrap;color:#0c3228}
+.pacp-rebuilt-card .pcr-person>span{font-size:clamp(9px,1.8vw,14px);color:#c82136;font-weight:800;text-align:right;white-space:nowrap}
+.pacp-rebuilt-card .pcr-member-id{display:flex;align-items:center;gap:5px;border:1px solid #b8d6cb;background:#ffffffc4;border-radius:7px;padding:4px 6px;width:max-content;max-width:100%}
+.pacp-rebuilt-card .pcr-member-id span{font-size:14px;color:#066847}
+.pacp-rebuilt-card .pcr-member-id div{display:flex;flex-direction:column;gap:1px}
+.pacp-rebuilt-card .pcr-member-id small{font-size:8px;color:#3b6157}
+.pacp-rebuilt-card .pcr-member-id b{font-size:clamp(7px,1.32vw,10px);font-family:Arial,sans-serif;letter-spacing:.15px;color:#0a5e42;white-space:nowrap}
+.pacp-rebuilt-card .pcr-qr{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;margin:0}
+.pacp-rebuilt-card .pcr-qr svg{width:min(100%,65px);height:auto;aspect-ratio:1;background:#fff;box-shadow:0 0 0 3px #fff,0 0 0 4px #88c8b7;border-radius:3px}
+.pacp-rebuilt-card .pcr-qr small{white-space:nowrap;font-size:6px;color:#366358;font-weight:700}
+.pacp-rebuilt-card .pcr-dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:2;direction:rtl}
+.pacp-rebuilt-card .pcr-dates>div{display:flex;align-items:center;justify-content:space-between;gap:4px;background:#ffffffb5;border:1px solid #c7dcd4;border-radius:8px;padding:5px 6px;min-width:0}
+.pacp-rebuilt-card .pcr-dates span{font-size:clamp(7px,1.3vw,10px);color:#306152;white-space:nowrap}
+.pacp-rebuilt-card .pcr-dates strong{font:700 clamp(7px,1.1vw,9px) Arial,sans-serif;color:#084d38;white-space:nowrap}
+.pacp-rebuilt-card .pcr-notice{position:relative;z-index:2;align-self:center;background:#fffe;border:1px solid #e4c8c7;border-radius:6px;padding:2px 7px;color:#a34449;font-size:7px;line-height:1.3;text-align:center}
+.pacp-rebuilt-card .pacp-card-face-back{background:linear-gradient(180deg,#00633f 0%,#007d54 35%,#f7fbfa 35.2%,#eaf4f0 100%)}
+.pacp-rebuilt-card .pacp-card-face-back:before{content:"";position:absolute;left:-5%;top:31%;width:112%;height:25px;border-radius:40%;background:linear-gradient(175deg,#cf2637 0 24%,#fff 25% 38%,transparent 39%);z-index:1;pointer-events:none}
+.pacp-rebuilt-card .pacp-card-face-back:after{content:"";position:absolute;right:-6%;bottom:-35px;width:113%;height:69px;border-radius:60% 0 0 0;background:linear-gradient(166deg,transparent 0 40%,#00714a 41% 54%,#fff 55% 60%,#cf2536 61% 69%,#006640 70%);pointer-events:none}
+.pacp-rebuilt-card .pcr-back-hero{position:relative;z-index:2;display:flex;min-height:66px;align-items:center;overflow:hidden}
+.pacp-rebuilt-card .pcr-back-heading{position:relative;z-index:2;display:flex;flex-direction:column;gap:4px;align-items:flex-start;width:72%;color:white;text-align:right}
+.pacp-rebuilt-card .pcr-back-heading strong{color:#fff;font-size:clamp(11px,2vw,17px);line-height:1.25}
+.pacp-rebuilt-card .pcr-back-heading span{color:#d5eee3;font-size:clamp(7px,1.1vw,10px);line-height:1.3;text-align:right}
+.pacp-rebuilt-card .pcr-dome{position:absolute;right:0;bottom:-3px;width:92px;max-width:30%;height:auto;opacity:.95}
+.pacp-rebuilt-card .pcr-back-body{position:relative;z-index:2;direction:rtl;display:flex;flex-direction:column;gap:7px}
+.pacp-rebuilt-card .pcr-back-body p{font-size:clamp(8px,1.32vw,11px);line-height:1.45;color:#244c40;margin:0;max-width:95%}
+.pacp-rebuilt-card .pcr-back-body p[lang="en"]{font-size:clamp(7px,1.15vw,10px);line-height:1.35;color:#426157;text-align:left}
+.pacp-rebuilt-card .pcr-back-footer{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:8px;direction:rtl}
+.pacp-rebuilt-card .pcr-back-brand{display:flex;align-items:center;gap:6px;direction:rtl;min-width:0}
+.pacp-rebuilt-card .pcr-back-brand img{width:39px;height:43px;object-fit:contain}
+.pacp-rebuilt-card .pcr-back-brand>div{display:flex;flex-direction:column;gap:1px;direction:rtl;text-align:right}
+.pacp-rebuilt-card .pcr-back-brand strong{font-size:clamp(7px,1.2vw,9px);line-height:1.15;color:#08583e}
+.pacp-rebuilt-card .pcr-back-brand small{font-size:clamp(6px,1vw,8px);color:#a02d3b;line-height:1.1}
+.pacp-rebuilt-card .pcr-barcode{display:flex;flex-direction:column;gap:3px;align-items:center;min-width:83px}
+.pacp-rebuilt-card .pcr-barcode span{width:95px;max-width:100%;height:22px;background:repeating-linear-gradient(90deg,#15392d 0 1px,transparent 1px 3px,#15392d 3px 5px,transparent 5px 7px,#15392d 7px 8px,transparent 8px 11px)}
+.pacp-rebuilt-card .pcr-barcode strong{font:700 8px Arial,sans-serif;color:#31584c}
+.pacp-rebuilt-card .pcr-back-notice{position:relative;z-index:2;align-self:center;font-size:7px;line-height:1.2;color:#a7414a;background:#fffc;border:1px solid #dec6c7;padding:2px 8px;border-radius:7px}
+.pacp-rebuilt-card .pacp-card-instruction{font-size:12px;color:#386d5b;text-align:center}
+@media(max-width:750px){.pacp-membership-feature{grid-template-columns:1fr!important}.pacp-membership-feature>.pacp-rebuilt-card{max-width:460px}.pacp-rebuilt-card .pacp-card-shell{width:min(100%,420px)}}
+@media(max-width:400px){.pacp-rebuilt-card .pacp-card-panel{padding:8px 10px}.pacp-rebuilt-card .pcr-front-header{padding-bottom:4px}.pacp-rebuilt-card .pcr-brand img{height:40px;width:32px}.pacp-rebuilt-card .pcr-front-middle{grid-template-columns:55px minmax(0,1fr) 52px;min-height:68px}.pacp-rebuilt-card .pcr-qr svg{width:46px}.pacp-rebuilt-card .pcr-dates>div{padding:3px 4px}.pacp-rebuilt-card .pcr-notice,.pacp-rebuilt-card .pcr-back-notice{font-size:6px}.pacp-rebuilt-card .pcr-back-hero{min-height:54px}.pacp-rebuilt-card .pcr-back-body{gap:4px}}
+@media(prefers-reduced-motion:reduce){.pacp-rebuilt-card .pacp-card-shell{transition:none}}
 </style></head><body><main class="page"><div class="leaf" aria-hidden="true">🌿</div><header class="header"><a class="brand brand-integrated" href="#top" aria-label="الرئيسية"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="الشعار الأصلي للجمعية الفلسطينية لاختصاصيي علم النفس العيادي"><span class="brand-copy"><strong>PACP</strong><small>الجمعية الفلسطينية<br>لاختصاصيي علم النفس العيادي</small></span></a><nav class="nav" aria-label="التنقل الرئيسي"><a class="active" href="#top">الرئيسية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav><div class="actions"><a class="pill primary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية ↗</a><a class="pill" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/member-portal-preview.html">تسجيل الدخول ◉</a><button class="pill" id="lang" type="button" aria-label="اللغة الإنجليزية">🌐 EN</button><button class="menu-toggle" id="menu" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button></div><nav class="mobile-nav" id="mobileNav" aria-label="التنقل على الهاتف"><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html">التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html">الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html">الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html">اتصل بنا</a></nav></header><section class="hero" id="top"><img class="pacp-brain-independent" src="/assets/brain-scene-v2.webp" alt="مشهد الدماغ العصبي المضيء للجمعية" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.src='/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp'"><div class="hero-content"><div class="eyebrow">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</div><h1>نحو مجتمع نفسي<br><span>واعٍ وداعم</span></h1><p>منصة مهنية تجمع الاختصاصيين، وتعزز الممارسة العيادية،<br class="desktop-only-break"> وتدعم التطوير المهني، وخدمة المجتمع الفلسطيني.</p><div class="hero-ctas"><a class="cta" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html">انتسب إلى الجمعية →</a><a class="cta secondary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">تعرف على الجمعية ⊙</a></div></div><div class="hero-art" id="heroArt" aria-label="مشهد دماغ عصبي ثلاثي الأبعاد ومدينة القدس"><div class="brain-stage" id="brainStage" hidden aria-hidden="true"><canvas id="brainCanvas" aria-label="مجسم دماغ عصبي متحرك" role="img"></canvas><span class="brain-fallback-label">مشهد توضيحي عند تعذر تحميل العرض ثلاثي الأبعاد</span></div><img class="brain brain-fallback reference-brain" src="/PACP-Reference-Design-Cloudflare-v9/design/assets/reference-brain-scene.webp" alt="دماغ مضيء مع رموز علم النفس والخدمات المهنية"></div><div class="jerusalem-hero jerusalem-composite" role="img" aria-label="مشهد القدس داخل قوس متصل مع موجات العلم الفلسطيني">
 <svg class="jerusalem-vector" viewBox="0 0 620 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
 <defs>
