@@ -47,3 +47,8 @@ body{background:radial-gradient(ellipse at 10% 9%,#d8f1eeb3,transparent 41%),rad
 .footer{background:linear-gradient(105deg,#03442e,#006746)!important}
 .links a[aria-current=page]{color:#04643f}
 @media(max-width:760px){.card{padding:20px 19px!important}.pacp-card-icon{width:47px;height:47px;border-radius:14px}.pacp-card-icon svg{width:26px;height:26px}}
+
+/* Empty state for news listing without fabricated announcements */
+.pacp-empty-state{display:flex;align-items:center;gap:14px;padding:15px 18px;margin:5px 0 16px;border:1px solid #ffffffeb;border-radius:20px;background:#ffffffe0;box-shadow:0 9px 22px #00583d10}
+.pacp-empty-state .pacp-card-icon{margin:0;--p-accent:#b77a18;--p-soft:#fff1d2;--p-glow:#d5a12e30}
+.pacp-empty-state h2{margin:0;color:#07543c;font-size:19px}
