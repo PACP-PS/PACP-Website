@@ -25,3 +25,5 @@ jobs:
         run: python3 scripts/test_approval_order.py
       - name: Verify approval patch security ordering
         run: python3 scripts/test_approval_patch.py
+      - name: Ensure incomplete release evidence fails closed
+        run: python3 scripts/test_release_gate.py
