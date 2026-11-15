@@ -27,3 +27,5 @@ jobs:
         run: python3 scripts/test_approval_patch.py
       - name: Ensure incomplete release evidence fails closed
         run: python3 scripts/test_release_gate.py
+      - name: Verify digital card remains non-official and auth-scoped
+        run: python3 scripts/test_digital_card_contract.py
