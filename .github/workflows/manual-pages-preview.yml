@@ -24,10 +24,12 @@ jobs:
         run: python3 scripts/test_primary_navigation.py
       - name: Check static launch guardrails
         run: python3 scripts/prelaunch_static_check.py
+      - name: Create public-only canonical site
+        run: python3 scripts/build_public_preview.py
       - name: Publish isolated Cloudflare Pages branch preview
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PREVIEW }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy PACP-Reference-Design-Cloudflare-v9 --project-name=pacp-website --branch=rebuild-platform-foundation --commit-dirty=true
+          command: pages deploy build/pacp-public-preview --project-name=pacp-website --branch=rebuild-platform-foundation --commit-dirty=true
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
