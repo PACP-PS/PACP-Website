@@ -21,3 +21,5 @@ jobs:
         run: python3 scripts/test_staging_contracts.py
       - name: Compile manual authorization test (no credentials)
         run: python3 -m py_compile scripts/test_member_auth_live_readonly.py
+      - name: Check privileged membership authorization order
+        run: python3 scripts/test_approval_order.py
