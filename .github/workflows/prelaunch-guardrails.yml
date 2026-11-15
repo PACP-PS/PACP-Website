@@ -33,3 +33,5 @@ jobs:
         run: python3 PACP-Reference-Design-Cloudflare-v9/portal/test_workflows.py
       - name: Verify original homepage navigation and assets
         run: python3 scripts/test_primary_navigation.py
+      - name: Enforce preview deployment isolation
+        run: python3 scripts/test_preview_deployment_guard.py
