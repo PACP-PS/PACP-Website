@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build public PACP website from APPROVED three-column homepage, not alternate v9 homepage."""
 from pathlib import Path
-import shutil,sys
+import shutil,sys,re,os
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/"PACP-Reference-Design-Cloudflare-v9"
 DEST=ROOT/"build/pacp-public-preview"
@@ -39,6 +39,12 @@ def main():
  for file in DEST.rglob("*.html"):
   data=file.read_text(encoding="utf8")
   for old,new in changes.items():data=data.replace('href="'+old+'"','href="'+new+'"').replace("href='"+old+"'","href='"+new+"'")
+  # Make static export portable for Android content://, file:// and HTTP servers.
+  # Convert ONLY site-local absolute asset/href URLs, not external // URLs.
+  prefix=os.path.relpath(DEST,file.parent).replace("\\\\","/")
+  if prefix==".":prefix=""
+  data=re.sub(r'(?P<lead>(?:src|href|poster)=[\\x22\\x27])/(?P<path>(?!/)[^\\x22\\x27]+)',lambda m:m.group("lead")+(prefix+"/" if prefix else "")+m.group("path"),data)
+  data=re.sub(r'url\\(\\s*(?P<quote>[\\x22\\x27]?)/(?P<path>(?!/)[^)\\x22\\x27]+)(?P=quote)\\s*\\)',lambda m:"url("+m.group("quote")+(prefix+"/" if prefix else "")+m.group("path")+m.group("quote")+")",data)
   file.write_text(data,encoding="utf8")
  # Safety: no development-only authenticated or admin workflows in public output.
  for file in DEST.rglob("*.html"):
