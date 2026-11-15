@@ -20,6 +20,15 @@ class Navigation(unittest.TestCase):
   self.assertIn('/design/pages/auth.html',parser.links)
   self.assertIn('/design/pages/membership.html',parser.links)
   self.assertNotIn('/design/pages/member-portal-preview.html',parser.links)
+ def test_membership_and_training_integration(self):
+  for name,expected in (
+   ("membership.html",("auth.html","member-dashboard-staging.html","membership-application-preview.html")),
+   ("training.html",("course-registration-preview.html","../admin/course-management-preview.html"))):
+   source=(ROOT/"design/pages"/name).read_text(encoding="utf8")
+   parser=Links();parser.feed(source)
+   for href in expected:
+    self.assertIn(href,parser.links)
+    self.assertTrue((ROOT/"design/pages"/href).resolve().is_file(),href)
  def test_original_logo_and_3d_preserved(self):
   html=(ROOT/"index.html").read_text(encoding="utf8")
   self.assertIn('/assets/pacp-logo-original.png',html)
