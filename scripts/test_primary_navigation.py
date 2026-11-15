@@ -29,6 +29,14 @@ class Navigation(unittest.TestCase):
    for href in expected:
     self.assertIn(href,parser.links)
     self.assertTrue((ROOT/"design/pages"/href).resolve().is_file(),href)
+ def test_member_admin_original_site_links(self):
+  pages=(("design/pages/member-dashboard-staging.html",("../../index.html","digital-card-staging.html","auth.html")),("design/admin/central-admin-dashboard-preview.html",("../../index.html","../pages/membership-review-staging.html","../pages/auth.html")))
+  for path,expected in pages:
+   html=(ROOT/path).read_text(encoding="utf8")
+   parser=Links();parser.feed(html)
+   for href in expected:
+    self.assertIn(href,parser.links)
+    self.assertTrue((ROOT/path).parent.joinpath(href).resolve().is_file(),href)
  def test_original_logo_and_3d_preserved(self):
   html=(ROOT/"index.html").read_text(encoding="utf8")
   self.assertIn('/assets/pacp-logo-original.png',html)
