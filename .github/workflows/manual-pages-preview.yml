@@ -1,0 +1,31 @@
+name: PACP preview deployment (manual approval only)
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: "Type PACP-PREVIEW-APPROVED to authorize preview-only publication"
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  preview:
+    if: ${{ github.ref == 'refs/heads/rebuild/platform-foundation' && inputs.approval == 'PACP-PREVIEW-APPROVED' }}
+    runs-on: ubuntu-latest
+    environment: pacp-preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original-site navigation
+        run: python3 scripts/test_primary_navigation.py
+      - name: Check static launch guardrails
+        run: python3 scripts/prelaunch_static_check.py
+      - name: Publish isolated Cloudflare Pages branch preview
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PREVIEW }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy PACP-Reference-Design-Cloudflare-v9 --project-name=pacp-website --branch=rebuild-platform-foundation --commit-dirty=true
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
