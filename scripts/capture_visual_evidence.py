@@ -25,7 +25,22 @@ try:
    page.screenshot(path=str(OUT/f"PACP-{label}.png"),full_page=True)
    imgs=page.locator("img").evaluate_all("(images)=>images.map(i=>({src:i.getAttribute('src'),loaded:i.complete&&i.naturalWidth>0}))")
    overflow=page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 3")
-   report[label]={"images":imgs,"horizontalOverflow":overflow,"scriptErrors":errors}
+   visual=page.evaluate("""() => {
+     const rect=sel=>{const e=document.querySelector(sel);if(!e)return null;const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}}
+     const card=document.querySelector('.member-card');
+     const style=card?getComputedStyle(card):null;
+     return {brain:rect('.brain-hero'),copy:rect('.hero-copy'),jerusalem:rect('.jerusalem-hero'),
+       cards:document.querySelectorAll('.member-card').length,
+       glassBlur:style?style.backdropFilter:null,
+       font:getComputedStyle(document.querySelector('h1')).fontFamily}
+   }""")
+   report[label]={"images":imgs,"horizontalOverflow":overflow,"scriptErrors":errors,"visual":visual}
+   assert visual["cards"]>=2,f"{label}: missing membership card faces"
+   assert visual["brain"] and visual["copy"] and visual["jerusalem"],f"{label}: incomplete hero"
+   if label=="desktop":
+    assert visual["brain"]["x"] < visual["copy"]["x"] < visual["jerusalem"]["x"],f"Wrong approved desktop hero ordering: {visual}"
+    assert visual["glassBlur"] and visual["glassBlur"]!="none",f"Missing membership glass treatment: {visual}"
+
    assert all(i["loaded"] for i in imgs),f"{label}: broken image(s): {imgs}"
    assert not overflow,f"{label}: horizontal overflow"
    assert not errors,f"{label}: JavaScript errors: {errors}"
