@@ -1,0 +1,29 @@
+name: PACP original site preview package (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check original navigation
+        run: python3 scripts/test_primary_navigation.py
+      - name: Check prelaunch constraints
+        run: python3 scripts/prelaunch_static_check.py
+      - name: Build original static-site preview zip
+        run: |
+          cd PACP-Reference-Design-Cloudflare-v9
+          zip -qr ../PACP-original-site-preview.zip . -x 'portal/*' 'RUN-LOCAL-PORTAL.*' '*.sqlite3'
+      - name: Attach original site archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: PACP-original-site-preview
+          path: PACP-original-site-preview.zip
+          retention-days: 14
