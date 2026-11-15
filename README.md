@@ -2,6 +2,20 @@
 
 Official website and planned digital-services platform for the Palestinian Association of Clinical Psychologists (PACP).
 
+## CANONICAL RELEASE SOURCE — IMPORTANT (2026-11-15)
+The ONLY candidate static website publish directory on `rebuild/platform-foundation` is
+`PACP-Reference-Design-Cloudflare-v9/`. It includes the original PACP logo,
+the reference-matched 3D homepage, website sections, and labeled staging pages.
+`/index.html` at repository root and `/design/*` at repository root are
+**legacy/alternative design snapshots — DO NOT DEPLOY THESE AS THE PACP SITE**.
+They remain preserved for review; no historical designs have been deleted.
+
+All preview build/deployment paths MUST point to `PACP-Reference-Design-Cloudflare-v9/`.
+Run `python3 scripts/check_canonical_release.py` and the prelaunch CI checks.
+This designation is a **technical source-of-truth decision**, not proof that the
+visual layout has received renewed final sign-off. Compare with the originally
+approved screenshots before production cutover; do not merge to `main` yet.
+
 ## Source-of-truth and safety
 - `main` is the current published-site source branch; do not deploy feature previews directly to production.
 - `rebuild/platform-foundation` contains design previews and draft implementation documents.
