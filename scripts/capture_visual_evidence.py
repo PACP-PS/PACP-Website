@@ -17,11 +17,12 @@ report={}
 try:
  with sync_playwright() as p:
   browser=p.chromium.launch(headless=True)
-  for label,width,height in (("desktop",1440,900),("tablet",768,1024),("mobile",390,844)):
+  for label,width,height in (("reference-desktop",1648,928),("desktop",1440,900),("tablet",768,1024),("mobile",390,844)):
    page=browser.new_page(viewport={"width":width,"height":height},device_scale_factor=1)
    errors=[]
    page.on("pageerror",lambda exc:errors.append(str(exc)))
    page.goto(base+"/",wait_until="networkidle",timeout=60000)
+   page.evaluate("document.fonts.ready")
    page.screenshot(path=str(OUT/f"PACP-{label}.png"),full_page=True)
    imgs=page.locator("img").evaluate_all("(images)=>images.map(i=>({src:i.getAttribute('src'),loaded:i.complete&&i.naturalWidth>0}))")
    overflow=page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 3")
@@ -32,13 +33,15 @@ try:
      return {brain:rect('.brain-hero'),copy:rect('.hero-copy'),jerusalem:rect('.jerusalem-hero'),
        cards:document.querySelectorAll('.member-card').length,services:document.querySelectorAll('.services .service').length,
        glassBlur:style?style.backdropFilter:null,
-       font:getComputedStyle(document.querySelector('h1')).fontFamily}
+       font:getComputedStyle(document.querySelector('h1')).fontFamily,
+       fontLoaded:document.fonts.check("700 20px Alexandria"),
+       logo:rect(".brand img"),serviceTiles:Array.from(document.querySelectorAll(".services .service")).map(x=>x.textContent.trim().slice(0,45))}
    }""")
    report[label]={"images":imgs,"horizontalOverflow":overflow,"scriptErrors":errors,"visual":visual}
    assert visual["cards"]>=2,f"{label}: missing membership card faces"
-   if label=="desktop":assert visual["services"]==5,f"Approved screenshot requires 5 tiles; found {visual['services']}"
+   if label in ("reference-desktop","desktop"):assert visual["services"]==5,f"Approved screenshot requires 5 tiles; found {visual['services']}"
    assert visual["brain"] and visual["copy"] and visual["jerusalem"],f"{label}: incomplete hero"
-   if label=="desktop":
+   if label in ("reference-desktop","desktop"):
     assert visual["brain"]["x"] < visual["copy"]["x"] < visual["jerusalem"]["x"],f"Wrong approved desktop hero ordering: {visual}"
     assert visual["glassBlur"] and visual["glassBlur"]!="none",f"Missing membership glass treatment: {visual}"
 
