@@ -30,12 +30,13 @@ try:
      const card=document.querySelector('.member-card');
      const style=card?getComputedStyle(card):null;
      return {brain:rect('.brain-hero'),copy:rect('.hero-copy'),jerusalem:rect('.jerusalem-hero'),
-       cards:document.querySelectorAll('.member-card').length,
+       cards:document.querySelectorAll('.member-card').length,services:document.querySelectorAll('.services .service').length,
        glassBlur:style?style.backdropFilter:null,
        font:getComputedStyle(document.querySelector('h1')).fontFamily}
    }""")
    report[label]={"images":imgs,"horizontalOverflow":overflow,"scriptErrors":errors,"visual":visual}
    assert visual["cards"]>=2,f"{label}: missing membership card faces"
+   if label=="desktop":assert visual["services"]==5,f"Approved screenshot requires 5 tiles; found {visual['services']}"
    assert visual["brain"] and visual["copy"] and visual["jerusalem"],f"{label}: incomplete hero"
    if label=="desktop":
     assert visual["brain"]["x"] < visual["copy"]["x"] < visual["jerusalem"]["x"],f"Wrong approved desktop hero ordering: {visual}"
