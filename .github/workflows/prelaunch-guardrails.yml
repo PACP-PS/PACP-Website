@@ -17,3 +17,5 @@ jobs:
         run: python3 scripts/prelaunch_static_check.py
       - name: Validate migration draft structure
         run: python3 scripts/check_migrations.py
+      - name: Verify staging auth and submission contracts
+        run: python3 scripts/test_staging_contracts.py
