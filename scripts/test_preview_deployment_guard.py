@@ -12,6 +12,8 @@ class Preview(unittest.TestCase):
   self.assertIn("environment: pacp-preview",s)
   self.assertIn("--branch=rebuild-platform-foundation",s)
   self.assertIn("pages deploy build/pacp-public-preview",s)
+  self.assertIn("python3 scripts/audit_public_assets.py",s)
+  self.assertLess(s.index("python3 scripts/audit_public_assets.py"),s.index("pages deploy build/pacp-public-preview"))
   self.assertNotIn("--branch=main",s)
   self.assertNotIn("www.pacp.ps",s)
  def test_archive_job_no_deployment(self):
