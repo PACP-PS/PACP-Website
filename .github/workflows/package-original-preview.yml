@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify canonical site assets
+        run: python3 scripts/check_canonical_release.py
       - name: Check original navigation
         run: python3 scripts/test_primary_navigation.py
       - name: Check prelaunch constraints
