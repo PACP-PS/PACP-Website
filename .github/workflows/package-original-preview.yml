@@ -26,10 +26,13 @@ jobs:
       - name: Build original static-site preview zip
         run: |
           cd build/pacp-public-preview
-          zip -qr ../PACP-original-site-preview.zip . -x 'portal/*' 'RUN-LOCAL-PORTAL.*' '*.sqlite3'
+          zip -qr ../../PACP-original-site-preview.zip . -x 'portal/*' 'RUN-LOCAL-PORTAL.*' '*.sqlite3'
+          test -s ../../PACP-original-site-preview.zip
+          unzip -t ../../PACP-original-site-preview.zip | tail -n 1
       - name: Attach original site archive
         uses: actions/upload-artifact@v4
         with:
           name: PACP-original-site-preview
           path: PACP-original-site-preview.zip
           retention-days: 14
+          if-no-files-found: error
