@@ -21,6 +21,8 @@ jobs:
         run: python3 scripts/prelaunch_static_check.py
       - name: Create public-only canonical site
         run: python3 scripts/build_public_preview.py
+      - name: Audit exported images, fonts and links
+        run: python3 scripts/audit_public_assets.py
       - name: Build original static-site preview zip
         run: |
           cd build/pacp-public-preview
