@@ -31,3 +31,5 @@ jobs:
         run: python3 scripts/test_digital_card_contract.py
       - name: Run isolated end-to-end membership, card, courses, revocation tests
         run: python3 PACP-Reference-Design-Cloudflare-v9/portal/test_workflows.py
+      - name: Verify original homepage navigation and assets
+        run: python3 scripts/test_primary_navigation.py
