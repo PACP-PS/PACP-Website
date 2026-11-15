@@ -26,6 +26,8 @@ jobs:
         run: python3 scripts/prelaunch_static_check.py
       - name: Create public-only canonical site
         run: python3 scripts/build_public_preview.py
+      - name: Validate exported public assets and paths
+        run: python3 scripts/audit_public_assets.py
       - name: Publish isolated Cloudflare Pages branch preview
         uses: cloudflare/wrangler-action@v3
         with:
