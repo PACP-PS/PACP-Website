@@ -23,6 +23,20 @@ jobs:
         run: python3 scripts/build_public_preview.py
       - name: Audit exported images, fonts and links
         run: python3 scripts/audit_public_assets.py
+      - name: Install headless browser for visual verification
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Render desktop/tablet/mobile evidence
+        run: python3 scripts/capture_visual_evidence.py
+      - name: Upload real browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PACP-visual-evidence
+          path: build/visual-evidence/
+          retention-days: 14
+          if-no-files-found: warn
       - name: Build original static-site preview zip
         run: |
           cd build/pacp-public-preview
