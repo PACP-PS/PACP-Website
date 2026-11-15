@@ -1,0 +1,19 @@
+name: Prelaunch guardrails (no deployment)
+on:
+  pull_request:
+  push:
+    branches: ['rebuild/platform-foundation']
+permissions:
+  contents: read
+jobs:
+  prelaunch-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Static prelaunch checks
+        run: python3 scripts/prelaunch_static_check.py
+      - name: Validate migration draft structure
+        run: python3 scripts/check_migrations.py
