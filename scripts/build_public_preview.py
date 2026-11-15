@@ -37,6 +37,7 @@ def main():
   text=page.read_text(encoding="utf8")
   for old,new in (
     ("membership-application-preview.html","membership.html"),
+    ("../homepage-reference-matched.html","../../index.html"),
     ("member-dashboard-staging.html","membership.html"),
     ("member-portal-preview.html","membership.html"),
     ("auth.html","membership.html"),
