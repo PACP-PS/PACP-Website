@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify canonical original 3D site
+        run: python3 scripts/check_canonical_release.py
       - name: Static prelaunch checks
         run: python3 scripts/prelaunch_static_check.py
       - name: Validate migration draft structure
