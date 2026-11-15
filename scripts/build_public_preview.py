@@ -1,57 +1,50 @@
 #!/usr/bin/env python3
-"""Build a public-safe PACP preview from the canonical 3D site; omit staging/admin demos."""
+"""Build public PACP website from APPROVED three-column homepage, not alternate v9 homepage."""
 from pathlib import Path
 import shutil,sys
-SRC=Path(__file__).resolve().parents[1]/"PACP-Reference-Design-Cloudflare-v9"
-DEST=Path(__file__).resolve().parents[1]/"build/pacp-public-preview"
-FILES=[
-"index.html","favicon.png","_headers",
-"assets/pacp-logo-original.png","assets/pacp-logo.svg",
-"design/assets/brain-3d.mjs","design/assets/jerusalem-panorama-v6.webp",
-"design/assets/reference-brain-scene.webp","design/assets/reference-jerusalem.webp",
-"design/assets/reference-membership-card.webp","design/assets/pacp-hero-illustration.svg",
-"design/assets/pacp-shared-theme.css","design/assets/pacp-experience.css",
-"design/assets/pacp-portal-admin-v4.css",
-"design/pages/about.html","design/pages/membership.html","design/pages/training.html",
-"design/pages/news.html","design/pages/resources.html","design/pages/contact.html",
-]
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/"PACP-Reference-Design-Cloudflare-v9"
+DEST=ROOT/"build/pacp-public-preview"
+PAGES=("about","membership","training","news","resources","contact")
+ROOT_ASSETS=("assets/brain-scene-v2.webp","assets/jerusalem-scene-v2.webp","assets/jerusalem-composite.svg")
+INNER_ASSETS=("favicon.png","assets/pacp-logo-original.png","assets/pacp-logo.svg",
+ "design/assets/jerusalem-panorama-v6.webp","design/assets/reference-brain-scene.webp",
+ "design/assets/reference-jerusalem.webp","design/assets/reference-membership-card.webp",
+ "design/assets/pacp-shared-theme.css","design/assets/pacp-experience.css",
+ "design/assets/pacp-hero-illustration.svg")
+def copy(source,target):
+ if not source.is_file():raise FileNotFoundError(source)
+ target.parent.mkdir(parents=True,exist_ok=True)
+ shutil.copy2(source,target)
 def main():
- if not all((SRC/p).is_file() for p in FILES):
-  missing=[p for p in FILES if not (SRC/p).is_file()]
-  print("Cannot package; missing required assets:",missing,file=sys.stderr);return 1
  if DEST.exists():shutil.rmtree(DEST)
- for rel in FILES:
-  target=DEST/rel;target.parent.mkdir(parents=True,exist_ok=True)
-  shutil.copy2(SRC/rel,target)
- # The canonical homepage may link to nonpublic previews; rewrite only these
- # specific calls to action into the public membership information page.
- home=DEST/"index.html"
- s=home.read_text(encoding="utf8")
- s=s.replace('href="/design/pages/auth.html"','href="/design/pages/membership.html"')
- s=s.replace('href="/design/pages/membership-application-preview.html"','href="/design/pages/membership.html"')
- s=s.replace('href="/design/pages/member-dashboard-staging.html"','href="/design/pages/membership.html"')
- s=s.replace('href="/design/preview-center.html"','href="/design/pages/about.html"')
- home.write_text(s,encoding="utf8")
- # Remove links to preview-only endpoints from exported public HTML.
- for page in DEST.rglob("*.html"):
-  text=page.read_text(encoding="utf8")
-  for old,new in (
-    ("membership-application-preview.html","membership.html"),
-    ("../homepage-reference-matched.html","../../index.html"),
-    ("member-dashboard-staging.html","membership.html"),
-    ("member-portal-preview.html","membership.html"),
-    ("auth.html","membership.html"),
-    ("course-registration-preview.html","training.html"),
-    ("../admin/course-management-preview.html","training.html"),
-    ("digital-card-staging.html","membership.html"),
-    ("membership-review-staging.html","membership.html"),
-  ):
-   text=text.replace('href="'+old+'"','href="'+new+'"')
-  page.write_text(text,encoding="utf8")
- # Explicitly prevent preview/demo administration and private auth from public artifacts.
- forbidden=["design/admin/central-admin-dashboard-preview.html","design/pages/auth.html","design/pages/member-dashboard-staging.html","design/pages/membership-submit-staging.html"]
- for rel in forbidden:
-  if (DEST/rel).exists():raise RuntimeError("Forbidden public artifact: "+rel)
- print("SAFE PREVIEW READY:",DEST,"files",len(FILES))
+ copy(ROOT/"index.html",DEST/"index.html")
+ for path in ROOT_ASSETS:copy(ROOT/path,DEST/path)
+ for path in INNER_ASSETS:copy(SOURCE/path,DEST/"PACP-Reference-Design-Cloudflare-v9"/path)
+ for name in PAGES:copy(SOURCE/f"design/pages/{name}.html",DEST/f"PACP-Reference-Design-Cloudflare-v9/design/pages/{name}.html")
+ # Disable links to demos and nonfunctional login until real auth/submission testing.
+ changes={
+ "/PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html":"/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html",
+ "/PACP-Reference-Design-Cloudflare-v9/design/pages/member-portal-preview.html":"/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html",
+ "../homepage-reference-matched.html":"../../../index.html",
+ "membership-application-preview.html":"membership.html",
+ "member-dashboard-staging.html":"membership.html",
+ "member-portal-preview.html":"membership.html",
+ "auth.html":"membership.html",
+ "course-registration-preview.html":"training.html",
+ "../admin/course-management-preview.html":"training.html",
+ "digital-card-staging.html":"membership.html",
+ "membership-review-staging.html":"membership.html",
+ }
+ for file in DEST.rglob("*.html"):
+  data=file.read_text(encoding="utf8")
+  for old,new in changes.items():data=data.replace('href="'+old+'"','href="'+new+'"')
+  file.write_text(data,encoding="utf8")
+ # Safety: no development-only authenticated or admin workflows in public output.
+ for file in DEST.rglob("*.html"):
+  if any(x in file.name for x in ("-preview","staging","auth.html")):raise RuntimeError("Development page leaked: "+str(file))
+ print("PACP APPROVED 3-COLUMN HERO OUTPUT:",DEST)
  return 0
-if __name__=="__main__":sys.exit(main())
+if __name__=="__main__":
+ try:sys.exit(main())
+ except (OSError,RuntimeError) as ex:print("BUILD FAILED:",ex,file=sys.stderr);sys.exit(1)
