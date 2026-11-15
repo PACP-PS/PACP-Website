@@ -40,6 +40,16 @@ begin
   end if;
 
   -- Authorization is evaluated against trusted staff_role_assignments via 0004 helpers.
+  -- Fail closed before looking up any application (prevents existence disclosure).
+  if p_action is null or p_action not in ('start_review','request_changes','approve','reject') then
+    raise exception 'Unsupported action' using errcode = '22023';
+  end if;
+  if p_action in ('start_review','request_changes') and not public.can_review_membership() then
+    raise exception 'Insufficient permission for review action' using errcode = '42501';
+  end if;
+  if p_action in ('approve','reject') and not public.has_staff_role('membership_approver') then
+    raise exception 'Only an authorized membership approver may decide' using errcode = '42501';
+  end if;
 
   select * into v_app
   from public.membership_applications
