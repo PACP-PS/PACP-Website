@@ -32,6 +32,21 @@ def main():
  s=s.replace('href="/design/pages/member-dashboard-staging.html"','href="/design/pages/membership.html"')
  s=s.replace('href="/design/preview-center.html"','href="/design/pages/about.html"')
  home.write_text(s,encoding="utf8")
+ # Remove links to preview-only endpoints from exported public HTML.
+ for page in DEST.rglob("*.html"):
+  text=page.read_text(encoding="utf8")
+  for old,new in (
+    ("membership-application-preview.html","membership.html"),
+    ("member-dashboard-staging.html","membership.html"),
+    ("member-portal-preview.html","membership.html"),
+    ("auth.html","membership.html"),
+    ("course-registration-preview.html","training.html"),
+    ("../admin/course-management-preview.html","training.html"),
+    ("digital-card-staging.html","membership.html"),
+    ("membership-review-staging.html","membership.html"),
+  ):
+   text=text.replace('href="'+old+'"','href="'+new+'"')
+  page.write_text(text,encoding="utf8")
  # Explicitly prevent preview/demo administration and private auth from public artifacts.
  forbidden=["design/admin/central-admin-dashboard-preview.html","design/pages/auth.html","design/pages/member-dashboard-staging.html","design/pages/membership-submit-staging.html"]
  for rel in forbidden:
