@@ -38,7 +38,7 @@ def main():
  }
  for file in DEST.rglob("*.html"):
   data=file.read_text(encoding="utf8")
-  for old,new in changes.items():data=data.replace('href="'+old+'"','href="'+new+'"')
+  for old,new in changes.items():data=data.replace('href="'+old+'"','href="'+new+'"').replace("href='"+old+"'","href='"+new+"'")
   file.write_text(data,encoding="utf8")
  # Safety: no development-only authenticated or admin workflows in public output.
  for file in DEST.rglob("*.html"):
