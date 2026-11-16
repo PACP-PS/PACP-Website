@@ -80,3 +80,32 @@ BEGIN
  THEN RAISE EXCEPTION 'revoked QR accepted';END IF;
 END $$;
 SELECT 'PASS: segregated activation, annual expiry, suspension, QR revocation' AS result;
+
+-- Security regression: no public read access to private membership and token metadata.
+DO $$
+BEGIN
+ IF has_table_privilege('anon','pacp_private.memberships','SELECT')
+ OR has_table_privilege('authenticated','pacp_private.memberships','SELECT')
+ OR has_table_privilege('anon','pacp_private.card_tokens','SELECT')
+ OR has_table_privilege('authenticated','pacp_private.card_tokens','SELECT') THEN
+   RAISE EXCEPTION 'private membership or QR token metadata exposed'; END IF;
+ IF has_function_privilege('anon','pacp_private.activate_member(uuid,timestamptz)','EXECUTE') THEN
+   RAISE EXCEPTION 'anonymous user can activate membership'; END IF;
+END $$;
+-- Separate finance and approver identities remain necessary; a single person cannot perform both.
+UPDATE pacp_private.memberships SET
+ activated_at=NULL,approved_by='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+ fee_verified_by='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+ suspended_at=NULL,revoked_at=NULL;
+DO $$
+DECLARE worked boolean;
+BEGIN
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ SELECT pacp_private.activate_member(
+ '11111111-1111-4111-8111-111111111111',
+ make_timestamptz(2028,1,2,0,0,0,'Asia/Hebron')) INTO worked;
+ IF worked THEN RAISE EXCEPTION 'self-verified approval unexpectedly activated'; END IF;
+ EXECUTE 'RESET ROLE';
+END $$;
+SELECT 'PASS: private metadata not public and split approval/payment mandatory' AS result;
