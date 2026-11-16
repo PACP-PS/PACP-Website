@@ -19,7 +19,8 @@ def main():
     assert "sb_publishable_" in auth, "Browser must use publishable key"
     assert "flowType:'pkce'" in auth, "PKCE is required in the staging Auth client"
     assert "my_membership_summary" in auth and "my_membership_applications" in auth
-    assert "my_membership_summary" in dash and "my_membership_applications" in dash
+    assert "mySummary" in dash and "myApplications" in dash, "Dashboard must invoke the imported member-read wrappers"
+    assert "from '../assets/pacp-supabase-auth.mjs'" in dash, "Dashboard must import the approved Auth module"
     assert "DEMO ONLY" in dash, "Demo information must be prominently labeled"
     assert "PACP_TEST_A_JWT" in test and "PACP_TEST_B_JWT" in test, "Cross-user tests must exist"
     for path, data in ((AUTH, auth),(DASH,dash)):
