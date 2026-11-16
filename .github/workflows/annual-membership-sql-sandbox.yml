@@ -1,0 +1,38 @@
+name: Annual membership SQL sandbox (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+    paths:
+      - 'docs/annual-membership-sandbox-schema.review.sql'
+      - 'scripts/test_annual_membership_postgres.sql'
+      - '.github/workflows/annual-membership-sql-sandbox.yml'
+  pull_request:
+    paths:
+      - 'docs/annual-membership-sandbox-schema.review.sql'
+      - 'scripts/test_annual_membership_postgres.sql'
+      - '.github/workflows/annual-membership-sql-sandbox.yml'
+permissions:
+  contents: read
+jobs:
+  verify-sql:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: pacp_sandbox
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: sandbox-only-secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d pacp_sandbox"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute schema and negative constraints in disposable PostgreSQL
+        env:
+          PGPASSWORD: sandbox-only-secret
+        run: psql -v ON_ERROR_STOP=1 -h localhost -U postgres -d pacp_sandbox -f scripts/test_annual_membership_postgres.sql
