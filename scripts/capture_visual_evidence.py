@@ -40,6 +40,22 @@ try:
        logo:rect(".brand img"),serviceTiles:Array.from(document.querySelectorAll(".services .service")).map(x=>x.textContent.trim().slice(0,45))}
    }""")
    report[label]={"images":imgs,"horizontalOverflow":overflow,"scriptErrors":errors,"visual":visual}
+   # Measure text geometry explicitly, rather than treating a successful screenshot as proof of no crowding.
+   copy_metrics=page.evaluate("""() => {
+     const area=document.querySelector('.hero-copy');
+     const heading=area.querySelector('h1');
+     const box=e=>{const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width}};
+     const p=area.querySelector('p');
+     return {container:box(area),heading:box(heading),description:box(p),
+       headingScrollWidth:heading.scrollWidth,headingClientWidth:heading.clientWidth,
+       headingScrollHeight:heading.scrollHeight,headingClientHeight:heading.clientHeight};
+   }""")
+   report[label]["centerCopy"]=copy_metrics
+   assert copy_metrics["headingScrollWidth"] <= copy_metrics["headingClientWidth"]+2,f"{label}: headline horizontal overflow"
+   assert copy_metrics["headingScrollHeight"] <= copy_metrics["headingClientHeight"]+2,f"{label}: headline vertical overflow"
+   if label in ("reference-desktop","desktop"):
+    assert copy_metrics["container"]["left"] > visual["brain"]["x"]+visual["brain"]["width"]-12,f"{label}: hero copy overlaps brain region"
+    assert copy_metrics["container"]["right"] < visual["jerusalem"]["x"]+12,f"{label}: hero copy overlaps Jerusalem region"
    assert visual["cards"]>=2,f"{label}: missing membership card faces"
    if label in ("reference-desktop","desktop"):assert visual["services"]==5,f"Approved screenshot requires 5 tiles; found {visual['services']}"
    assert visual["brain"] and visual["copy"] and visual["jerusalem"],f"{label}: incomplete hero"
