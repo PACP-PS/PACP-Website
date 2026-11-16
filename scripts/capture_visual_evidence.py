@@ -24,6 +24,8 @@ try:
    page.goto(base+"/",wait_until="networkidle",timeout=60000)
    page.evaluate("document.fonts.ready")
    page.screenshot(path=str(OUT/f"PACP-{label}.png"),full_page=True)
+   if label in ("reference-desktop","desktop"):
+    page.locator(".cards-pair").screenshot(path=str(OUT/f"PACP-membership-cards-{label}.png"))
    imgs=page.locator("img").evaluate_all("(images)=>images.map(i=>({src:i.getAttribute('src'),loaded:i.complete&&i.naturalWidth>0}))")
    overflow=page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 3")
    visual=page.evaluate("""() => {
