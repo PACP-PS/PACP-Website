@@ -94,7 +94,7 @@ BEGIN
   (SELECT 1 FROM pacp_private.staff_roles WHERE user_id=caller AND role='superadmin' AND revoked_at IS NULL)
  THEN RAISE EXCEPTION 'superadmin required' USING ERRCODE='42501'; END IF;
  IF p_role NOT IN ('membership_officer','membership_approver','finance','courses_editor','content_editor','read_only_auditor')
- OR p_email IS NULL OR pg_catalog.position('@' in p_email)<2
+ OR p_email IS NULL OR pg_catalog.strpos(p_email,'@')<2
  THEN RAISE EXCEPTION 'invalid invite role/email' USING ERRCODE='22023'; END IF;
  INSERT INTO pacp_private.staff_invitations(email,role,requested_by)
  VALUES(pg_catalog.lower(pg_catalog.btrim(p_email)),p_role,caller);
