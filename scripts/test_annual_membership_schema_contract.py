@@ -3,6 +3,8 @@
 from pathlib import Path
 p=Path(__file__).resolve().parents[1] / "docs/annual-membership-sandbox-schema.review.sql"
 s=p.read_text(encoding="utf-8").lower()
+# Comments must not be interpreted as executable DDL.
+executable="\n".join(line.split("--",1)[0] for line in s.splitlines())
 requirements={
     "explicit sandbox notice": "do not execute against pacp-development" in s,
     "separate annual period table": "create table public.membership_periods_sandbox" in s,
@@ -13,7 +15,7 @@ requirements={
     "no permissive policy": "create policy" not in s,
     "active requires fee approval": "fee_decision in ('settled','waived')" in s,
     "active requires activation timestamp": "activated_at is not null" in s,
-    "no deployed rpc": "security definer" not in s.split("commit;")[0],
+    "no deployed rpc": "security definer" not in executable and "create function" not in executable and "create or replace function" not in executable,
 }
 for name,ok in requirements.items():
     print(("PASS" if ok else "FAIL"),name)
