@@ -128,3 +128,32 @@ BEGIN
  THEN RAISE EXCEPTION 'anonymous invite function access'; END IF;
 END $$;
 SELECT 'PASS: invite only by superadmin, no admin self-grants and no anonymous grants' AS result;
+
+-- Revocation must take effect on the next privileged call; no cached role grants.
+DO $$
+DECLARE n integer;
+BEGIN
+ UPDATE pacp_private.staff_roles SET revoked_at=now()
+ WHERE user_id='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' AND role='finance';
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ BEGIN
+  PERFORM pacp_private.record_cash_receipt('11111111-1111-4111-8111-111111111111','AFTER-REVOCATION',25,'cash');
+  RAISE EXCEPTION 'revoked finance employee registered payment';
+ EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','cccccccc-cccc-4ccc-8ccc-cccccccccccc',true);
+ EXECUTE 'RESET ROLE';
+ UPDATE pacp_private.staff_roles SET revoked_at=now()
+ WHERE user_id='cccccccc-cccc-4ccc-8ccc-cccccccccccc' AND role='superadmin';
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ BEGIN
+  PERFORM pacp_private.create_staff_invite('revoked@example.invalid','finance');
+  RAISE EXCEPTION 'revoked superadmin invited staff';
+ EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ EXECUTE 'RESET ROLE';
+ SELECT count(*) INTO n FROM pacp_private.cash_receipts;
+ IF n<>1 THEN RAISE EXCEPTION 'unauthorized cash mutation detected'; END IF;
+ SELECT count(*) INTO n FROM pacp_private.staff_invitations;
+ IF n<>1 THEN RAISE EXCEPTION 'unauthorized staff invitation detected'; END IF;
+END $$;
+SELECT 'PASS: revoked finance and superadmin lose permission immediately' AS result;
