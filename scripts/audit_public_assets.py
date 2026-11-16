@@ -23,7 +23,8 @@ def main():
   parser=Parser();parser.feed(html.read_text(encoding="utf8"))
   for tag,attr,raw in parser.links:
    url=urlsplit(raw.strip())
-   if url.scheme in ("https","http") or raw.startswith(("#","mailto:","tel:","data:","//","javascript:")):continue
+   if raw.strip().lower().startswith("javascript:"):errors.append(f"{html.relative_to(SITE)}: unsafe javascript link");continue
+   if url.scheme in ("https","http") or raw.startswith(("#","mailto:","tel:","data:","//")):continue
    if url.scheme:continue
    target=(SITE/url.path.lstrip("/")) if raw.startswith("/") else (html.parent/unquote(url.path))
    if not target.is_file():errors.append(f"{html.relative_to(SITE)}: missing {raw}")
@@ -31,6 +32,7 @@ def main():
   text=html.read_text(encoding="utf8")
   if "fonts.googleapis.com" in text:warnings.append(f"{html.relative_to(SITE)}: Alexandria depends on Google Fonts availability; fallback may render differently")
   if "supabase.co" in text:warnings.append(f"{html.relative_to(SITE)}: external Supabase reference in public HTML; review")
+  if re.search(r"(?i)(?:pacp-supabase-auth\\.mjs|supabase\\.co/(?:rest|auth|functions)/v1|sb_secret_|service_role)",text):errors.append(f"{html.relative_to(SITE)}: private platform API/auth reference in public export")
  for css in SITE.rglob("*.css"):
   for raw in re.findall(r'url\(\s*[\x22\x27]?([^\x22\x27)]+)',css.read_text(encoding="utf8")):
    if raw.startswith(("data:","https:","http:","//","#")):continue
