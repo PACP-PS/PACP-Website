@@ -68,3 +68,46 @@ BEGIN
     RAISE EXCEPTION 'member table leaked'; END IF;
 END $$;
 SELECT 'PASS: sandbox SQL executes; renewal, duplicate, fee, calendar and browser access checks' AS result;
+-- Test the authoritative date/state predicate in disposable SQL, not from browser data.
+-- This is a test expression, NOT an exposed production function.
+DO $
+DECLARE
+  check_at timestamptz;
+  n integer;
+BEGIN
+  check_at := make_timestamptz(2027,12,31,23,59,59,'Asia/Hebron');
+  SELECT count(*) INTO n FROM public.membership_periods_sandbox p
+  WHERE p.membership_year=2027 AND p.period_status='active'
+    AND p.fee_decision IN ('settled','waived') AND p.fee_decision_reference IS NOT NULL
+    AND p.activated_at<=check_at AND p.period_start<=check_at AND check_at<p.period_end
+    AND p.suspension_at IS NULL AND p.revoked_at IS NULL;
+  IF n<>1 THEN RAISE EXCEPTION '2027 final-second validity failed'; END IF;
+  check_at := make_timestamptz(2028,1,1,0,0,0,'Asia/Hebron');
+  SELECT count(*) INTO n FROM public.membership_periods_sandbox p
+  WHERE p.membership_year=2027 AND p.period_status='active'
+    AND p.activated_at<=check_at AND p.period_start<=check_at AND check_at<p.period_end;
+  IF n<>0 THEN RAISE EXCEPTION 'expired 2027 still valid'; END IF;
+  SELECT count(*) INTO n FROM public.membership_periods_sandbox p
+  WHERE p.membership_year=2028 AND p.period_status='active'
+    AND p.fee_decision='waived' AND p.activated_at<=check_at
+    AND p.period_start<=check_at AND check_at<p.period_end
+    AND p.suspension_at IS NULL AND p.revoked_at IS NULL;
+  IF n<>1 THEN RAISE EXCEPTION 'renewed 2028 activation failed'; END IF;
+
+  UPDATE public.membership_periods_sandbox SET suspension_at=check_at
+  WHERE membership_year=2028;
+  SELECT count(*) INTO n FROM public.membership_periods_sandbox p
+  WHERE p.membership_year=2028 AND p.period_status='active'
+    AND p.period_start<=check_at AND check_at<p.period_end
+    AND p.suspension_at IS NULL AND p.revoked_at IS NULL;
+  IF n<>0 THEN RAISE EXCEPTION 'suspended credential still valid'; END IF;
+  UPDATE public.membership_periods_sandbox SET suspension_at=NULL,revoked_at=check_at
+  WHERE membership_year=2028;
+  SELECT count(*) INTO n FROM public.membership_periods_sandbox p
+  WHERE p.membership_year=2028 AND p.period_status='active'
+    AND p.period_start<=check_at AND check_at<p.period_end
+    AND p.suspension_at IS NULL AND p.revoked_at IS NULL;
+  IF n<>0 THEN RAISE EXCEPTION 'revoked credential still valid'; END IF;
+END $;
+SELECT 'PASS: year rollover, waiver, suspension and revocation boundary predicates' AS result;
+
