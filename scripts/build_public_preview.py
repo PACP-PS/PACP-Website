@@ -38,6 +38,11 @@ def main():
  }
  for file in DEST.rglob("*.html"):
   data=file.read_text(encoding="utf8")
+  # Public-only builds must not label an informational page as a functional sign-in.
+  if file.name=="index.html":
+   data=data.replace('>تسجيل الدخول</a>','>معلومات العضوية</a>')
+   data=data.replace('>انتسب إلى الجمعية</a>','>شروط الانتساب</a>')
+   data=data.replace('>انتسب إلى الجمعية ←</a>','>استكشف العضوية ←</a>')
   for old,new in changes.items():data=data.replace('href="'+old+'"','href="'+new+'"').replace("href='"+old+"'","href='"+new+"'")
   # Make static export portable for Android content://, file:// and HTTP servers.
   # Convert ONLY site-local absolute asset/href URLs, not external // URLs.
