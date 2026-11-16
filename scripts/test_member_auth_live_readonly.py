@@ -38,10 +38,22 @@ def main():
         if code!=200 or not isinstance(user,dict) or not user.get("id"):
             raise RuntimeError("Authenticated synthetic test identity unavailable")
         identities.append(user["id"])
+        code, summary=request(base,key,token,"/rest/v1/rpc/my_membership_summary","POST",{})
+        if code!=200 or (summary is not None and not isinstance(summary,dict)):
+            raise RuntimeError("Own membership summary RPC returned unexpected response")
         code, records=request(base,key,token,"/rest/v1/rpc/my_membership_applications","POST",{})
         if code!=200 or not isinstance(records,list):
             raise RuntimeError("Own-applications RPC failed")
-        applications.append({r.get("application_id") for r in records if isinstance(r,dict)})
+        ids=set()
+        for row in records:
+            if not isinstance(row,dict) or not row.get("application_id"):
+                raise RuntimeError("Own applications RPC returned malformed data")
+            ids.add(str(row["application_id"]))
+        applications.append(ids)
+        # A nonstaff member must not read or update the full membership table.
+        code,_=request(base,key,token,"/rest/v1/members?select=id&limit=1")
+        if code in (200,206):
+            raise RuntimeError("Member base-table SELECT unexpectedly permitted to a regular member")
         code,_=request(base,key,token,"/rest/v1/rpc/membership_review_queue","POST",{"p_limit":25})
         if code in (200,201): raise RuntimeError("Nonstaff account unexpectedly permitted to review queue")
     if identities[0]==identities[1]: raise RuntimeError("Different tokens resolved to same identity")
@@ -50,7 +62,7 @@ def main():
     if applications[0]&applications[1]:
         raise RuntimeError("CROSS-USER LEAK: overlapping application IDs")
     print("PASS: independent identities, distinct own applications, nonstaff review queue denied")
-    print("LIMITATION: No direct-table access / staff transitions / payment / storage tested")
+    print("LIMITATION: Not a staff-role, document storage, payment or write-path test")
 
 if __name__=="__main__":
     try: main()
