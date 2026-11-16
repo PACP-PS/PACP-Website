@@ -209,8 +209,7 @@ RETURNS TABLE(membership_year integer, period_end timestamptz, period_status tex
 LANGUAGE sql STABLE SECURITY INVOKER SET search_path=''
 AS $renewal$
  SELECT p.membership_year,p.period_end,p.period_status,p.fee_decision,
-   (p.period_status IN ('active','expired') AND p.revoked_at IS NULL
-     AND p.suspension_at IS NULL) AS renewal_eligible
+   false AS renewal_eligible -- Fail closed: renewal eligibility requires an approved policy and trusted server workflow
  FROM public.membership_periods_sandbox p
  JOIN public.members m ON m.id=p.member_id
  WHERE m.user_id=nullif(current_setting('request.jwt.claim.sub',true),'')::uuid
