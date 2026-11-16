@@ -5,6 +5,8 @@ on:
       - 'supabase/migrations/**'
       - 'docs/DATABASE-SCHEMA-DRAFT.sql'
       - 'scripts/check_migrations.py'
+      - 'scripts/test_membership_security_contract.py'
+      - 'scripts/test_member_auth_live_readonly.py'
       - '.github/workflows/migration-preflight.yml'
   push:
     branches: ['rebuild/platform-foundation']
@@ -25,3 +27,5 @@ jobs:
           python-version: '3.12'
       - name: Check migration files and key security constructs
         run: python3 scripts/check_migrations.py
+      - name: Check member authentication staging contract (static only)
+        run: python3 scripts/test_membership_security_contract.py
