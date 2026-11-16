@@ -43,6 +43,17 @@ def main():
    data=data.replace('>تسجيل الدخول</a>','>معلومات العضوية</a>')
    data=data.replace('>انتسب إلى الجمعية</a>','>شروط الانتساب</a>')
    data=data.replace('>انتسب إلى الجمعية ←</a>','>استكشف العضوية ←</a>')
+  # Explicit feature flags for the publishable informational-only release.
+  # No live sign-in, payment, card, application or renewal promise is made.
+  if file.name in ("membership.html","training.html"):
+   note=('<aside role="note" aria-label="حالة الخدمات الإلكترونية" '
+     'style="direction:rtl;background:#fff8e9;color:#634b20;border-right:4px solid #bd9029;'
+     'padding:14px 20px;margin:14px auto;max-width:1100px;border-radius:12px;'
+     'font:600 13px/1.9 Tahoma,Arial,sans-serif">'
+     'خدمات الانتساب الإلكتروني وتجديد العضوية والدفع وإصدار البطاقة والتسجيل الإلكتروني '
+     'قيد الإعداد، وغير مفعّلة حاليًا. المعلومات المعروضة للتعريف بخدمات الجمعية فقط.'
+     '</aside>')
+   data=re.sub(r'(<body[^>]*>)',lambda m:m.group(1)+note,data,count=1,flags=re.I)
   for old,new in changes.items():data=data.replace('href="'+old+'"','href="'+new+'"').replace("href='"+old+"'","href='"+new+"'")
   # Make static export portable for Android content://, file:// and HTTP servers.
   # Convert ONLY site-local absolute asset/href URLs, not external // URLs.
