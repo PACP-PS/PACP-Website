@@ -1,0 +1,36 @@
+name: PACP annual card lifecycle sandbox (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+    paths:
+      - 'scripts/test_official_card_lifecycle_postgres.sql'
+      - '.github/workflows/card-lifecycle-sandbox.yml'
+  pull_request:
+    paths:
+      - 'scripts/test_official_card_lifecycle_postgres.sql'
+      - '.github/workflows/card-lifecycle-sandbox.yml'
+permissions:
+  contents: read
+jobs:
+  card-lifecycle:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: pacp_card_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: sandbox-test-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d pacp_card_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate separation of duties, expiration and revocation
+        env:
+          PGPASSWORD: sandbox-test-only
+        run: psql -v ON_ERROR_STOP=1 -h localhost -U postgres -d pacp_card_test -f scripts/test_official_card_lifecycle_postgres.sql
