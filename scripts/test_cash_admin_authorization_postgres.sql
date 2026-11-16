@@ -73,3 +73,58 @@ BEGIN
  THEN RAISE EXCEPTION 'anon can execute cashier endpoint';END IF;
 END $$;
 SELECT 'PASS: finance-only cash, bank disabled, duplicate blocked, approver denied' AS result;
+
+-- Invite-only role administration: no self-promotion and no browser-granted roles.
+INSERT INTO pacp_private.staff_roles(user_id,role)
+VALUES ('cccccccc-cccc-4ccc-8ccc-cccccccccccc','superadmin');
+CREATE TABLE pacp_private.staff_invitations(
+ email text NOT NULL, role text NOT NULL, requested_by uuid NOT NULL,
+ invitation_state text NOT NULL DEFAULT 'pending' CHECK(invitation_state IN ('pending','accepted','revoked')),
+ created_at timestamptz NOT NULL DEFAULT now(),
+ UNIQUE(email,role,invitation_state),
+ CHECK(role IN ('membership_officer','membership_approver','finance','courses_editor','content_editor','read_only_auditor'))
+);
+CREATE FUNCTION pacp_private.create_staff_invite(p_email text,p_role text)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=''
+AS $invite$
+DECLARE caller uuid;
+BEGIN
+ caller:=nullif(pg_catalog.current_setting('request.jwt.claim.sub',true),'')::uuid;
+ IF caller IS NULL OR NOT EXISTS
+  (SELECT 1 FROM pacp_private.staff_roles WHERE user_id=caller AND role='superadmin' AND revoked_at IS NULL)
+ THEN RAISE EXCEPTION 'superadmin required' USING ERRCODE='42501'; END IF;
+ IF p_role NOT IN ('membership_officer','membership_approver','finance','courses_editor','content_editor','read_only_auditor')
+ OR p_email IS NULL OR pg_catalog.position('@' in p_email)<2
+ THEN RAISE EXCEPTION 'invalid invite role/email' USING ERRCODE='22023'; END IF;
+ INSERT INTO pacp_private.staff_invitations(email,role,requested_by)
+ VALUES(pg_catalog.lower(pg_catalog.btrim(p_email)),p_role,caller);
+END $invite$;
+REVOKE ALL ON FUNCTION pacp_private.create_staff_invite(text,text) FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION pacp_private.create_staff_invite(text,text) TO authenticated;
+DO $$
+DECLARE n integer;
+BEGIN
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ BEGIN
+  PERFORM pacp_private.create_staff_invite('staff@example.invalid','finance');
+  RAISE EXCEPTION 'finance user invited a staff user';
+ EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','cccccccc-cccc-4ccc-8ccc-cccccccccccc',true);
+ BEGIN
+  PERFORM pacp_private.create_staff_invite('self@example.invalid','superadmin');
+  RAISE EXCEPTION 'superadmin escalation accepted';
+ EXCEPTION WHEN invalid_parameter_value THEN NULL; END;
+ PERFORM pacp_private.create_staff_invite('staff@example.invalid','membership_officer');
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','',true);
+ BEGIN
+  PERFORM pacp_private.create_staff_invite('anon@example.invalid','finance');
+  RAISE EXCEPTION 'anonymous invitation accepted';
+ EXCEPTION WHEN insufficient_privilege THEN NULL; END;
+ EXECUTE 'RESET ROLE';
+ SELECT count(*) INTO n FROM pacp_private.staff_invitations;
+ IF n<>1 THEN RAISE EXCEPTION 'wrong number of authorized invitations'; END IF;
+ IF has_function_privilege('anon','pacp_private.create_staff_invite(text,text)','EXECUTE')
+ THEN RAISE EXCEPTION 'anonymous invite function access'; END IF;
+END $$;
+SELECT 'PASS: invite only by superadmin, no admin self-grants and no anonymous grants' AS result;
