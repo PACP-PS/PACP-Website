@@ -70,7 +70,7 @@ END $$;
 SELECT 'PASS: sandbox SQL executes; renewal, duplicate, fee, calendar and browser access checks' AS result;
 -- Test the authoritative date/state predicate in disposable SQL, not from browser data.
 -- This is a test expression, NOT an exposed production function.
-DO $
+DO $$
 DECLARE
   check_at timestamptz;
   n integer;
@@ -108,6 +108,6 @@ BEGIN
     AND p.period_start<=check_at AND check_at<p.period_end
     AND p.suspension_at IS NULL AND p.revoked_at IS NULL;
   IF n<>0 THEN RAISE EXCEPTION 'revoked credential still valid'; END IF;
-END $;
+END $$;
 SELECT 'PASS: year rollover, waiver, suspension and revocation boundary predicates' AS result;
 
