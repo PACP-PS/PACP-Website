@@ -201,3 +201,41 @@ BEGIN
  END IF;
 END $$;
 SELECT 'PASS: authenticated invoker eligibility and cross-account rejection' AS result;
+
+-- Read-only annual renewal summary, scoped to caller by RLS (sandbox only).
+CREATE FUNCTION sandbox_private.my_renewal_status(p_at timestamptz)
+RETURNS TABLE(membership_year integer, period_end timestamptz, period_status text,
+              fee_decision text, renewal_eligible boolean)
+LANGUAGE sql STABLE SECURITY INVOKER SET search_path=''
+AS $renewal$
+ SELECT p.membership_year,p.period_end,p.period_status,p.fee_decision,
+   (p.period_status IN ('active','expired') AND p.revoked_at IS NULL
+     AND p.suspension_at IS NULL) AS renewal_eligible
+ FROM public.membership_periods_sandbox p
+ JOIN public.members m ON m.id=p.member_id
+ WHERE m.user_id=nullif(current_setting('request.jwt.claim.sub',true),'')::uuid
+ ORDER BY p.membership_year DESC
+ LIMIT 1
+$renewal$;
+REVOKE ALL ON FUNCTION sandbox_private.my_renewal_status(timestamptz) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION sandbox_private.my_renewal_status(timestamptz) TO authenticated;
+DO $$
+DECLARE n integer; y integer;
+BEGIN
+ PERFORM set_config('request.jwt.claim.sub','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ SELECT count(*),max(membership_year) INTO n,y
+ FROM sandbox_private.my_renewal_status(make_timestamptz(2028,6,1,0,0,0,'Asia/Hebron'));
+ IF n<>1 OR y<>2028 THEN RAISE EXCEPTION 'A summary incorrect'; END IF;
+ PERFORM set_config('request.jwt.claim.sub','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',true);
+ SELECT count(*),max(membership_year) INTO n,y
+ FROM sandbox_private.my_renewal_status(make_timestamptz(2028,6,1,0,0,0,'Asia/Hebron'));
+ IF n<>1 OR y<>2028 THEN RAISE EXCEPTION 'B summary incorrect'; END IF;
+ PERFORM set_config('request.jwt.claim.sub','',true);
+ SELECT count(*) INTO n FROM sandbox_private.my_renewal_status(now());
+ IF n<>0 THEN RAISE EXCEPTION 'Missing identity disclosed a period'; END IF;
+ EXECUTE 'RESET ROLE';
+ IF has_function_privilege('anon','sandbox_private.my_renewal_status(timestamptz)','EXECUTE') THEN
+   RAISE EXCEPTION 'Anonymous read execute grant found'; END IF;
+END $$;
+SELECT 'PASS: invoker renewal status is caller-scoped and denied to anon' AS result;
