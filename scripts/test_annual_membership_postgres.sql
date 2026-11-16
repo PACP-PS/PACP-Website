@@ -151,3 +151,53 @@ BEGIN
  EXECUTE 'RESET ROLE';
 END $$;
 SELECT 'PASS: isolated two-account membership period RLS' AS result;
+
+-- Server-side eligibility prototype: invoker-only, caller owns every row through RLS.
+-- SQL exists ONLY in this disposable CI database, not Supabase.
+ALTER TABLE public.members ADD COLUMN membership_code text;
+UPDATE public.members SET membership_code='SYNTHETIC-A' WHERE user_id='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+UPDATE public.members SET membership_code='SYNTHETIC-B' WHERE user_id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+CREATE SCHEMA sandbox_private;
+CREATE FUNCTION sandbox_private.my_card_eligible(p_at timestamptz)
+RETURNS boolean LANGUAGE sql STABLE SECURITY INVOKER SET search_path = ''
+AS $eligibility$
+ SELECT EXISTS (
+   SELECT 1 FROM public.membership_periods_sandbox p
+   JOIN public.members m ON m.id = p.member_id
+   WHERE m.user_id = nullif(current_setting('request.jwt.claim.sub', true),'')::uuid
+     AND nullif(btrim(m.membership_code),'') IS NOT NULL
+     AND p.period_status = 'active'
+     AND p.fee_decision IN ('settled','waived')
+     AND nullif(btrim(p.fee_decision_reference),'') IS NOT NULL
+     AND p.activated_at <= p_at AND p.period_start <= p_at AND p_at < p.period_end
+     AND p.suspension_at IS NULL AND p.revoked_at IS NULL
+ )
+$eligibility$;
+REVOKE ALL ON FUNCTION sandbox_private.my_card_eligible(timestamptz) FROM PUBLIC;
+GRANT USAGE ON SCHEMA sandbox_private TO authenticated;
+GRANT EXECUTE ON FUNCTION sandbox_private.my_card_eligible(timestamptz) TO authenticated;
+DO $$
+BEGIN
+ PERFORM set_config('request.jwt.claim.sub','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ IF NOT sandbox_private.my_card_eligible(make_timestamptz(2027,6,1,0,0,0,'Asia/Hebron')) THEN
+   RAISE EXCEPTION 'Account A eligibility denied';
+ END IF;
+ IF sandbox_private.my_card_eligible(make_timestamptz(2028,1,1,0,0,0,'Asia/Hebron')) THEN
+   RAISE EXCEPTION 'Account A revoked renewal was accepted';
+ END IF;
+ PERFORM set_config('request.jwt.claim.sub','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',true);
+ IF NOT sandbox_private.my_card_eligible(make_timestamptz(2028,6,1,0,0,0,'Asia/Hebron')) THEN
+   RAISE EXCEPTION 'Account B eligible record not returned';
+ END IF;
+ IF sandbox_private.my_card_eligible(make_timestamptz(2027,6,1,0,0,0,'Asia/Hebron')) THEN
+   RAISE EXCEPTION 'Account B received account A period';
+ END IF;
+ PERFORM set_config('request.jwt.claim.sub','',true);
+ IF sandbox_private.my_card_eligible(now()) THEN RAISE EXCEPTION 'Anonymous session eligible'; END IF;
+ EXECUTE 'RESET ROLE';
+ IF has_function_privilege('anon','sandbox_private.my_card_eligible(timestamptz)','EXECUTE') THEN
+   RAISE EXCEPTION 'Anonymous role can execute private function';
+ END IF;
+END $$;
+SELECT 'PASS: authenticated invoker eligibility and cross-account rejection' AS result;
