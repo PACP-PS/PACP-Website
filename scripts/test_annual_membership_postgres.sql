@@ -111,3 +111,43 @@ BEGIN
 END $$;
 SELECT 'PASS: year rollover, waiver, suspension and revocation boundary predicates' AS result;
 
+
+-- Synthetic cross-account RLS test. No production function or Auth users.
+ALTER TABLE public.members ADD COLUMN user_id uuid;
+UPDATE public.members SET user_id='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+INSERT INTO public.members(id,user_id) VALUES
+('22222222-2222-4222-8222-222222222222','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb');
+INSERT INTO public.membership_periods_sandbox(
+ member_id,membership_year,period_start,period_end,period_status,
+ activated_at,fee_decision,fee_decision_reference)
+VALUES (
+ '22222222-2222-4222-8222-222222222222',2028,
+ make_timestamptz(2028,1,1,0,0,0,'Asia/Hebron'),
+ make_timestamptz(2029,1,1,0,0,0,'Asia/Hebron'),
+ 'active',make_timestamptz(2028,1,1,0,0,0,'Asia/Hebron'),
+ 'settled','SYNTHETIC-B');
+ALTER TABLE public.members ENABLE ROW LEVEL SECURITY;
+GRANT SELECT ON public.members TO authenticated;
+GRANT SELECT ON public.membership_periods_sandbox TO authenticated;
+CREATE POLICY sandbox_own_member ON public.members FOR SELECT TO authenticated
+USING (user_id = nullif(current_setting('request.jwt.claim.sub',true),'')::uuid);
+CREATE POLICY sandbox_own_period ON public.membership_periods_sandbox FOR SELECT TO authenticated
+USING (member_id IN (
+ SELECT id FROM public.members WHERE user_id = nullif(current_setting('request.jwt.claim.sub',true),'')::uuid
+));
+DO $$
+DECLARE visible_rows integer;
+BEGIN
+ PERFORM set_config('request.jwt.claim.sub','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ SELECT count(*) INTO visible_rows FROM public.membership_periods_sandbox;
+ IF visible_rows<>2 THEN RAISE EXCEPTION 'Account A RLS mismatch %',visible_rows; END IF;
+ PERFORM set_config('request.jwt.claim.sub','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',true);
+ SELECT count(*) INTO visible_rows FROM public.membership_periods_sandbox;
+ IF visible_rows<>1 THEN RAISE EXCEPTION 'Account B isolation mismatch %',visible_rows; END IF;
+ PERFORM set_config('request.jwt.claim.sub','',true);
+ SELECT count(*) INTO visible_rows FROM public.membership_periods_sandbox;
+ IF visible_rows<>0 THEN RAISE EXCEPTION 'Anonymous identity leakage'; END IF;
+ EXECUTE 'RESET ROLE';
+END $$;
+SELECT 'PASS: isolated two-account membership period RLS' AS result;
