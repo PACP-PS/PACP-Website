@@ -28,6 +28,13 @@
 
 **Pass criteria:** all critical V01–V08 and F01–F06 pass or are deliberately removed from launch scope. All FAIL/BLOCKED items need assigned owner, fix commit and dated retest evidence. Never mark a row PASS solely because an HTML link exists or a CI job ran.
 
+## Verified automated rendering evidence (2026-11-16)
+- GitHub Actions [run 43935906609](https://github.com/PACP-PS/PACP-Website/actions/runs/43935906609) completed **successfully** at commit `fa851d0b`.
+- The `PACP-visual-evidence` artifact exists (ID 14260930004); the public-site archive exists (ID 14258684896).
+- Chromium check passed image loading, console errors, viewport overflow, five service tiles, glass treatment and measured central headline bounds at desktop/tablet/mobile/reference widths. These are **automated structural checks, NOT owner's visual sign-off**.
+- The exact visual acceptance of the owner-approved homepage and membership reverse remains OPEN; Cloudflare HTTPS preview remains UNVERIFIED.
+- Freeze accepted headline text `نحو مجتمع نفسي داعم وواعٍ` pending further owner feedback. Do not rework accepted public layout merely to satisfy a screenshot metric.
+
 ## Visual diff procedure
 1. Capture approved reference image and a screenshot of *the same page* at 1440×900, 768×1024, 390×844 at 100% zoom.
 2. Match viewport, device pixel ratio, font-loading state and browser.
