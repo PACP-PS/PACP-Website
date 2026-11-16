@@ -28,6 +28,19 @@ checks = [
     ("0002 has application events", "create table if not exists public.membership_application_events" in sources["0002"].lower()),
     ("0003 has atomic approval function", "create or replace function public.process_membership_application" in sources["0003"].lower()),
     ("0003 checks trusted approver role", "public.has_staff_role('membership_approver')" in sources["0003"]),
+    ("0003 validates action before locking application",
+     sources["0003"].lower().find("if p_action is null or p_action not in") >= 0
+     and sources["0003"].lower().find("if p_action is null or p_action not in")
+     < sources["0003"].lower().find("select * into v_app")),
+    ("0003 requires reviewer authorization before application lock",
+     sources["0003"].lower().find("if p_action in ('start_review','request_changes') and not public.can_review_membership()") >= 0
+     and sources["0003"].lower().find("if p_action in ('start_review','request_changes') and not public.can_review_membership()")
+     < sources["0003"].lower().find("select * into v_app")),
+    ("0003 requires approver authorization before application lock",
+     sources["0003"].lower().find("if p_action in ('approve','reject') and not public.has_staff_role('membership_approver')") >= 0
+     and sources["0003"].lower().find("if p_action in ('approve','reject') and not public.has_staff_role('membership_approver')")
+     < sources["0003"].lower().find("select * into v_app")),
+
     ("0003 does not authorize technical admin as approver", "v_role not in ('membership_approver','admin')" not in sources["0003"]),
     ("0004 defines trusted role assignments", "create table if not exists public.staff_role_assignments" in sources["0004"].lower()),
     ("0004 defines authorization helper", "create or replace function public.has_staff_role" in sources["0004"].lower()),
