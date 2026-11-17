@@ -109,3 +109,26 @@ BEGIN
  EXECUTE 'RESET ROLE';
 END $$;
 SELECT 'PASS: private metadata not public and split approval/payment mandatory' AS result;
+
+-- Extra deny-by-default cases: expired period cannot be newly activated,
+-- a revoked membership fails validation even with an unrevoked token.
+DO $$
+DECLARE m uuid:='11111111-1111-4111-8111-111111111111'; worked boolean;
+BEGIN
+ UPDATE pacp_private.memberships
+ SET approved_by='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+ fee_verified_by='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+ activated_at=NULL,suspended_at=NULL,revoked_at=NULL WHERE member_id=m;
+ PERFORM pg_catalog.set_config('request.jwt.claim.sub','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',true);
+ EXECUTE 'SET LOCAL ROLE authenticated';
+ SELECT pacp_private.activate_member(m,make_timestamptz(2029,1,1,0,0,0,'Asia/Hebron')) INTO worked;
+ IF worked THEN RAISE EXCEPTION 'new activation of expired period accepted';END IF;
+ SELECT pacp_private.activate_member(m,make_timestamptz(2028,2,1,0,0,0,'Asia/Hebron')) INTO worked;
+ IF NOT worked THEN RAISE EXCEPTION 'approved and paid membership not activated';END IF;
+ EXECUTE 'RESET ROLE';
+ UPDATE pacp_private.card_tokens SET revoked_at=NULL WHERE member_id=m;
+ UPDATE pacp_private.memberships SET revoked_at=now() WHERE member_id=m;
+ IF pacp_private.card_valid('TEST_HASH_NOT_A_REAL_QR',make_timestamptz(2028,6,1,0,0,0,'Asia/Hebron'))
+ THEN RAISE EXCEPTION 'revoked membership validates token';END IF;
+END $$;
+SELECT 'PASS: no expired activation and revoked membership always fails QR validation' AS result;
