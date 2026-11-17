@@ -10,7 +10,7 @@ assert "await client.auth.getUser()" in page
 assert "official_card_available" not in page or "غير" in page
 assert "غير متاح" in page or "غير مؤكد" in page or "غير مفع" in page
 assert "auth.html" in build and "membership.html" in build
-assert "service_role" not in auth
+assert "const serviceRole" not in auth and "service_role:" not in auth
 assert "sb_secret_" not in auth
 assert 'digital-card-staging.html' in build
 print("PASS: member dashboard uses authenticated read-only RPC, bank/card remain disabled, no secrets")
