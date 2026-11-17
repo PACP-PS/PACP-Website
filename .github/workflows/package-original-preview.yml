@@ -23,6 +23,8 @@ jobs:
         run: python3 scripts/build_public_preview.py
       - name: Audit exported images, fonts and links
         run: python3 scripts/audit_public_assets.py
+      - name: Audit public-facing placeholder content
+        run: python3 scripts/audit_public_content.py
       - name: Install headless browser for visual verification
         run: |
           python3 -m pip install playwright
