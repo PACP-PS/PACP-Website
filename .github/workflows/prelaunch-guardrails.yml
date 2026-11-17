@@ -37,5 +37,7 @@ jobs:
         run: python3 scripts/test_primary_navigation.py
       - name: Check production-candidate feature flags
         run: python3 scripts/test_public_feature_flags.py
+      - name: Check read-only Supabase integration contract
+        run: python3 scripts/test_operational_membership_rpc_contract.py
       - name: Enforce preview deployment isolation
         run: python3 scripts/test_preview_deployment_guard.py
