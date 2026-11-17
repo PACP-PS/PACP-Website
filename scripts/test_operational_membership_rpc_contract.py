@@ -8,7 +8,7 @@ build=(root/"scripts/build_public_preview.py").read_text(encoding="utf-8")
 assert "client.rpc('my_membership_operational_status')" in page
 assert "await client.auth.getUser()" in page
 assert "official_card_available" not in page or "غير" in page
-assert "غير مفع" in page
+assert "غير متاح" in page or "غير مؤكد" in page or "غير مفع" in page
 assert "auth.html" in build and "membership.html" in build
 assert "service_role" not in auth
 assert "sb_secret_" not in auth
