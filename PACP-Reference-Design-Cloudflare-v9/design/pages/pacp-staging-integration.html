@@ -15,12 +15,16 @@ const call=async(fn,args,out)=>{try{const {data,error}=await db.rpc(fn,args);if(
 const staffRoles=new Set(['superadmin','membership_reviewer','membership_approver','finance']);
 const loadPermissions=async(user)=>{
   el('staffArea').hidden=true;el('adminArea').hidden=true;el('notificationArea').hidden=true;
+  for(const id of ['approve','reject','card','cash']) el(id).disabled=true;
   if(!user)return;
   const {data,error}=await db.rpc('pacp_my_staff_roles');
   if(error){show('staffResult','تعذر قراءة الصلاحيات: '+error.message);return}
   const roles=new Set((data||[]).map(x=>x.role));
   el('staffArea').hidden=![...roles].some(r=>staffRoles.has(r));
-  el('adminArea').hidden=!(roles.has('superadmin')||roles.has('membership_approver'));
+  const canReview=roles.has('superadmin')||roles.has('membership_approver');
+  el('adminArea').hidden=!canReview;
+  for(const id of ['approve','reject','card']) el(id).disabled=!roles.has('membership_approver');
+  el('cash').disabled=!roles.has('finance');
   el('notificationArea').hidden=!(roles.has('superadmin')||roles.has('membership_reviewer'));
 };
 const refresh=async()=>{const {data,error}=await db.auth.getUser();const user=!error?data?.user:null;show('account',user?'تم تسجيل الدخول: '+user.email:'لا يوجد مستخدم مسجّل الدخول');await loadPermissions(user)};
