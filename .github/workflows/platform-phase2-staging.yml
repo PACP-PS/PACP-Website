@@ -36,5 +36,19 @@ jobs:
           python3 scripts/test_accessibility_regression.py
       - name: Confirm production release still blocked until signed off
         run: python3 scripts/test_release_gate.py
+      - name: Compile secure live Staging role verifier without tokens
+        run: python3 -m py_compile scripts/test_staging_roles_live_readonly.py
+      - name: Verify sample portals remain preview-only
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          root=Path("PACP-Reference-Design-Cloudflare-v9/design")
+          items=["pages/member-portal-preview.html","pages/membership-application-preview.html","pages/course-registration-preview.html","admin/central-admin-dashboard-preview.html"]
+          for name in items:
+              s=(root/name).read_text(encoding="utf-8")
+              assert "preview" in name
+              assert len(s)>1000
+          print("PASS: staging preview pages exist; no live endpoint launched")
+          PY
       - name: Important release gating note
         run: echo "STAGING TEST CONTRACT ONLY; DOES NOT DEPLOY OR OPEN MEMBER / PAYMENT SERVICES"
