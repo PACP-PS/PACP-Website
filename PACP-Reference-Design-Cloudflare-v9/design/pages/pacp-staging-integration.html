@@ -5,7 +5,7 @@
 <section><h2>2. طلب الانتساب</h2><input id="fullName" placeholder="الاسم التجريبي"><input id="specialty" placeholder="التخصص التجريبي"><button id="apply">إرسال طلب</button><output id="applicationResult"></output></section>
 <section><h2>2.1 حالة طلباتي</h2><button id="myApps">عرض طلباتي</button><output id="myApplications"></output></section>
 <section id="staffArea" hidden><h2>3. عمليات الموظفين — تتطلب صلاحيات موثقة في قاعدة البيانات</h2><input id="applicationId" placeholder="معرّف الطلب UUID"><button id="approve">اعتماد الطلب</button> <button id="reject">رفض الطلب</button><input id="receipt" placeholder="رقم الإيصال التجريبي"><input id="amount" type="number" min="0.01" step="0.01" placeholder="القيمة التجريبية"><button id="cash">تأكيد إيصال نقدي تجريبي</button><input id="memberCode" placeholder="رقم بطاقة تجريبي"><input id="cardYear" type="number" min="2026" max="2100" value="2026"><button id="card">إصدار بطاقة اختبار</button><output id="staffResult"></output></section>
-<section id="adminArea" hidden><h2>4. إشعارات الإدارة</h2><p>ملخص محدود بصلاحيات المدير العام أو مسؤول المراجعة. لا يعني وجود سجل أنه تم إرسال رسالة.</p><button id="notifications">عرض حالة الإشعارات</button><output id="notificationsResult"></output></section><section><h2>5. حالة بطاقتي</h2><button id="check">قراءة حالة البطاقة</button><output id="cardResult"></output><small>لا يظهر رمز التحقق السري في حالة العضو.</small></section>
+<section id="adminArea" hidden><h2>3.1 قائمة الطلبات للمراجعة</h2><button id="loadApplications">عرض آخر 50 طلبًا</button><output id="reviewQueue"></output></section><section id="notificationArea" hidden><h2>4. إشعارات الإدارة</h2><p>ملخص محدود بصلاحيات المدير العام أو مسؤول المراجعة. لا يعني وجود سجل أنه تم إرسال رسالة.</p><button id="notifications">عرض حالة الإشعارات</button><output id="notificationsResult"></output></section><section><h2>5. حالة بطاقتي</h2><button id="check">قراءة حالة البطاقة</button><output id="cardResult"></output><small>لا يظهر رمز التحقق السري في حالة العضو.</small></section>
 </main><script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const db=createClient('https://aweebuukeovcekctclws.supabase.co','sb_publishable_GsNzPuKDqN8GHRNPbLiTsA_l7dPrZ_w',{auth:{flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -14,13 +14,14 @@ const show=(id,data)=>{el(id).textContent=typeof data==='string'?data:JSON.strin
 const call=async(fn,args,out)=>{try{const {data,error}=await db.rpc(fn,args);if(error)throw error;show(out,data??'اكتمل الطلب');}catch(e){show(out,'خطأ: '+e.message)}};
 const staffRoles=new Set(['superadmin','membership_reviewer','membership_approver','finance']);
 const loadPermissions=async(user)=>{
-  el('staffArea').hidden=true;el('adminArea').hidden=true;
+  el('staffArea').hidden=true;el('adminArea').hidden=true;el('notificationArea').hidden=true;
   if(!user)return;
   const {data,error}=await db.rpc('pacp_my_staff_roles');
   if(error){show('staffResult','تعذر قراءة الصلاحيات: '+error.message);return}
   const roles=new Set((data||[]).map(x=>x.role));
   el('staffArea').hidden=![...roles].some(r=>staffRoles.has(r));
-  el('adminArea').hidden=!(roles.has('superadmin')||roles.has('membership_reviewer'));
+  el('adminArea').hidden=!(roles.has('superadmin')||roles.has('membership_approver'));
+  el('notificationArea').hidden=!(roles.has('superadmin')||roles.has('membership_reviewer'));
 };
 const refresh=async()=>{const {data,error}=await db.auth.getUser();const user=!error?data?.user:null;show('account',user?'تم تسجيل الدخول: '+user.email:'لا يوجد مستخدم مسجّل الدخول');await loadPermissions(user)};
 el('myApps').onclick=async()=>{const {data:{user}}=await db.auth.getUser();if(!user){show('myApplications','يجب تسجيل الدخول');return}
@@ -34,6 +35,7 @@ el('approve').onclick=()=>call('pacp_review_application',{p_id:el('applicationId
 el('reject').onclick=()=>call('pacp_review_application',{p_id:el('applicationId').value,p_action:'rejected'},'staffResult');
 el('cash').onclick=()=>call('pacp_record_cash',{p_id:el('applicationId').value,p_receipt:el('receipt').value,p_amount:Number(el('amount').value)},'staffResult');
 el('card').onclick=async()=>{const data=new Uint8Array(32);crypto.getRandomValues(data);const token=Array.from(data,b=>b.toString(16).padStart(2,'0')).join('');const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(token)));const tokenHash=Array.from(hash,b=>b.toString(16).padStart(2,'0')).join('');await call('pacp_issue_card',{p_id:el('applicationId').value,p_member_code:el('memberCode').value,p_token_hash:tokenHash,p_year:Number(el('cardYear').value)},'staffResult');};
+el('loadApplications').onclick=()=>call('pacp_admin_list_applications',{},'reviewQueue');
 el('notifications').onclick=()=>call('pacp_admin_notification_summary',{},'notificationsResult');
 el('check').onclick=()=>call('pacp_my_card_status',{},'cardResult');
 await refresh();
