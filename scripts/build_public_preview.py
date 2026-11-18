@@ -61,6 +61,22 @@ def main():
   if prefix==".":prefix=""
   data=re.sub(r'(?P<lead>(?:src|href|poster)=[\\x22\\x27])/(?P<path>(?!/)[^\\x22\\x27]+)',lambda m:m.group("lead")+(prefix+"/" if prefix else "")+m.group("path"),data)
   data=re.sub(r'url\\(\\s*(?P<quote>[\\x22\\x27]?)/(?P<path>(?!/)[^)\\x22\\x27]+)(?P=quote)\\s*\\)',lambda m:"url("+m.group("quote")+(prefix+"/" if prefix else "")+m.group("path")+m.group("quote")+")",data)
+  # Public social contact shortcuts: visible on every informational page.
+  # Contact-only links, never personal data submission or third-party widgets.
+  social_css='''<style id="pacp-social-contact-style">
+.pacp-social-links{position:fixed;inset-inline-end:16px;bottom:20px;z-index:999;display:flex;flex-direction:column;gap:9px;direction:rtl}
+.pacp-social-links a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 14px;border-radius:24px;color:#fff!important;font:700 15px/1.4 Tahoma,Arial,sans-serif;text-decoration:none!important;box-shadow:0 3px 12px #0003}
+.pacp-social-links a:focus-visible{outline:3px solid #222;outline-offset:3px}
+.pacp-social-links .pacp-whatsapp{background:#147d45}.pacp-social-links .pacp-facebook{background:#1554a7}
+@media(max-width:480px){.pacp-social-links{bottom:10px;inset-inline-end:10px}.pacp-social-links a{font-size:13px;padding:8px 10px}}
+@media print{.pacp-social-links{display:none}}
+</style>'''
+  social_html='''<nav class="pacp-social-links" aria-label="قنوات التواصل الاجتماعي للجمعية">
+<a class="pacp-whatsapp" href="https://wa.me/970594090972" target="_blank" rel="noopener noreferrer" aria-label="التواصل مع الجمعية عبر واتساب على الرقم +970594090972">واتساب <span aria-hidden="true">◉</span></a>
+<a class="pacp-facebook" href="https://www.facebook.com/share/1KW6rSfwkF/" target="_blank" rel="noopener noreferrer" aria-label="زيارة صفحة الجمعية على فيسبوك">فيسبوك <span aria-hidden="true">f</span></a>
+</nav>'''
+  if '</head>' in data:data=data.replace('</head>',social_css+'</head>',1)
+  if '</body>' in data:data=data.replace('</body>',social_html+'</body>',1)
   file.write_text(data,encoding="utf8")
  # Safety: no development-only authenticated or admin workflows in public output.
  for file in DEST.rglob("*.html"):
