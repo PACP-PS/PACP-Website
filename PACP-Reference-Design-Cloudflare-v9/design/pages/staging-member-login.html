@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><title>اختبار دخول العضو — PACP Staging</title>
+<style>
+*{box-sizing:border-box}body{font:16px/1.8 system-ui,Tahoma,Arial,sans-serif;background:#eff5f0;color:#153b2a;margin:0;padding:24px}
+main{max-width:510px;margin:4vh auto;background:white;border:1px solid #cadfd0;border-radius:18px;padding:26px}
+h1{font-size:1.4rem}label{display:block;margin:12px 0 4px;font-weight:650}input,button{width:100%;min-height:46px;padding:10px;font:inherit;border-radius:9px;border:1px solid #abc9b6}
+button{background:#085b3e;color:white;margin-top:14px;cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #c51f32;outline-offset:2px}
+.note{background:#fff3df;padding:12px;border-right:4px solid #ba8c3d}#result{white-space:pre-wrap;overflow-wrap:anywhere}
+</style></head><body><main>
+<p class="note"><strong>بيئة اختبار PACP-Staging فقط.</strong> لا تُدخل رقم الهوية أو بيانات الدفع. هذه الصفحة لا تُصدر عضوية ولا تغيّر أي سجل، ولا تستخدم حسابك الحقيقي إلا عبر جلسة الاختبار المصرح بها.</p>
+<h1>اختبار دخول عضو الجمعية</h1><form id="login"><label for="email">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" required>
+<button type="submit" id="submit">تسجيل الدخول إلى Staging</button></form>
+<button id="status" type="button" disabled>فحص وضع العضوية</button><button id="logout" type="button" disabled>تسجيل الخروج</button>
+<p id="result" role="status" aria-live="polite">لا توجد جلسة نشطة.</p>
+<p><small>النتائج المعروضة مختصرة وغير كاشفة لبيانات العضوية الخاصة. لا تحفظ هذه الصفحة كلمة المرور في سجل أو ملف.</small></p>
+</main>
+<script type="module">
+import {createClient} from "https://esm.sh/@supabase/supabase-js@2";
+const sb=createClient("https://aweebuukeovcekctclws.supabase.co",
+"sb_publishable_GsNzPuKDqN8GHRNPbLiTsA_l7dPrZ_w",
+{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+const q=id=>document.getElementById(id),message=t=>q("result").textContent=t;
+async function reflect(){const {data:{user},error}=await sb.auth.getUser();
+const ok=!!user&&!error;q("status").disabled=!ok;q("logout").disabled=!ok;message(ok?"تم تسجيل الدخول إلى Staging. يمكن إجراء فحص العضوية دون تعديل البيانات.":"لا توجد جلسة نشطة.");}
+q("login").addEventListener("submit",async e=>{e.preventDefault();q("submit").disabled=true;message("جارٍ التحقق...");
+const email=q("email").value.trim(),password=q("password").value;
+try{const {error}=await sb.auth.signInWithPassword({email,password});q("password").value="";message(error?"تعذر تسجيل الدخول. تحقق من حساب الاختبار.":"تم تسجيل الدخول إلى Staging.");await reflect();}
+catch{message("تعذر الاتصال بخدمة الاختبار.");}finally{q("submit").disabled=false;}});
+q("status").addEventListener("click",async()=>{q("status").disabled=true;
+try{const {data,error}=await sb.rpc("pacp_my_card_status");
+message(error?"تعذر الحصول على حالة البطاقة أو لا توجد صلاحية.":"نجح الوصول إلى حالة عضويتك في Staging (لا تُعرض تفاصيل حساسة).");}
+catch{message("تعذر الاتصال بخدمة الاختبار.");}finally{q("status").disabled=false;}});
+q("logout").addEventListener("click",async()=>{await sb.auth.signOut();q("email").value="";q("password").value="";await reflect();});await reflect();
+</script></body></html>
