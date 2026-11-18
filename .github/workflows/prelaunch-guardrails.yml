@@ -19,6 +19,8 @@ jobs:
         run: python3 scripts/prelaunch_static_check.py
       - name: Verify distinct public and private release paths
         run: python3 scripts/test_final_release_paths.py
+      - name: Check accessibility and accommodation integration
+        run: python3 scripts/test_accessibility_integration.py
       - name: Validate migration draft structure
         run: python3 scripts/check_migrations.py
       - name: Verify staging auth and submission contracts
