@@ -3,15 +3,29 @@
 <body><main><h1>بيئة اختبار PACP — العضويات والدفع النقدي</h1><p>البريد الرسمي للإدارة والطلبات: <a href="mailto:info@pacp.ps">info@pacp.ps</a>. لا تُرسل كلمات المرور أو البيانات الحساسة بالبريد.</p><p class="warn">بيئة اختبار فقط: لا تستخدم بيانات شخصية حقيقية ولا تُسجّل مبالغ مالية فعلية. التحويل البنكي غير متاح. إصدار البطاقة هنا للاختبار وليس إثبات عضوية رسمي.</p>
 <section><h2>1. الحساب</h2><input id="email" type="email" autocomplete="email" placeholder="البريد الإلكتروني التجريبي"><input id="password" type="password" minlength="10" autocomplete="current-password" placeholder="كلمة المرور"><button id="signup">إنشاء حساب اختبار</button> <button id="signin">تسجيل الدخول</button> <button id="logout">تسجيل الخروج</button><output id="account"></output></section>
 <section><h2>2. طلب الانتساب</h2><input id="fullName" placeholder="الاسم التجريبي"><input id="specialty" placeholder="التخصص التجريبي"><button id="apply">إرسال طلب</button><output id="applicationResult"></output></section>
-<section><h2>3. عمليات الموظفين — تتطلب صلاحيات موثقة في قاعدة البيانات</h2><input id="applicationId" placeholder="معرّف الطلب UUID"><button id="approve">اعتماد الطلب</button> <button id="reject">رفض الطلب</button><input id="receipt" placeholder="رقم الإيصال التجريبي"><input id="amount" type="number" min="0.01" step="0.01" placeholder="القيمة التجريبية"><button id="cash">تأكيد إيصال نقدي تجريبي</button><input id="memberCode" placeholder="رقم بطاقة تجريبي"><input id="cardYear" type="number" min="2026" max="2100" value="2026"><button id="card">إصدار بطاقة اختبار</button><output id="staffResult"></output></section>
-<section><h2>4. إشعارات الإدارة</h2><p>ملخص محدود بصلاحيات المدير العام أو مسؤول المراجعة. لا يعني وجود سجل أنه تم إرسال رسالة.</p><button id="notifications">عرض حالة الإشعارات</button><output id="notificationsResult"></output></section><section><h2>5. حالة بطاقتي</h2><button id="check">قراءة حالة البطاقة</button><output id="cardResult"></output><small>لا يظهر رمز التحقق السري في حالة العضو.</small></section>
+<section><h2>2.1 حالة طلباتي</h2><button id="myApps">عرض طلباتي</button><output id="myApplications"></output></section>
+<section id="staffArea" hidden><h2>3. عمليات الموظفين — تتطلب صلاحيات موثقة في قاعدة البيانات</h2><input id="applicationId" placeholder="معرّف الطلب UUID"><button id="approve">اعتماد الطلب</button> <button id="reject">رفض الطلب</button><input id="receipt" placeholder="رقم الإيصال التجريبي"><input id="amount" type="number" min="0.01" step="0.01" placeholder="القيمة التجريبية"><button id="cash">تأكيد إيصال نقدي تجريبي</button><input id="memberCode" placeholder="رقم بطاقة تجريبي"><input id="cardYear" type="number" min="2026" max="2100" value="2026"><button id="card">إصدار بطاقة اختبار</button><output id="staffResult"></output></section>
+<section id="adminArea" hidden><h2>4. إشعارات الإدارة</h2><p>ملخص محدود بصلاحيات المدير العام أو مسؤول المراجعة. لا يعني وجود سجل أنه تم إرسال رسالة.</p><button id="notifications">عرض حالة الإشعارات</button><output id="notificationsResult"></output></section><section><h2>5. حالة بطاقتي</h2><button id="check">قراءة حالة البطاقة</button><output id="cardResult"></output><small>لا يظهر رمز التحقق السري في حالة العضو.</small></section>
 </main><script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const db=createClient('https://aweebuukeovcekctclws.supabase.co','sb_publishable_GsNzPuKDqN8GHRNPbLiTsA_l7dPrZ_w',{auth:{flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const el=id=>document.getElementById(id);
 const show=(id,data)=>{el(id).textContent=typeof data==='string'?data:JSON.stringify(data,null,2)};
 const call=async(fn,args,out)=>{try{const {data,error}=await db.rpc(fn,args);if(error)throw error;show(out,data??'اكتمل الطلب');}catch(e){show(out,'خطأ: '+e.message)}};
-const refresh=async()=>{const {data}=await db.auth.getUser();show('account',data?.user?'تم تسجيل الدخول: '+data.user.email:'لا يوجد مستخدم مسجّل الدخول')};
+const staffRoles=new Set(['superadmin','membership_reviewer','cashier','card_issuer']);
+const loadPermissions=async(user)=>{
+  el('staffArea').hidden=true;el('adminArea').hidden=true;
+  if(!user)return;
+  const {data,error}=await db.from('pacp_staff_roles').select('role').eq('user_id',user.id).is('revoked_at',null);
+  if(error){show('staffResult','تعذر قراءة الصلاحيات: '+error.message);return}
+  const roles=new Set((data||[]).map(x=>x.role));
+  el('staffArea').hidden=![...roles].some(r=>staffRoles.has(r));
+  el('adminArea').hidden=!(roles.has('superadmin')||roles.has('membership_reviewer'));
+};
+const refresh=async()=>{const {data,error}=await db.auth.getUser();const user=!error?data?.user:null;show('account',user?'تم تسجيل الدخول: '+user.email:'لا يوجد مستخدم مسجّل الدخول');await loadPermissions(user)};
+el('myApps').onclick=async()=>{const {data:{user}}=await db.auth.getUser();if(!user){show('myApplications','يجب تسجيل الدخول');return}
+const {data,error}=await db.from('pacp_applications').select('id,full_name,professional_specialty,status,created_at').eq('applicant_id',user.id).order('created_at',{ascending:false}).limit(20);
+show('myApplications',error?'خطأ: '+error.message:(data||[]))};
 el('signup').onclick=async()=>{const {error}=await db.auth.signUp({email:el('email').value,password:el('password').value});show('account',error?'خطأ: '+error.message:'تم طلب إنشاء الحساب. تحقق من البريد إذا كان التأكيد مطلوبًا.');await refresh()};
 el('signin').onclick=async()=>{const {error}=await db.auth.signInWithPassword({email:el('email').value,password:el('password').value});show('account',error?'خطأ: '+error.message:'تم تسجيل الدخول');if(!error)await refresh()};
 el('logout').onclick=async()=>{await db.auth.signOut();await refresh()};
