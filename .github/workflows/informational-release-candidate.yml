@@ -48,6 +48,7 @@ jobs:
           assert '<h2>واتساب الجمعية</h2>' in contact
           assert '<h2>صفحة الجمعية على فيسبوك</h2>' in contact
           assert "mailto:info@pacp.ps" in contact
+          assert "tel:+970594090972" in contact
           assert '+970 59-409-0972' in contact
           cloudflare=Path('pacp-public-preview')
           assert cloudflare.is_dir(), 'Configured Cloudflare output missing'
