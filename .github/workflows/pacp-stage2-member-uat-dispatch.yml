@@ -14,7 +14,7 @@ permissions:
   contents: read
 jobs:
   deploy:
-    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.approval == 'PACP-STAGING-MEMBER-TEST') || (github.event_name == 'push' && github.event.head_commit.message == 'PACP-STAGING-MEMBER-TEST-ONE-SHOT-20261118') }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.approval == 'PACP-STAGING-MEMBER-TEST' }}
     runs-on: ubuntu-latest
     environment: pacp-preview
     timeout-minutes: 10
