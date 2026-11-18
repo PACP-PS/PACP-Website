@@ -27,6 +27,8 @@ jobs:
         run: python3 scripts/test_accessibility_regression.py
       - name: Check identity-first membership contract
         run: python3 scripts/test_identity_first_contract.py
+      - name: Verify private identity-link service fails closed
+        run: python3 scripts/test_identity_link_scaffold.py
       - name: Validate migration draft structure
         run: python3 scripts/check_migrations.py
       - name: Verify staging auth and submission contracts
