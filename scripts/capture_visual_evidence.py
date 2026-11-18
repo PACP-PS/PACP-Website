@@ -71,4 +71,4 @@ try:
 finally:
  server.shutdown()
 (OUT/"render-report.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf8")
-print("PASS: actual Chromium rendered image, no script error or horizontal overflow at 3 widths")
+print("PASS: actual Chromium rendered image, no script error or horizontal overflow at 4 viewport widths")
