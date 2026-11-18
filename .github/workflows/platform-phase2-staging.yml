@@ -63,5 +63,7 @@ jobs:
               assert v["gates"][item]["status"]=="pending", item
           print("PASS: staging activation remains blocked until independent evidence exists")
           PY
+      - name: Enforce stage-two service activation boundary
+        run: python3 scripts/test_phase2_activation_boundary.py
       - name: Important release gating note
         run: echo "STAGING TEST CONTRACT ONLY; DOES NOT DEPLOY OR OPEN MEMBER / PAYMENT SERVICES"
