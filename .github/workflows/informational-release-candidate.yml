@@ -55,6 +55,8 @@ jobs:
           assert (cloudflare/'index.html').is_file()
           print('PASS informational release files and safe services warning')
           PY
+      - name: Verify all public navigation and asset references
+        run: python3 scripts/test_published_internal_links.py
       - name: Archive release candidate for review
         uses: actions/upload-artifact@v4
         with:
