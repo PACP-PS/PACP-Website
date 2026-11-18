@@ -12,7 +12,7 @@ const db=createClient('https://aweebuukeovcekctclws.supabase.co','sb_publishable
 const el=id=>document.getElementById(id);
 const show=(id,data)=>{el(id).textContent=typeof data==='string'?data:JSON.stringify(data,null,2)};
 const call=async(fn,args,out)=>{try{const {data,error}=await db.rpc(fn,args);if(error)throw error;show(out,data??'اكتمل الطلب');}catch(e){show(out,'خطأ: '+e.message)}};
-const staffRoles=new Set(['superadmin','membership_reviewer','cashier','card_issuer']);
+const staffRoles=new Set(['superadmin','membership_reviewer','membership_approver','finance']);
 const loadPermissions=async(user)=>{
   el('staffArea').hidden=true;el('adminArea').hidden=true;
   if(!user)return;
