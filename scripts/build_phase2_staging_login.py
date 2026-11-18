@@ -11,6 +11,7 @@ page=(dest/"index.html").read_text(encoding="utf8")
 assert 'aweebuukeovcekctclws.supabase.co' in page
 assert 'lofvxgubetdslvaczvjp.supabase.co' not in page
 assert 'persistSession:false' in page and 'pacp_my_card_status' in page
+assert 'pacp_my_staff_roles' in page and 'staff' in page
 assert 'noindex,nofollow' in page and 'type="password"' in page
 assert 'service_role' not in page and 'sb_secret_' not in page
 assert len(list(dest.rglob("*.html")))==1
