@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/"PACP-Reference-Design-Cloudflare-v9"
 DEST=ROOT/"build/pacp-public-preview"
 PAGES=("about","membership","training","news","resources","contact")
-ROOT_ASSETS=("assets/brain-scene-v2.webp","assets/jerusalem-scene-v2.webp","assets/jerusalem-composite.svg")
+ROOT_ASSETS=("assets/pacp-accessibility.css","assets/pacp-accessibility.js","assets/brain-scene-v2.webp","assets/jerusalem-scene-v2.webp","assets/jerusalem-composite.svg")
 INNER_ASSETS=("favicon.png","assets/pacp-logo-original.png","assets/pacp-logo.svg",
  "design/assets/jerusalem-panorama-v6.webp","design/assets/reference-brain-scene.webp",
  "design/assets/reference-jerusalem.webp","design/assets/reference-membership-card.webp",
