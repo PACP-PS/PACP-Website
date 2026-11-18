@@ -16,7 +16,7 @@ class Inclusion(unittest.TestCase):
  def test_optional_accommodation(self):
   for p in ['PACP-Reference-Design-Cloudflare-v9/design/pages/membership-application-preview.html','PACP-Reference-Design-Cloudflare-v9/design/pages/course-registration-preview.html']:
    s=(R/p).read_text()
-   for v in ['pacp_accommodation_request','captions','screen_reader','accessible_venue','التشخيص']:
+   for v in ['pacp_accommodation_request','captions','screen_reader','accessible_venue','تشخيص']:
     self.assertIn(v,s)
  def test_keyboard_motion_preferences(self):
   s=(R/'assets/pacp-accessibility.js').read_text()
