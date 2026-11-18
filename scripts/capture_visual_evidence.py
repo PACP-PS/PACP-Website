@@ -6,6 +6,7 @@ from functools import partial
 from threading import Thread
 from playwright.sync_api import sync_playwright
 import json
+import hashlib
 ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/"build/pacp-public-preview"
 OUT=ROOT/"build/visual-evidence"
@@ -70,5 +71,17 @@ try:
   browser.close()
 finally:
  server.shutdown()
+# Preserve traceable hashes of the exact assets that the approved public preview uses.
+asset_files = {
+ "official_original_logo": SITE/"PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png",
+ "brain_hero": SITE/"assets/brain-scene-v2.webp",
+ "jerusalem_hero": SITE/"PACP-Reference-Design-Cloudflare-v9/design/assets/jerusalem-panorama-v6.webp",
+}
+manifest = {
+ "viewport_sizes": {k: v["visual"] for k,v in report.items()},
+ "original_asset_sha256": {k: hashlib.sha256(v.read_bytes()).hexdigest() for k,v in asset_files.items()},
+ "status": "visual QA reference, not Figma pixel parity or production deployment approval",
+}
+(OUT/"asset-and-viewport-manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf8")
 (OUT/"render-report.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf8")
 print("PASS: actual Chromium rendered image, no script error or horizontal overflow at 4 viewport widths")
