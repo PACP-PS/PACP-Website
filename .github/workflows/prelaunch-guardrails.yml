@@ -17,6 +17,8 @@ jobs:
         run: python3 scripts/check_canonical_release.py
       - name: Static prelaunch checks
         run: python3 scripts/prelaunch_static_check.py
+      - name: Verify distinct public and private release paths
+        run: python3 scripts/test_final_release_paths.py
       - name: Validate migration draft structure
         run: python3 scripts/check_migrations.py
       - name: Verify staging auth and submission contracts
