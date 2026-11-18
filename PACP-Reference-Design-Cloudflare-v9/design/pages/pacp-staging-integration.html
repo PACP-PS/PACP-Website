@@ -16,7 +16,7 @@ const staffRoles=new Set(['superadmin','membership_reviewer','cashier','card_iss
 const loadPermissions=async(user)=>{
   el('staffArea').hidden=true;el('adminArea').hidden=true;
   if(!user)return;
-  const {data,error}=await db.from('pacp_staff_roles').select('role').eq('user_id',user.id).is('revoked_at',null);
+  const {data,error}=await db.rpc('pacp_my_staff_roles');
   if(error){show('staffResult','تعذر قراءة الصلاحيات: '+error.message);return}
   const roles=new Set((data||[]).map(x=>x.role));
   el('staffArea').hidden=![...roles].some(r=>staffRoles.has(r));
