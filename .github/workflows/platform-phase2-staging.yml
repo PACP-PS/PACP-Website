@@ -65,5 +65,13 @@ jobs:
           PY
       - name: Enforce stage-two service activation boundary
         run: python3 scripts/test_phase2_activation_boundary.py
+      - name: Build isolated Staging real-member login tester
+        run: python3 scripts/build_phase2_staging_login.py
+      - name: Archive Staging member tester (not deployed)
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacp-staging-member-login-test
+          path: build/pacp-phase2-staging
+          if-no-files-found: error
       - name: Important release gating note
         run: echo "STAGING TEST CONTRACT ONLY; DOES NOT DEPLOY OR OPEN MEMBER / PAYMENT SERVICES"
