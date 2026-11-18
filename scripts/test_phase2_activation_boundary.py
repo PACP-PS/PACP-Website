@@ -16,7 +16,7 @@ for target in (
  p=BASE/target
  html=p.read_text(encoding="utf8")
  assert "preview" in target and "<html" in html.lower(),target
- assert "https://wa.me/" not in html or "wa.me/" in html
+ assert "noindex" in html.lower() or "preview" in html.lower(),target
 assert all(v["status"]=="pending" for v in data["gates"].values())
 assert "identity_linking_not_enabled" in Path("supabase/functions/pacp-identity-link/index.ts").read_text()
 print("PASS: phase-two pages and authorization gates still isolated from public launch")
