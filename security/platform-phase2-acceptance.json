@@ -1,0 +1,32 @@
+{
+  "environment": "PACP-Staging",
+  "supabase_project_id": "aweebuukeovcekctclws",
+  "production_write_enabled": false,
+  "gate_policy": "Release requires independent UAT evidence and explicit signed approval",
+  "gates": {
+    "live_separate_account_jwt_uat": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "same_actor_reverse_order": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "identity_private_hmac_service": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "staging_ui_authenticated": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "live_mobile_accessibility": {
+      "status": "pending",
+      "evidence": ""
+    },
+    "payment_rollback": {
+      "status": "pending",
+      "evidence": ""
+    }
+  }
+}
