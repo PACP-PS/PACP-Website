@@ -1,0 +1,43 @@
+name: PACP informational release artifact (NO DEPLOYMENT)
+on:
+  push:
+    branches: ['release/informational-2026-11-18']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-informational-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify approved visual homepage
+        run: python3 scripts/check_canonical_release.py
+      - name: Build informational-only website
+        run: python3 scripts/build_public_preview.py
+      - name: Validate public artifact isolation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+          root=Path('build/pacp-public-preview')
+          pages=list(root.rglob('*.html'))
+          assert len(pages)==7, [str(p) for p in pages]
+          allowed={'index.html','about.html','membership.html','training.html','news.html','resources.html','contact.html'}
+          assert {p.name for p in pages}==allowed
+          text=' '.join(p.read_text(encoding='utf8') for p in pages)
+          for bad in ('sb_secret_','service_role','supabase/functions','-staging.html'):
+              assert bad not in text,bad
+          assert (root/'assets/pacp-accessibility.js').exists()
+          assert (root/'assets/pacp-accessibility.css').exists()
+          assert 'غير مفعّلة حاليًا' in text
+          print('PASS informational release files and safe services warning')
+          PY
+      - name: Archive release candidate for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacp-informational-release-candidate
+          path: build/pacp-public-preview
+          if-no-files-found: error
