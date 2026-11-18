@@ -65,7 +65,13 @@ def main():
  # Safety: no development-only authenticated or admin workflows in public output.
  for file in DEST.rglob("*.html"):
   if any(x in file.name for x in ("-preview","staging","auth.html")):raise RuntimeError("Development page leaked: "+str(file))
+ # Cloudflare Pages project uses pacp-public-preview as output root.
+ # Mirror the validated public-only artifact without changing its canonical build path.
+ cloudflare_output=ROOT/"pacp-public-preview"
+ if cloudflare_output.exists():shutil.rmtree(cloudflare_output)
+ shutil.copytree(DEST,cloudflare_output)
  print("PACP APPROVED 3-COLUMN HERO OUTPUT:",DEST)
+ print("CLOUDFLARE PUBLIC-ONLY OUTPUT:",cloudflare_output)
  return 0
 if __name__=="__main__":
  try:sys.exit(main())
