@@ -1,0 +1,35 @@
+name: PACP Staging membership UI package (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+    paths:
+      - 'PACP-Reference-Design-Cloudflare-v9/design/pages/pacp-staging-integration.html'
+      - 'scripts/test_staging_ui_static.py'
+      - '.github/workflows/staging-membership-ui.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  staging-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check staging HTML, role gating and module syntax
+        run: python3 scripts/test_staging_ui_static.py
+      - name: Package standalone staging UI for private review
+        run: |
+          mkdir -p build/pacp-staging-membership-review
+          cp PACP-Reference-Design-Cloudflare-v9/design/pages/pacp-staging-integration.html build/pacp-staging-membership-review/index.html
+          printf '%s\n' 'STAGING ONLY. NOT APPROVED FOR PUBLIC DEPLOYMENT.' 'Uses real staging Supabase only when opened through HTTPS. Never enter real financial data.' > build/pacp-staging-membership-review/README.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PACP-staging-membership-ui-only
+          path: build/pacp-staging-membership-review/
+          retention-days: 7
+          if-no-files-found: error
