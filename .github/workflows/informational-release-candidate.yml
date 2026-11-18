@@ -50,6 +50,10 @@ jobs:
           assert "mailto:info@pacp.ps" in contact
           assert "tel:+970594090972" in contact
           assert '+970 59-409-0972' in contact
+          homepage=(root/'index.html').read_text(encoding='utf8')
+          footer=homepage.split('<div class="footer-icons">',1)[1].split('</div>',1)[0]
+          for required in ('instagram.com','wa.me/970594090972','facebook.com/share/1KW6rSfwkF','contact.html'):
+              assert required in footer, 'Missing footer icon '+required
           cloudflare=Path('pacp-public-preview')
           assert cloudflare.is_dir(), 'Configured Cloudflare output missing'
           assert sorted(str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()) == sorted(str(p.relative_to(cloudflare)) for p in cloudflare.rglob('*') if p.is_file()), 'Cloudflare mirror differs from release artifact'
