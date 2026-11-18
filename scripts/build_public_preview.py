@@ -61,6 +61,22 @@ def main():
   if prefix==".":prefix=""
   data=re.sub(r'(?P<lead>(?:src|href|poster)=[\\x22\\x27])/(?P<path>(?!/)[^\\x22\\x27]+)',lambda m:m.group("lead")+(prefix+"/" if prefix else "")+m.group("path"),data)
   data=re.sub(r'url\\(\\s*(?P<quote>[\\x22\\x27]?)/(?P<path>(?!/)[^)\\x22\\x27]+)(?P=quote)\\s*\\)',lambda m:"url("+m.group("quote")+(prefix+"/" if prefix else "")+m.group("path")+m.group("quote")+")",data)
+  # Inner pages use CSS that hides .links below 760px: provide mobile navigation.
+  if file.name!="index.html":
+   mobile_css='''<style id="pacp-mobile-nav-style">
+.pacp-mobile-nav{display:none;padding:10px 16px;background:#f2f8f3;border-bottom:1px solid #b3cab9;direction:rtl}
+.pacp-mobile-nav a{display:inline-block;padding:10px 9px;margin:3px;color:#06452f!important;font:700 14px/1.5 Tahoma,Arial,sans-serif;text-decoration:underline;text-underline-offset:3px}
+.pacp-mobile-nav a:focus-visible{outline:3px solid #b42038;outline-offset:3px}
+@media(max-width:760px){.pacp-mobile-nav{display:block}}
+</style>'''
+   mobile_nav='''<nav class="pacp-mobile-nav" aria-label="التنقل الرئيسي على الهاتف">
+<a href="../../../index.html">الرئيسية</a>
+<a href="about.html">عن الجمعية</a><a href="membership.html">العضوية</a>
+<a href="training.html">التدريب والفعاليات</a><a href="news.html">الأخبار</a>
+<a href="resources.html">الموارد العلمية</a><a href="contact.html">اتصل بنا</a>
+</nav>'''
+   data=data.replace('</head>',mobile_css+'</head>',1)
+   data=re.sub(r'(</header>)',lambda m:m.group(1)+mobile_nav,data,count=1,flags=re.I)
   # Public social contact shortcuts: visible on every informational page.
   # Contact-only links, never personal data submission or third-party widgets.
   social_css='''<style id="pacp-social-contact-style">
