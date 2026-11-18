@@ -31,6 +31,7 @@ for page in pages:
         path=unquote(parsed.path)
         if not path:continue
         target=(ROOT/path.lstrip("/") if path.startswith("/") else page.parent/path).resolve()
+        if target.is_dir():target=target/"index.html"
         if not target.is_relative_to(ROOT):
             errors.append(f"{page.relative_to(ROOT)}: outside published root: {value}")
         elif not target.is_file():
