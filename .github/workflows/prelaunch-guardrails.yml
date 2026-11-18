@@ -21,6 +21,8 @@ jobs:
         run: python3 scripts/test_final_release_paths.py
       - name: Check accessibility and accommodation integration
         run: python3 scripts/test_accessibility_integration.py
+      - name: Verify optional Washington Group short set
+        run: python3 scripts/test_wg_ss_inclusion.py
       - name: Validate migration draft structure
         run: python3 scripts/check_migrations.py
       - name: Verify staging auth and submission contracts
