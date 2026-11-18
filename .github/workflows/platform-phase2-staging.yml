@@ -50,5 +50,18 @@ jobs:
               assert len(s)>1000
           print("PASS: staging preview pages exist; no live endpoint launched")
           PY
+      - name: Validate Staging-only identity and authorization test manifest
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("security/platform-phase2-acceptance.json")
+          v=json.loads(p.read_text(encoding="utf8"))
+          assert v["environment"]=="PACP-Staging"
+          assert v["production_write_enabled"] is False
+          for item in ("live_separate_account_jwt_uat","same_actor_reverse_order","identity_private_hmac_service","staging_ui_authenticated","live_mobile_accessibility","payment_rollback"):
+              assert v["gates"][item]["status"]=="pending", item
+          print("PASS: staging activation remains blocked until independent evidence exists")
+          PY
       - name: Important release gating note
         run: echo "STAGING TEST CONTRACT ONLY; DOES NOT DEPLOY OR OPEN MEMBER / PAYMENT SERVICES"
