@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اختبار دورة العضوية | PACP</title>
+<link rel="stylesheet" href="../assets/pacp-experience.css">
+</head>
+<body>
+<main class="section">
+<a href="../preview-center.html">العودة إلى مركز المعاينات</a>
+<h1>اختبار دورة العضوية</h1>
+<p>ثلاث حالات اصطناعية تُحفظ في هذا المتصفح. بدّلي بين الدورين لاختبار رحلة الطلب. استخدمي أسبابًا وهمية فقط.</p>
+<label for="actor">الدور التجريبي</label>
+<select id="actor"><option value="applicant">مقدّم الطلب</option><option value="reviewer">مراجع العضوية</option></select>
+<section class="glass section">
+<h2>الطلب التجريبي</h2>
+<label for="application">اختاري الطلب</label>
+<select id="application">
+<option value="1">طلب تجريبي ١</option>
+<option value="2">طلب تجريبي ٢</option>
+<option value="3">طلب تجريبي ٣</option>
+</select>
+<p id="state" role="status"></p>
+<form id="actions">
+<label for="reason">سبب القرار التجريبي</label>
+<input id="reason" maxlength="240">
+<button value="submitted">إرسال الطلب</button>
+<button value="needs_changes">طلب استكمال</button>
+<button value="approved">اعتماد</button>
+<button value="rejected">رفض</button>
+</form>
+<p id="message" role="alert"></p>
+<div id="card" hidden><h2>بطاقة عضوية تجريبية</h2><p>عضو تجريبي</p><p id="code" dir="ltr"></p></div>
+<h2>سجل الإجراءات</h2>
+<ol id="history"></ol>
+</section>
+</main>
+<script type="module">
+import { advance } from '../assets/membership-workflow.mjs';
+const byId = id => document.getElementById(id);
+const labels = { draft: 'مسودة', submitted: 'قيد المراجعة', needs_changes: 'بانتظار الاستكمال', approved: 'معتمد', rejected: 'مرفوض' };
+const storageKey = 'pacp-membership-demo-v2';
+const initial = [1, 2, 3].map(id => ({ id, status: 'draft', membershipCode: null, history: [] }));
+let applications = initial;
+try {
+  applications = JSON.parse(localStorage.getItem(storageKey)) ?? initial;
+} catch {
+  byId('message').textContent = 'تعذر قراءة الطلبات المحفوظة.';
+}
+const selectedIndex = () => byId('application').selectedIndex;
+function render() {
+  const application = applications[selectedIndex()];
+  const reviewer = byId('actor').value === 'reviewer';
+  const canReview = reviewer && application.status === 'submitted';
+  byId('state').textContent = labels[application.status];
+  for (const button of byId('actions').querySelectorAll('button')) {
+    button.disabled = button.value === 'submitted'
+      ? reviewer || !['draft', 'needs_changes'].includes(application.status)
+      : !canReview;
+  }
+  byId('reason').disabled = !canReview;
+  byId('card').hidden = !application.membershipCode;
+  byId('code').textContent = application.membershipCode;
+  byId('history').replaceChildren(...application.history.map(({ status, reason }) => {
+    const item = document.createElement('li');
+    item.textContent = reason ? labels[status] + ' — ' + reason : labels[status];
+    return item;
+  }));
+}
+byId('application').addEventListener('change', () => {
+  byId('reason').value = '';
+  byId('message').textContent = '';
+  render();
+});
+byId('actor').addEventListener('change', () => {
+  byId('message').textContent = '';
+  render();
+});
+byId('actions').addEventListener('submit', event => {
+  event.preventDefault();
+  if (!event.submitter) return;
+  try {
+    const index = selectedIndex();
+    const next = applications.slice();
+    next[index] = advance(next[index], byId('actor').value, event.submitter.value, byId('reason').value);
+    localStorage.setItem(storageKey, JSON.stringify(next));
+    applications = next;
+    byId('reason').value = '';
+    byId('message').textContent = '';
+    render();
+  } catch (error) {
+    byId('message').textContent = error.message;
+  }
+});
+render();
+</script>
+</body>
+</html>

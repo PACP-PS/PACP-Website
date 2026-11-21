@@ -1,0 +1,38 @@
+name: Annual membership integration sandbox (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+    paths:
+      - 'docs/annual-membership-integration.review.sql'
+      - 'scripts/test_annual_membership_integration_postgres.sql'
+      - '.github/workflows/annual-membership-integration-sandbox.yml'
+  pull_request:
+    paths:
+      - 'docs/annual-membership-integration.review.sql'
+      - 'scripts/test_annual_membership_integration_postgres.sql'
+      - '.github/workflows/annual-membership-integration-sandbox.yml'
+permissions:
+  contents: read
+jobs:
+  integration-sql:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: pacp_integration
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: local-test-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d pacp_integration"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check old renewal data and new membership periods in disposable PostgreSQL
+        env:
+          PGPASSWORD: local-test-only
+        run: psql -v ON_ERROR_STOP=1 -h localhost -U postgres -d pacp_integration -f scripts/test_annual_membership_integration_postgres.sql
