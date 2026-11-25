@@ -26,8 +26,24 @@ async function reflect(){const {data:{user},error}=await sb.auth.getUser();
 const ok=!!user&&!error;q("status").disabled=!ok;q("logout").disabled=!ok;message(ok?"تم تسجيل الدخول إلى Staging. يمكن إجراء فحص العضوية دون تعديل البيانات.":"لا توجد جلسة نشطة.");}
 q("login").addEventListener("submit",async e=>{e.preventDefault();q("submit").disabled=true;message("جارٍ التحقق...");
 const email=q("email").value.trim(),password=q("password").value;
-try{const {error}=await sb.auth.signInWithPassword({email,password});q("password").value="";message(error?"تعذر تسجيل الدخول. تحقق من حساب الاختبار.":"تم تسجيل الدخول إلى Staging.");await reflect();}
-catch{message("تعذر الاتصال بخدمة الاختبار.");}finally{q("submit").disabled=false;}});
+try {
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if (error) {
+    const loginErrors = {
+      invalid_credentials: "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور لحساب الاختبار.",
+      email_not_confirmed: "يلزم تأكيد بريد حساب الاختبار قبل تسجيل الدخول.",
+      over_request_rate_limit: "توقّف تسجيل الدخول مؤقتًا بسبب تكرار المحاولات. حاول لاحقًا."
+    };
+    message(Object.hasOwn(loginErrors,error.code) ? loginErrors[error.code] : "تعذر تسجيل الدخول إلى بيئة الاختبار.");
+    return;
+  }
+  await reflect();
+} catch {
+  message("تعذر الاتصال بخدمة الاختبار.");
+} finally {
+  q("password").value="";
+  q("submit").disabled=false;
+}});
 q("status").addEventListener("click",async()=>{q("status").disabled=true;
 try{const roles=await sb.rpc("pacp_my_staff_roles");
 const card=await sb.rpc("pacp_my_card_status");
