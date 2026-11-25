@@ -1,0 +1,77 @@
+name: PACP platform phase 2 candidate (STAGING ONLY)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  phase2-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check safe public/private separation
+        run: python3 scripts/test_final_release_paths.py
+      - name: Identity first and no raw ID publication
+        run: python3 scripts/test_identity_first_contract.py
+      - name: Identity linking service must fail closed
+        run: python3 scripts/test_identity_link_scaffold.py
+      - name: Staff and membership access contracts
+        run: |
+          python3 scripts/test_staging_contracts.py
+          python3 scripts/test_operational_membership_rpc_contract.py
+          python3 scripts/test_approval_order.py
+      - name: Financial separation and digital cards
+        run: |
+          python3 scripts/test_approval_patch.py
+          python3 scripts/test_digital_card_contract.py
+      - name: Accessibility previews
+        run: |
+          python3 scripts/test_accessibility_integration.py
+          python3 scripts/test_wg_ss_inclusion.py
+          python3 scripts/test_accessibility_regression.py
+      - name: Confirm production release still blocked until signed off
+        run: python3 scripts/test_release_gate.py
+      - name: Compile secure live Staging role verifier without tokens
+        run: python3 -m py_compile scripts/test_staging_roles_live_readonly.py
+      - name: Verify sample portals remain preview-only
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          root=Path("PACP-Reference-Design-Cloudflare-v9/design")
+          items=["pages/member-portal-preview.html","pages/membership-application-preview.html","pages/course-registration-preview.html","admin/central-admin-dashboard-preview.html"]
+          for name in items:
+              s=(root/name).read_text(encoding="utf-8")
+              assert "preview" in name
+              assert len(s)>1000
+          print("PASS: staging preview pages exist; no live endpoint launched")
+          PY
+      - name: Validate Staging-only identity and authorization test manifest
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("security/platform-phase2-acceptance.json")
+          v=json.loads(p.read_text(encoding="utf8"))
+          assert v["environment"]=="PACP-Staging"
+          assert v["production_write_enabled"] is False
+          for item in ("live_separate_account_jwt_uat","same_actor_reverse_order","identity_private_hmac_service","staging_ui_authenticated","live_mobile_accessibility","payment_rollback"):
+              assert v["gates"][item]["status"]=="pending", item
+          print("PASS: staging activation remains blocked until independent evidence exists")
+          PY
+      - name: Enforce stage-two service activation boundary
+        run: python3 scripts/test_phase2_activation_boundary.py
+      - name: Build isolated Staging real-member login tester
+        run: python3 scripts/build_phase2_staging_login.py
+      - name: Archive Staging member tester (not deployed)
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacp-staging-member-login-test
+          path: build/pacp-phase2-staging
+          if-no-files-found: error
+      - name: Important release gating note
+        run: echo "STAGING TEST CONTRACT ONLY; DOES NOT DEPLOY OR OPEN MEMBER / PAYMENT SERVICES"

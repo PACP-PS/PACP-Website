@@ -1,0 +1,41 @@
+{
+  "production_approval": false,
+  "checks": {
+    "synthetic_account_isolation": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "reviewer_role_denial": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "approver_role_denial": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "approval_transition_rollback": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "private_storage_isolation": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "password_reset_redirects": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "membership_governance_signoff": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "backup_restore_rehearsal": {
+      "status": "blocked",
+      "evidence": ""
+    },
+    "mobile_accessibility_review": {
+      "status": "blocked",
+      "evidence": ""
+    }
+  }
+}

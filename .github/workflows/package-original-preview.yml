@@ -1,0 +1,54 @@
+name: PACP original site preview package (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify canonical site assets
+        run: python3 scripts/check_canonical_release.py
+      - name: Check original navigation
+        run: python3 scripts/test_primary_navigation.py
+      - name: Check prelaunch constraints
+        run: python3 scripts/prelaunch_static_check.py
+      - name: Create public-only canonical site
+        run: python3 scripts/build_public_preview.py
+      - name: Audit exported images, fonts and links
+        run: python3 scripts/audit_public_assets.py
+      - name: Audit public-facing placeholder content
+        run: python3 scripts/audit_public_content.py
+      - name: Install headless browser for visual verification
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Render desktop/tablet/mobile evidence
+        run: python3 scripts/capture_visual_evidence.py
+      - name: Upload real browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PACP-visual-evidence
+          path: build/visual-evidence/
+          retention-days: 14
+          if-no-files-found: warn
+      - name: Build original static-site preview zip
+        run: |
+          cd build/pacp-public-preview
+          zip -qr ../../PACP-original-site-preview.zip . -x 'portal/*' 'RUN-LOCAL-PORTAL.*' '*.sqlite3'
+          test -s ../../PACP-original-site-preview.zip
+          unzip -t ../../PACP-original-site-preview.zip | tail -n 1
+      - name: Attach original site archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: PACP-original-site-preview
+          path: PACP-original-site-preview.zip
+          retention-days: 14
+          if-no-files-found: error

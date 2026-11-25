@@ -1,0 +1,29 @@
+name: PACP Staging member login test deployment (manual only)
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: "Type PACP-STAGING-MEMBER-TEST to publish login test ONLY to pacp-staging-v8"
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  deploy-staging-member-test:
+    if: ${{ github.ref == 'refs/heads/rebuild/platform-foundation' && inputs.approval == 'PACP-STAGING-MEMBER-TEST' }}
+    runs-on: ubuntu-latest
+    environment: pacp-preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build restricted staging tester (no production, payments or identity forms)
+        run: python3 scripts/build_phase2_staging_login.py
+      - name: Deploy ONLY to separate staging Pages project
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PREVIEW }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build/pacp-phase2-staging --project-name=pacp-staging-v8 --branch=member-login-uat --commit-dirty=true
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
