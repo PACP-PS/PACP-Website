@@ -13,7 +13,7 @@ button,.btn{background:var(--g);color:#fff;border:0;border-radius:12px;padding:1
 <section id="main" class="hidden">
 <p><span id="who" class="small"></span> <button id="out" class="ghost" style="margin:0 8px;padding:5px 12px">تسجيل الخروج</button></p>
 <ol class="steps"><li id="s1">١ تقديم الطلب</li><li id="s2">٢ دفع الرسوم ورفع الوصل</li><li id="s3">٣ تحقق المالية</li><li id="s4">٤ موافقة اللجنة</li><li id="s5">٥ بطاقة العضوية</li></ol>
-<section id="card"><h2>حالة عضويتي</h2><p id="cardInfo">...</p><iframe id="cardFrame" class="hidden" title="بطاقة العضوية" style="width:100%;height:600px;border:0;background:transparent" loading="lazy"></iframe></section>
+<section id="card"><h2>حالة عضويتي</h2><p id="cardInfo">...</p><iframe id="cardFrame" class="hidden" title="بطاقة العضوية" style="width:100%;height:340px;border:0;background:transparent" loading="lazy"></iframe></section>
 <section id="apps"><h2>طلباتي</h2><div id="appList" class="small">...</div></section>
 <section id="formSec"><h2>طلب انتساب جديد</h2><p class="small">الدفع يتم نقدًا أو بالإيداع/الحوالة المباشرة وفق تعليمات الجمعية، ثم ترفعين صورة الوصل بعد تقديم الطلب. لا يوجد دفع إلكتروني بالبطاقات.</p>
 <form id="form"></form><p id="fstatus" role="status"></p></section>
@@ -24,6 +24,7 @@ import {client,mySummary,myApplications,submitApplication,myCard,uploadReceipt,l
 const $=id=>document.getElementById(id);
 const spec=[['name_ar_first','الاسم الأول بالعربية'],['name_ar_father','اسم الأب بالعربية'],['name_ar_grandfather','اسم الجد بالعربية'],['name_ar_family','اسم العائلة بالعربية'],['name_en_first','First name'],['name_en_father','Father name'],['name_en_grandfather','Grandfather name'],['name_en_family','Family name'],['national_id','رقم الهوية (9 أرقام)'],['email','البريد الإلكتروني'],['phone','رقم الهاتف'],['residence','مكان السكن'],['academic_level','المؤهل العلمي'],['specialty','التخصص'],['workplace','مكان العمل']];
 const required=new Set(['name_ar_first','name_ar_father','name_ar_grandfather','name_ar_family','name_en_first','name_en_father','name_en_grandfather','name_en_family','email','national_id']);
+addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.pacpCardH){const f=document.getElementById('cardFrame');if(f)f.style.height=Math.min(1200,e.data.pacpCardH)+'px'}});
 const stat={submitted:'قيد الانتظار',under_review:'قيد المراجعة',needs_changes:'مطلوب تعديل',approved:'مقبول',rejected:'مرفوض',withdrawn:'مسحوب'};
 const fm=$('form');for(const [k,l] of spec){const lb=document.createElement('label');lb.textContent=l;const i=document.createElement('input');i.name=k;i.required=required.has(k);i.maxLength=k==='email'?254:150;if(k==='email')i.type='email';if(k==='national_id'){i.inputMode='numeric';i.pattern='[0-9]{9}';i.maxLength=9;i.dir='ltr';i.autocomplete='off'}if(/^name_en/.test(k))i.dir='ltr';lb.appendChild(i);fm.appendChild(lb)}
 const sb=document.createElement('button');sb.textContent='إرسال الطلب';fm.appendChild(sb);

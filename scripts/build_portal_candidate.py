@@ -52,7 +52,7 @@ _card=('<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><me
  '<script>const q=new URLSearchParams(location.search);const set=(i,v)=>{const e=document.getElementById(i);if(e)e.textContent=v||""};'
  'set("cName",q.get("n"));set("cNameEn",q.get("e"));set("cFrom",q.get("f"));set("cUntil",q.get("u"));'
  'document.querySelectorAll(".cCode").forEach(x=>x.textContent=q.get("c")||"");'
- 'if(q.get("v")==="0")document.querySelectorAll(".member-card").forEach(x=>x.style.opacity=".5");</script></body></html>')
+ 'const ps=()=>parent.postMessage({pacpCardH:document.documentElement.scrollHeight+8},location.origin);addEventListener("load",ps);addEventListener("resize",ps);setTimeout(ps,400);if(q.get("v")==="0")document.querySelectorAll(".member-card").forEach(x=>x.style.opacity=".5");</script></body></html>')
 (DEST/INNER/"design/pages/card.html").write_text(_card,encoding="utf8")
 a=DEST/INNER/"design/pages/auth.html";t=a.read_text(encoding="utf8")
 t=t.replace("بوابة الحساب | PACP Development","بوابة الحساب | الجمعية الفلسطينية لاختصاصيي علم النفس العيادي")
