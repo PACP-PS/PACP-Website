@@ -22,10 +22,10 @@ button,.btn{background:var(--g);color:#fff;border:0;border-radius:12px;padding:1
 <script type="module">
 import {client,mySummary,myApplications,submitApplication,myCard,uploadReceipt,logout} from '../assets/pacp-supabase-auth.mjs';
 const $=id=>document.getElementById(id);
-const spec=[['name_ar_first','الاسم الأول بالعربية'],['name_ar_father','اسم الأب بالعربية'],['name_ar_grandfather','اسم الجد بالعربية'],['name_ar_family','اسم العائلة بالعربية'],['name_en_first','First name'],['name_en_father','Father name'],['name_en_grandfather','Grandfather name'],['name_en_family','Family name'],['email','البريد الإلكتروني'],['phone','رقم الهاتف'],['residence','مكان السكن'],['academic_level','المؤهل العلمي'],['specialty','التخصص'],['workplace','مكان العمل']];
-const required=new Set(['name_ar_first','name_ar_father','name_ar_grandfather','name_ar_family','name_en_first','name_en_father','name_en_grandfather','name_en_family','email']);
+const spec=[['name_ar_first','الاسم الأول بالعربية'],['name_ar_father','اسم الأب بالعربية'],['name_ar_grandfather','اسم الجد بالعربية'],['name_ar_family','اسم العائلة بالعربية'],['name_en_first','First name'],['name_en_father','Father name'],['name_en_grandfather','Grandfather name'],['name_en_family','Family name'],['national_id','رقم الهوية (9 أرقام)'],['email','البريد الإلكتروني'],['phone','رقم الهاتف'],['residence','مكان السكن'],['academic_level','المؤهل العلمي'],['specialty','التخصص'],['workplace','مكان العمل']];
+const required=new Set(['name_ar_first','name_ar_father','name_ar_grandfather','name_ar_family','name_en_first','name_en_father','name_en_grandfather','name_en_family','email','national_id']);
 const stat={submitted:'قيد الانتظار',under_review:'قيد المراجعة',needs_changes:'مطلوب تعديل',approved:'مقبول',rejected:'مرفوض',withdrawn:'مسحوب'};
-const fm=$('form');for(const [k,l] of spec){const lb=document.createElement('label');lb.textContent=l;const i=document.createElement('input');i.name=k;i.required=required.has(k);i.maxLength=k==='email'?254:150;if(k==='email')i.type='email';if(/^name_en/.test(k))i.dir='ltr';lb.appendChild(i);fm.appendChild(lb)}
+const fm=$('form');for(const [k,l] of spec){const lb=document.createElement('label');lb.textContent=l;const i=document.createElement('input');i.name=k;i.required=required.has(k);i.maxLength=k==='email'?254:150;if(k==='email')i.type='email';if(k==='national_id'){i.inputMode='numeric';i.pattern='[0-9]{9}';i.maxLength=9;i.dir='ltr';i.autocomplete='off'}if(/^name_en/.test(k))i.dir='ltr';lb.appendChild(i);fm.appendChild(lb)}
 const sb=document.createElement('button');sb.textContent='إرسال الطلب';fm.appendChild(sb);
 const {data:u}=await client.auth.getUser();const user=u?.user;
 if(!user){$('guest').classList.remove('hidden')}else{
@@ -48,7 +48,7 @@ if(!user){$('guest').classList.remove('hidden')}else{
  fm.addEventListener('submit',async e=>{e.preventDefault();sb.disabled=true;$('fstatus').className='';$('fstatus').textContent='جارٍ الإرسال...';
   const d={};for(const [k] of spec){const v=fm.elements[k].value.trim();if(v)d[k]=v}
   const r=await submitApplication(d);
-  if(r.error){$('fstatus').className='error';$('fstatus').textContent=r.error.code==='23505'?'لديك طلب مفتوح بالفعل.':'تعذر الإرسال، راجعي البيانات وحاولي لاحقًا.'}else{$('fstatus').className='ok';$('fstatus').textContent='تم تقديم الطلب. ارفعي وصل الدفع الآن.'}
+  if(r.error){$('fstatus').className='error';$('fstatus').textContent=r.error.code==='22023'?'تحقق من رقم الهوية (9 أرقام) وبقية البيانات.':r.error.code==='23505'?'لديك طلب مفتوح، أو أن رقم الهوية مسجَّل مسبقًا.':'تعذر الإرسال، راجعي البيانات وحاولي لاحقًا.'}else{$('fstatus').className='ok';$('fstatus').textContent='تم تقديم الطلب. ارفعي وصل الدفع الآن.'}
   sb.disabled=false;await refresh()});
  $('up').onclick=async()=>{const f=$('file').files[0];if(!f||!openApp){$('rstatus').className='error';$('rstatus').textContent='اختاري ملف الوصل أولًا.';return}
   if(f.size>5242880){$('rstatus').className='error';$('rstatus').textContent='الملف أكبر من 5 ميغابايت.';return}

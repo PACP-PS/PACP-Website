@@ -24,4 +24,5 @@ export async function uploadReceipt(userId,applicationId,file){
   if(up.error)return {error:up.error};
   return client.rpc('attach_payment_receipt',{p_application_id:applicationId,p_path:path,p_filename:file.name,p_mime:file.type,p_size:file.size});
 }
+export async function staffNationalId(id){return client.rpc('staff_get_national_id',{p_application_id:id})}
 export async function receiptUrl(path){return client.storage.from('membership-receipts').createSignedUrl(path,300)}

@@ -1,0 +1,54 @@
+/* PACP shared visual system — matched to approved hero concept */
+:root{--g:#075b36;--d:#03452d;--l:#5d9d45;--r:#c9102c;--ink:#10252a;--muted:#53665e;--paper:#f6fafb;--line:#dce9e5}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 6% 8%,#d9f1e9 0,transparent 34%),linear-gradient(145deg,#f7fbfd,#fff 56%,#ecf6f1)}
+.head{background:#fffffff0;backdrop-filter:blur(15px);box-shadow:0 5px 24px #0b473610}
+.nav{max-width:1400px;min-height:76px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;max-width:300px}
+.brand .pacp-logo{width:58px;height:58px;object-fit:contain;flex:none}
+.links{gap:19px}
+.links a{padding:10px 0;position:relative}
+.links a:hover:after,.links a[aria-current=page]:after{content:"";height:3px;background:var(--r);position:absolute;bottom:0;right:0;left:0;border-radius:3px}
+.hero{background:radial-gradient(ellipse at 83% 0%,#d0f0e7 0%,transparent 50%),linear-gradient(115deg,#fff,#eef8f4);border-bottom:1px solid #e1eeea;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-80px;bottom:-110px;width:330px;height:220px;border-radius:50%;border:2px solid #fff;box-shadow:0 -8px 0 #c9102c11;pointer-events:none}
+.hero h1{color:#063d31;letter-spacing:-.6px}
+.hero h1:after{content:"";display:block;width:88px;height:4px;border-radius:50%;background:var(--r);margin-top:17px}
+.card{background:linear-gradient(145deg,#fff,#f7fbfa);border:1px solid #fff;box-shadow:0 12px 28px #053b3412;transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 32px #053b3420}
+.callout{background:#e9f7f1;border-inline-start-color:var(--r)}
+.footer{background:linear-gradient(100deg,#063f2d,#075b36)}
+.lang{display:none}
+@media(max-width:760px){.brand .pacp-logo{width:42px;height:42px}.nav{min-height:60px}.brand{font-size:10px}.card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}.card:hover{transform:none}}
+
+/* PACP inner pages color-coded glass cards v3 */
+:root{--p-accent:#078663;--p-soft:#e0f5eb;--p-glow:#0985632a}
+body{background:radial-gradient(ellipse at 10% 9%,#d8f1eeb3,transparent 41%),radial-gradient(ellipse at 84% 27%,#d5ebf4b7,transparent 45%),linear-gradient(180deg,#f9fcfe,#edf8f9 78%,#f7fbfd)}
+.top{background:linear-gradient(110deg,#004e35,#087b50)!important}
+.head{background:#ffffffef!important;backdrop-filter:blur(14px)}
+.hero{background:radial-gradient(ellipse at 95% 14%,#d8f4efbd,transparent 49%),linear-gradient(120deg,#fff,#edf7f7)!important;border-bottom:1px solid #daeee9!important}
+.content{max-width:1160px}
+.grid{gap:18px}
+.card{--p-accent:#078663;--p-soft:#e0f5eb;--p-glow:#0985632a;background:linear-gradient(140deg,#ffffffef,#eff9f8f1)!important;border:1px solid #fff!important;border-radius:23px!important;box-shadow:0 13px 28px #004f4814!important;padding:25px 24px!important;position:relative;overflow:hidden}
+.card:after{content:"";position:absolute;width:120px;height:120px;top:-64px;left:-64px;background:radial-gradient(circle,var(--p-soft),transparent 70%);pointer-events:none}
+.card:hover{transform:translateY(-4px);box-shadow:0 17px 34px var(--p-glow)!important}
+.card h2,.card h3{color:#083f31!important}
+.pacp-card-icon{display:grid;place-items:center;width:55px;height:55px;margin-bottom:14px;border-radius:17px;background:linear-gradient(145deg,#fff,var(--p-soft));box-shadow:inset 0 2px 3px #fff,0 6px 13px var(--p-glow);border:1px solid #ffffffdf;position:relative;z-index:1}
+.pacp-card-icon svg{width:30px;height:30px;stroke:var(--p-accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card:nth-child(4n+1){--p-accent:#078663;--p-soft:#def6ec;--p-glow:#0a8d682d}
+.card:nth-child(4n+2){--p-accent:#b77a18;--p-soft:#fff1d2;--p-glow:#d5a12e30}
+.card:nth-child(4n+3){--p-accent:#007e9f;--p-soft:#dff3fb;--p-glow:#0286b02e}
+.card:nth-child(4n+4){--p-accent:#bf3154;--p-soft:#ffe5ed;--p-glow:#be325b29}
+.card.card-accent-emerald{--p-accent:#078663;--p-soft:#def6ec;--p-glow:#0a8d682d}
+.card.card-accent-gold{--p-accent:#b77a18;--p-soft:#fff1d2;--p-glow:#d5a12e30}
+.card.card-accent-blue{--p-accent:#007e9f;--p-soft:#dff3fb;--p-glow:#0286b02e}
+.card.card-accent-rose{--p-accent:#bf3154;--p-soft:#ffe5ed;--p-glow:#be325b29}
+.callout{border-radius:18px!important;background:linear-gradient(110deg,#e9f7f1,#f9fcfc)!important;border:1px solid #cfe9df!important;border-inline-start:4px solid #c91d36!important;box-shadow:0 8px 21px #004f3010}
+.footer{background:linear-gradient(105deg,#03442e,#006746)!important}
+.links a[aria-current=page]{color:#04643f}
+@media(max-width:760px){.card{padding:20px 19px!important}.pacp-card-icon{width:47px;height:47px;border-radius:14px}.pacp-card-icon svg{width:26px;height:26px}}
+
+/* Empty state for news listing without fabricated announcements */
+.pacp-empty-state{display:flex;align-items:center;gap:14px;padding:15px 18px;margin:5px 0 16px;border:1px solid #ffffffeb;border-radius:20px;background:#ffffffe0;box-shadow:0 9px 22px #00583d10}
+.pacp-empty-state .pacp-card-icon{margin:0;--p-accent:#b77a18;--p-soft:#fff1d2;--p-glow:#d5a12e30}
+.pacp-empty-state h2{margin:0;color:#07543c;font-size:19px}

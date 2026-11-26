@@ -12,7 +12,7 @@ input{padding:9px;border:1px solid #bcd9c8;border-radius:10px;font:inherit;max-w
 <section id="panel" class="hidden"><p class="small">صلاحياتك: <span id="roles"></span> <button id="refresh" class="ghost">تحديث</button> <button id="out" class="ghost">خروج</button></p><p id="msg" role="status"></p><div id="list"></div></section>
 </main>
 <script type="module">
-import {client,myStaffRoles,staffQueue,recordCash,processApplication,issueCard,receiptUrl,logout} from '../assets/pacp-supabase-auth.mjs';
+import {client,myStaffRoles,staffQueue,recordCash,processApplication,issueCard,receiptUrl,staffNationalId,logout} from '../assets/pacp-supabase-auth.mjs';
 const $=id=>document.getElementById(id);
 const stat={submitted:'قيد الانتظار',under_review:'قيد المراجعة',needs_changes:'مطلوب تعديل',approved:'مقبول',rejected:'مرفوض',withdrawn:'مسحوب'};
 const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)))].map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -38,6 +38,7 @@ if(!user){$('guest').classList.remove('hidden')}else{
     const btn=(t,cls,fn)=>{const b=document.createElement('button');b.textContent=t;if(cls)b.className=cls;b.onclick=fn;acts.appendChild(b)};
     if(a.receipt_file)btn('عرض وصل الدفع','ghost',async()=>{const s=await receiptUrl(a.receipt_file);if(s.data)window.open(s.data.signedUrl,'_blank','noopener');else msg('تعذر فتح الوصل',true)});
     else{const s=document.createElement('span');s.className='small';s.textContent='لم يُرفع وصل بعد';acts.appendChild(s)}
+    if(appr)btn('عرض رقم الهوية','ghost',async()=>{const r=await staffNationalId(a.application_id);if(r.error||!r.data)msg('تعذر عرض رقم الهوية',true);else alert('رقم الهوية: '+r.data+'\n(تم تسجيل هذا الاطلاع)')});
     const open=['submitted','under_review','needs_changes'].includes(a.status);
     if(fin&&open&&!a.cash_recorded&&a.receipt_file){
       const n=document.createElement('input');n.placeholder='رقم الوصل';n.dir='ltr';const m=document.createElement('input');m.placeholder='المبلغ (₪)';m.type='number';m.min='1';m.step='0.01';acts.append(n,m);

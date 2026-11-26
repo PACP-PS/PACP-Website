@@ -1,0 +1,20 @@
+/* PACP inclusive design: visible, keyboard-operable enhancements. */
+html{scroll-padding-top:1.5rem}*:focus-visible{outline:3px solid #b42038!important;outline-offset:3px!important}
+.pacp-skip{position:fixed;top:-90px;right:12px;z-index:99999;background:#062e23;color:#fff;padding:12px;border-radius:8px}
+.pacp-skip:focus{top:12px}
+.pacp-access{position:fixed;bottom:16px;left:16px;z-index:9990;font:500 14px/1.7 Tahoma,Arial,sans-serif;direction:rtl;text-align:right}
+.pacp-access button{font:inherit;min-height:44px;min-width:44px;cursor:pointer}
+.pacp-access-toggle{border:2px solid #fff;background:#075b36;color:#fff;border-radius:14px;padding:10px 16px;box-shadow:0 3px 18px #0004}
+.pacp-access-panel{margin-top:8px;background:#fff;color:#132b26;padding:15px;max-width:min(360px,calc(100vw - 32px));box-shadow:0 5px 25px #0004;border:2px solid #075b36;border-radius:14px}
+.pacp-access-panel[hidden]{display:none}
+.pacp-access-panel fieldset{border:0;padding:0;margin:0}
+.pacp-access-panel legend{font-weight:bold;margin-bottom:10px}
+.pacp-access-actions{display:flex;gap:8px;flex-wrap:wrap}
+.pacp-access-actions button{border:1px solid #075b36;background:#f1f7f3;color:#06402d;border-radius:9px;padding:7px 12px}
+html.pacp-large-text{font-size:125%!important}html.pacp-large-text body{font-size:1.125em!important}
+html.pacp-contrast body,html.pacp-contrast .site{background:#fff!important;color:#111!important}
+html.pacp-contrast a{color:#003e9c!important;text-decoration:underline!important}
+html.pacp-contrast button{border:2px solid #111!important}
+html.pacp-no-motion *,html.pacp-no-motion *::before,html.pacp-no-motion *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media(max-width:600px){.pacp-access{bottom:8px;left:8px}}
