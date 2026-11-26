@@ -18,9 +18,9 @@ d=m.read_text(encoding="utf8")
 d=re.sub(r'<aside role="note" aria-label="حالة الخدمات الإلكترونية".*?</aside>','',d,flags=re.S)
 cta=('<aside role="note" aria-label="بوابة الانتساب" style="direction:rtl;background:#e9f7f1;color:#063d31;'
  'border-right:4px solid #075b36;padding:16px 20px;margin:14px auto;max-width:1100px;border-radius:12px;font:600 14px/1.9 Tahoma,Arial,sans-serif">'
- 'الانتساب الإلكتروني متاح الآن: أنشئي حسابًا، قدّمي الطلب، ثم ارفعي وصل الدفع ليتحقق منه الطاقم. '
+ 'الانتساب الإلكتروني متاح بدعوة من الجمعية في هذه المرحلة (للدعوة: info@pacp.ps): بعد الدخول قدّمي الطلب ثم ارفعي وصل الدفع ليتحقق منه الطاقم. '
  '<a href="portal.html" style="color:#075b36">افتحي بوابة الانتساب ←</a> · '
- '<a href="auth.html" style="color:#075b36">تسجيل الدخول / إنشاء حساب</a></aside>')
+ '<a href="auth.html" style="color:#075b36">تسجيل الدخول</a></aside>')
 d=re.sub(r'(<body[^>]*>)',lambda x:x.group(1)+cta,d,count=1,flags=re.I)
 m.write_text(d,encoding="utf8")
 a=DEST/INNER/"design/pages/auth.html";t=a.read_text(encoding="utf8")
