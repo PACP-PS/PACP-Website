@@ -87,7 +87,7 @@ def translate_markup(t, left):
 def translate_script(s, left):
     for k in KEYS:
         if k in s:
-            s = s.replace(k, T[k])
+            s = s.replace(k, T[k].replace("'", "\u2019"))
     for m in re.findall(r"[^\n]{0,30}[؀-ۿ][^\n]{0,30}", s):
         left.append(("script", m))
     return s
