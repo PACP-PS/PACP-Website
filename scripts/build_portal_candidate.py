@@ -63,6 +63,12 @@ a.write_text(t,encoding="utf8")
 assert "lofvxgubetdslvaczvjp" not in "".join(p.read_text(encoding="utf8",errors="ignore") for p in DEST.rglob("*") if p.suffix in (".html",".mjs",".js"))
 assert "aweebuukeovcekctclws" not in "".join(p.read_text(encoding="utf8",errors="ignore") for p in DEST.rglob("*") if p.suffix in (".html",".mjs",".js"))
 
+_m=re.search(r'<style>html,body\{background:transparent!important;margin:0\}\.site,\.container\{all:unset\}(.*?)</style>',_card,flags=re.S)
+assert _m,"card override css not found"
+_ix=DEST/"index.html";_it=_ix.read_text(encoding="utf8")
+if "pacp-home-card-style" not in _it:
+    _it=_it.replace("</head>",'<style id="pacp-home-card-style">'+_m.group(1)+'</style></head>',1);_ix.write_text(_it,encoding="utf8")
+
 import re as _re2
 shutil.copytree(SRC/'assets/fonts',DEST/INNER/'assets/fonts',dirs_exist_ok=True)
 _fl='<link rel="stylesheet" href="/PACP-Reference-Design-Cloudflare-v9/assets/fonts/fonts.css">'
