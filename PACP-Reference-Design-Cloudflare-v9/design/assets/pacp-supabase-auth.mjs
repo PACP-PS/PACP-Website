@@ -25,4 +25,16 @@ export async function uploadReceipt(userId,applicationId,file){
   return client.rpc('attach_payment_receipt',{p_application_id:applicationId,p_path:path,p_filename:file.name,p_mime:file.type,p_size:file.size});
 }
 export async function staffNationalId(id){return client.rpc('staff_get_national_id',{p_application_id:id})}
+export async function uploadPortrait(userId,blob){
+  const path=`${userId}/portrait.jpg`;
+  const up=await client.storage.from('membership-portraits').upload(path,blob,{contentType:'image/jpeg',upsert:true});
+  if(up.error)return {error:up.error};
+  return client.rpc('set_my_portrait',{p_path:path});
+}
+export async function portraitUrl(userId){
+  const l=await client.storage.from('membership-portraits').list(userId,{limit:5});
+  if(l.error||!(l.data||[]).some(x=>x.name==='portrait.jpg'))return null;
+  const s=await client.storage.from('membership-portraits').createSignedUrl(`${userId}/portrait.jpg`,3600);
+  return s.data?s.data.signedUrl:null;
+}
 export async function receiptUrl(path){return client.storage.from('membership-receipts').createSignedUrl(path,300)}

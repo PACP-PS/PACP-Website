@@ -14,13 +14,14 @@ button,.btn{background:var(--g);color:#fff;border:0;border-radius:12px;padding:1
 <p><span id="who" class="small"></span> <button id="out" class="ghost" style="margin:0 8px;padding:5px 12px">تسجيل الخروج</button></p>
 <ol class="steps"><li id="s1">١ تقديم الطلب</li><li id="s2">٢ دفع الرسوم ورفع الوصل</li><li id="s3">٣ تحقق المالية</li><li id="s4">٤ موافقة اللجنة</li><li id="s5">٥ بطاقة العضوية</li></ol>
 <section id="card"><h2>حالة عضويتي</h2><p id="cardInfo">...</p><iframe id="cardFrame" class="hidden" title="بطاقة العضوية" style="width:100%;height:340px;border:0;background:transparent" loading="lazy"></iframe></section>
+<section id="portraitSec"><h2>صورتي الشخصية للبطاقة</h2><p class="small">صورة واضحة للوجه (JPG أو PNG أو WebP). تُصغَّر تلقائيًا قبل الرفع، وتظهر على بطاقة العضوية بعد اعتمادها.</p><img id="portraitPrev" alt="" class="hidden" style="width:110px;height:128px;object-fit:cover;border-radius:14px;border:2px solid #126947;display:block;margin:8px 0"><input id="pfile" type="file" accept="image/jpeg,image/png,image/webp"><button id="pup">رفع الصورة</button><p id="pstatus" role="status"></p></section>
 <section id="apps"><h2>طلباتي</h2><div id="appList" class="small">...</div></section>
 <section id="formSec"><h2>طلب انتساب جديد</h2><p class="small">الدفع يتم نقدًا أو بالإيداع/الحوالة المباشرة وفق تعليمات الجمعية، ثم ترفعين صورة الوصل بعد تقديم الطلب. لا يوجد دفع إلكتروني بالبطاقات.</p>
 <form id="form"></form><p id="fstatus" role="status"></p></section>
 <section id="receiptSec" class="hidden"><h2>رفع وصل الدفع</h2><p class="small">صورة (JPG/PNG/WebP) أو PDF بحجم أقصى 5 ميغابايت.</p><input id="file" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"><button id="up">رفع الوصل</button><p id="rstatus" role="status"></p></section>
 </section></main>
 <script type="module">
-import {client,mySummary,myApplications,submitApplication,myCard,uploadReceipt,logout} from '../assets/pacp-supabase-auth.mjs';
+import {client,mySummary,myApplications,submitApplication,myCard,uploadReceipt,uploadPortrait,portraitUrl,logout} from '../assets/pacp-supabase-auth.mjs';
 const $=id=>document.getElementById(id);
 const spec=[['name_ar_first','الاسم الأول بالعربية'],['name_ar_father','اسم الأب بالعربية'],['name_ar_grandfather','اسم الجد بالعربية'],['name_ar_family','اسم العائلة بالعربية'],['name_en_first','First name'],['name_en_father','Father name'],['name_en_grandfather','Grandfather name'],['name_en_family','Family name'],['national_id','رقم الهوية (9 أرقام)'],['email','البريد الإلكتروني'],['phone','رقم الهاتف'],['residence','مكان السكن'],['academic_level','المؤهل العلمي'],['specialty','التخصص'],['workplace','مكان العمل']];
 const required=new Set(['name_ar_first','name_ar_father','name_ar_grandfather','name_ar_family','name_en_first','name_en_father','name_en_grandfather','name_en_family','email','national_id']);
@@ -39,9 +40,9 @@ if(!user){$('guest').classList.remove('hidden')}else{
   $('appList').innerHTML='';
   if(!list.length)$('appList').textContent='لا توجد طلبات بعد.';
   for(const x of list){const d=document.createElement('div');d.innerHTML='<span class="pill"></span> <span class="small"></span>';d.children[0].textContent=stat[x.status]||x.status;d.children[1].textContent=' — قُدّم في '+new Date(x.submitted_at).toLocaleDateString('ar');$('appList').appendChild(d)}
-  const cd=c.data||{valid:false};
+  const cd=c.data||{valid:false};const pUrl=await portraitUrl(user.id);if(pUrl){$('portraitPrev').src=pUrl;$('portraitPrev').classList.remove('hidden')}
   $('cardInfo').textContent=cd.membership_code?`رقم العضوية ${cd.membership_code} — ${cd.valid?'سارية حتى '+cd.valid_until:'منتهية أو موقوفة'}`:'لا توجد بطاقة عضوية صادرة بعد.';
-  const cf=$('cardFrame');cf.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){const f=x=>x?String(x).split('-').reverse().join(' / '):'';cf.src='card.html?'+new URLSearchParams({c:cd.membership_code,n:cd.name_ar||'',e:cd.name_en||'',f:f(cd.valid_from),u:f(cd.valid_until),v:cd.valid?'1':'0'})}
+  const cf=$('cardFrame');cf.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){const f=x=>x?String(x).split('-').reverse().join(' / '):'';cf.src='card.html?'+new URLSearchParams({c:cd.membership_code,n:cd.name_ar||'',e:cd.name_en||'',f:f(cd.valid_from),u:f(cd.valid_until),v:cd.valid?'1':'0',...(pUrl?{p:pUrl}:{})})}
   $('formSec').classList.toggle('hidden',!!openApp||!!cd.membership_code);
   $('receiptSec').classList.toggle('hidden',!openApp);
   const step=cd.membership_code?5:openApp?(openApp.status==='under_review'?4:2):1;
@@ -58,6 +59,14 @@ if(!user){$('guest').classList.remove('hidden')}else{
   const r=await uploadReceipt(user.id,openApp.application_id,f);
   $('rstatus').className=r.error?'error':'ok';$('rstatus').textContent=r.error?'تعذر رفع الوصل، تأكدي من نوع الملف وحجمه.':'تم رفع الوصل، ستتحقق المالية منه.';
   $('up').disabled=false;if(!r.error)$('file').value=''};
+ $('pup').onclick=async()=>{const f=$('pfile').files[0];const st=$('pstatus');if(!f){st.className='error';st.textContent='اختاري صورة أولًا.';return}
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type)){st.className='error';st.textContent='نوع الصورة غير مدعوم.';return}
+  $('pup').disabled=true;st.className='';st.textContent='جارٍ المعالجة والرفع...';
+  try{const bmp=await createImageBitmap(f);const sc=Math.min(1,720/Math.max(bmp.width,bmp.height));const cv=document.createElement('canvas');cv.width=Math.round(bmp.width*sc);cv.height=Math.round(bmp.height*sc);cv.getContext('2d').drawImage(bmp,0,0,cv.width,cv.height);
+   const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.88));const r=await uploadPortrait(user.id,blob);
+   st.className=r.error?'error':'ok';st.textContent=r.error?'تعذر رفع الصورة.':'تم رفع الصورة.';if(!r.error){$('pfile').value='';await refresh()}
+  }catch(e){st.className='error';st.textContent='تعذر قراءة الصورة.'}
+  $('pup').disabled=false};
  await refresh();
 }
 </script></body></html>
