@@ -1,5 +1,5 @@
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
-// Public client key only. NEVER put a service_role or SMTP credential in this file.
+// Public client key only. Never place any private server credential in this file.
 const supabaseUrl='https://nwbiazllkpiggbrwhpmh.supabase.co';
 const publishableKey='sb_publishable_zbEonvbjAL5rGqBBnSW95Q_VrwUNxrh';
 export const client=createClient(supabaseUrl,publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
