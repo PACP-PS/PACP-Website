@@ -22,7 +22,7 @@ EN_CSS = (
     "html[dir=ltr] .links,html[dir=ltr] .nav{direction:ltr}"
     "html[dir=ltr] dl{text-align:left}html[dir=ltr] .hero-copy{text-align:left}"
     "html[dir=ltr] h1,html[dir=ltr] h2,html[dir=ltr] h3{letter-spacing:0;line-height:1.25}"
-    "html[dir=ltr] .brand small{letter-spacing:0}</style>"
+    "html[dir=ltr] .brand small{letter-spacing:0}html[dir=ltr] body,html[dir=ltr] body *{direction:ltr}html[dir=ltr] .pacp-lang{direction:ltr}</style>"
 )
 
 
@@ -109,9 +109,20 @@ def rewrite_links(t):
     return t
 
 
+A11Y = {"تجاوز إلى المحتوى الرئيسي": "Skip to main content", "إعدادات إمكانية الوصول": "Accessibility settings",
+        "إمكانية الوصول": "Accessibility", "خيارات القراءة والتصفح": "Reading and browsing options",
+        "تكبير النص": "Larger text", "تباين مرتفع": "High contrast", "تقليل الحركة": "Reduce motion",
+        "إعادة الضبط": "Reset"}
+
+
 def build(dest):
     dest = Path(dest)
     left = []
+    a = (dest / "assets/pacp-accessibility.js").read_text(encoding="utf8")
+    for k in sorted(A11Y, key=len, reverse=True):
+        a = a.replace(k, A11Y[k])
+    assert not AR.search(a), "a11y script still has Arabic"
+    (dest / "assets/pacp-accessibility.en.js").write_text(a, encoding="utf8")
     jobs = [("index.html", "en/index.html", "/", "/en/")]
     for n in PAGES:
         rel = f"{INNER}/design/pages/{n}.html"
@@ -125,6 +136,7 @@ def build(dest):
         t = rewrite_links(t)
         t = translate_markup(t, left)
         t = t.replace('<html lang="ar" dir="rtl">', '<html lang="en" dir="ltr">', 1)
+        t = t.replace("/assets/pacp-accessibility.js", "/assets/pacp-accessibility.en.js")
         alt = (f'<link rel="alternate" hreflang="ar" href="https://www.pacp.ps{ar_url}">'
                f'<link rel="alternate" hreflang="en" href="https://www.pacp.ps{en_url}">')
         pill = f'<a class="pacp-lang" href="{ar_url}" lang="ar" hreflang="ar">العربية</a>'
