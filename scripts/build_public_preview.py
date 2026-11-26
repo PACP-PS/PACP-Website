@@ -43,6 +43,13 @@ def main():
    data=data.replace('>تسجيل الدخول</a>','>معلومات العضوية</a>')
    data=data.replace('>انتسب إلى الجمعية</a>','>شروط الانتساب</a>')
    data=data.replace('>انتسب إلى الجمعية ←</a>','>استكشف العضوية ←</a>')
+  if file.name=="membership.html":
+   data=data.replace("يمكنك الاطلاع على معاينة نموذج الانتساب الإلكتروني قبل تفعيل استقبال الطلبات.",
+                     "يمكنك التواصل مع الجمعية للاستفسار عن شروط الانتساب والوثائق المطلوبة.")
+   data=data.replace("href='membership-application-preview.html'>معاينة نموذج طلب الانتساب",
+                     "href='contact.html'>الاستفسار عن الانتساب")
+   for target in ("auth.html","member-dashboard-staging.html","membership-application-preview.html"):
+    data=re.sub(r'<a href="'+re.escape(target)+r'"[^>]*>[^<]*</a>',"",data)
   # Explicit feature flags for the publishable informational-only release.
   # No live sign-in, payment, card, application or renewal promise is made.
   if file.name in ("membership.html","training.html"):
