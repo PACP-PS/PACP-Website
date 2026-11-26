@@ -1,5 +1,7 @@
 name: PACP portal candidate preview (manual, preview branch only)
 on:
+  push:
+    branches: [release/portal-production-candidate]
   workflow_dispatch:
     inputs:
       approval:
@@ -10,7 +12,7 @@ permissions:
   contents: read
 jobs:
   preview:
-    if: ${{ github.ref == 'refs/heads/release/portal-production-candidate' && inputs.approval == 'PACP-PORTAL-PREVIEW' }}
+    if: ${{ github.ref == 'refs/heads/release/portal-production-candidate' && (github.event_name == 'push' || inputs.approval == 'PACP-PORTAL-PREVIEW') }}
     runs-on: ubuntu-latest
     environment: pacp-preview
     steps:
