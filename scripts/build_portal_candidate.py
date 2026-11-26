@@ -35,6 +35,25 @@ m.write_text(d,encoding="utf8")
 ix=DEST/"index.html";h=ix.read_text(encoding="utf8")
 h=h.replace('<a class="btn" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">','<a class="btn" style="background:#075b36;color:#fff;font-weight:800" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/auth.html">ادخل إلى بوابة الانتساب ←</a><a class="btn" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">',1)
 ix.write_text(h,encoding="utf8")
+
+# --- Member card page: reuse the approved glass front/back card from the home page, filled with real data ---
+_h=ix.read_text(encoding="utf8")
+_styles="".join(re.findall(r"<style[^>]*>.*?</style>",_h,flags=re.S))
+_sec=re.search(r'<section class="membership-display".*?</section>',_h,flags=re.S).group(0)
+for a_,b_ in (("عضو افتراضي",'<span id="cName"></span>'),("Sample Member",'<span id="cNameEn"></span>'),("PACP-DEMO-0001",'<span class="cCode"></span>'),("01 / 01 / 2025",'<span id="cFrom"></span>'),("31 / 12 / 2025",'<span id="cUntil"></span>')):
+    _sec=_sec.replace(a_,b_)
+_sec=re.sub(r'<div class="sample-watermark">.*?</div>','',_sec,flags=re.S)
+_sec=re.sub(r'<span class="reverse-demo">.*?</span>','',_sec,flags=re.S)
+_sec=_sec.replace("Demonstration design for a PACP membership card. Not proof of registered membership.","Official PACP membership card. Valid only while the membership status is active.")
+_sec=_sec.replace("نموذج توضيحي لتصميم بطاقة عضوية الجمعية الفلسطينية لاختصاصيي علم النفس العيادي، وليس إثباتاً لعضوية فعلية.","بطاقة عضوية الجمعية الفلسطينية لاختصاصيي علم النفس العيادي، وتكون سارية ما دامت العضوية فعّالة.")
+_sec=_sec.replace("نموذج بطاقة العضوية","بطاقة العضوية").replace("التجريبي","")
+_card=('<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>بطاقة العضوية</title>'
+ +_styles+'<style>html,body{background:transparent!important;margin:0}.site,.container{all:unset}</style></head><body>'+_sec+
+ '<script>const q=new URLSearchParams(location.search);const set=(i,v)=>{const e=document.getElementById(i);if(e)e.textContent=v||""};'
+ 'set("cName",q.get("n"));set("cNameEn",q.get("e"));set("cFrom",q.get("f"));set("cUntil",q.get("u"));'
+ 'document.querySelectorAll(".cCode").forEach(x=>x.textContent=q.get("c")||"");'
+ 'if(q.get("v")==="0")document.querySelectorAll(".member-card").forEach(x=>x.style.opacity=".5");</script></body></html>')
+(DEST/INNER/"design/pages/card.html").write_text(_card,encoding="utf8")
 a=DEST/INNER/"design/pages/auth.html";t=a.read_text(encoding="utf8")
 t=t.replace("بوابة الحساب | PACP Development","بوابة الحساب | الجمعية الفلسطينية لاختصاصيي علم النفس العيادي")
 a.write_text(t,encoding="utf8")

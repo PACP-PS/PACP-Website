@@ -13,7 +13,7 @@ button,.btn{background:var(--g);color:#fff;border:0;border-radius:12px;padding:1
 <section id="main" class="hidden">
 <p><span id="who" class="small"></span> <button id="out" class="ghost" style="margin:0 8px;padding:5px 12px">تسجيل الخروج</button></p>
 <ol class="steps"><li id="s1">١ تقديم الطلب</li><li id="s2">٢ دفع الرسوم ورفع الوصل</li><li id="s3">٣ تحقق المالية</li><li id="s4">٤ موافقة اللجنة</li><li id="s5">٥ بطاقة العضوية</li></ol>
-<section id="card"><h2>حالة عضويتي</h2><p id="cardInfo">...</p><div id="memberCard" class="hidden" style="max-width:380px;margin:12px 0;padding:20px;border-radius:18px;background:linear-gradient(135deg,#075b36,#0b7a4b);color:#fff;box-shadow:0 8px 24px rgba(7,91,54,.25)"><div style="font-size:13px;opacity:.85">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</div><div style="font-size:20px;font-weight:700;margin:6px 0 14px">بطاقة العضوية</div><div id="cardCode" dir="ltr" style="font-size:22px;letter-spacing:1px;font-weight:700"></div><div id="cardEmail" dir="ltr" style="font-size:12px;opacity:.85;margin-top:4px"></div><div id="cardValid" style="margin-top:14px;font-size:13px"></div></div></section>
+<section id="card"><h2>حالة عضويتي</h2><p id="cardInfo">...</p><iframe id="cardFrame" class="hidden" title="بطاقة العضوية" style="width:100%;height:600px;border:0;background:transparent" loading="lazy"></iframe></section>
 <section id="apps"><h2>طلباتي</h2><div id="appList" class="small">...</div></section>
 <section id="formSec"><h2>طلب انتساب جديد</h2><p class="small">الدفع يتم نقدًا أو بالإيداع/الحوالة المباشرة وفق تعليمات الجمعية، ثم ترفعين صورة الوصل بعد تقديم الطلب. لا يوجد دفع إلكتروني بالبطاقات.</p>
 <form id="form"></form><p id="fstatus" role="status"></p></section>
@@ -40,7 +40,7 @@ if(!user){$('guest').classList.remove('hidden')}else{
   for(const x of list){const d=document.createElement('div');d.innerHTML='<span class="pill"></span> <span class="small"></span>';d.children[0].textContent=stat[x.status]||x.status;d.children[1].textContent=' — قُدّم في '+new Date(x.submitted_at).toLocaleDateString('ar');$('appList').appendChild(d)}
   const cd=c.data||{valid:false};
   $('cardInfo').textContent=cd.membership_code?`رقم العضوية ${cd.membership_code} — ${cd.valid?'سارية حتى '+cd.valid_until:'منتهية أو موقوفة'}`:'لا توجد بطاقة عضوية صادرة بعد.';
-  const mc=$('memberCard');mc.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){$('cardCode').textContent=cd.membership_code;$('cardEmail').textContent=user.email||'';$('cardValid').textContent=cd.valid?'سارية حتى '+cd.valid_until:'منتهية أو موقوفة';mc.style.opacity=cd.valid?'1':'.55'}
+  const cf=$('cardFrame');cf.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){const f=x=>x?String(x).split('-').reverse().join(' / '):'';cf.src='card.html?'+new URLSearchParams({c:cd.membership_code,n:cd.name_ar||'',e:cd.name_en||'',f:f(cd.valid_from),u:f(cd.valid_until),v:cd.valid?'1':'0'})}
   $('formSec').classList.toggle('hidden',!!openApp||!!cd.membership_code);
   $('receiptSec').classList.toggle('hidden',!openApp);
   const step=cd.membership_code?5:openApp?(openApp.status==='under_review'?4:2):1;
