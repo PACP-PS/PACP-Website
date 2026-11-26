@@ -14,7 +14,7 @@ LANG_CSS = (
     "<style id='pacp-lang-style'>.pacp-lang{position:fixed;top:12px;inset-inline-end:12px;z-index:9999;"
     "background:#0a5c3e;color:#fff!important;font:700 13px Alexandria,system-ui,sans-serif;padding:7px 14px;"
     "border-radius:99px;text-decoration:none;box-shadow:0 4px 14px #0a5c3e40;direction:ltr}"
-    ".pacp-lang:hover{background:#c4122f}</style>"
+    ".pacp-lang:hover{background:#c4122f}[role=note]{padding-inline-end:96px!important}</style>"
 )
 EN_CSS = (
     "<style id='pacp-en-style'>html[dir=ltr] body{text-align:left}"
@@ -22,7 +22,7 @@ EN_CSS = (
     "html[dir=ltr] .links,html[dir=ltr] .nav{direction:ltr}"
     "html[dir=ltr] dl{text-align:left}html[dir=ltr] .hero-copy{text-align:left}"
     "html[dir=ltr] h1,html[dir=ltr] h2,html[dir=ltr] h3{letter-spacing:0;line-height:1.25}"
-    "html[dir=ltr] .brand small{letter-spacing:0}html[dir=ltr] body,html[dir=ltr] body *{direction:ltr}html[dir=ltr] .pacp-lang{direction:ltr}html[dir=ltr] .hero-copy p{margin-left:0;margin-right:auto;text-align:left;max-width:640px}html[dir=ltr] .hero-buttons{justify-content:flex-start}</style>"
+    "html[dir=ltr] .brand small{display:none}html[dir=ltr] body,html[dir=ltr] body *{direction:ltr}html[dir=ltr] .pacp-lang{direction:ltr}html[dir=ltr] .hero-copy p{margin-left:0;margin-right:auto;text-align:left;max-width:640px}html[dir=ltr] .hero-buttons{justify-content:flex-start}</style>"
 )
 
 
