@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>مراجعة طلبات العضوية — PACP STAGING</title>
+<style>:root{font-family:Tahoma,Arial,sans-serif;color:#123c32;background:#f0f8f6}*{box-sizing:border-box}body{margin:0}header{background:#07553c;color:white;padding:16px max(18px,calc((100vw - 960px)/2));display:flex;gap:15px;align-items:center}header img{width:50px;height:50px;object-fit:contain;background:white;border-radius:50%;padding:4px}main{width:min(960px,94%);margin:30px auto}.panel{background:white;border:1px solid #d5e9df;border-radius:18px;padding:24px;margin-top:15px}h1{font-size:clamp(23px,3vw,30px)}p,td,th{line-height:1.9}p{font-size:14px}.notice{background:#fff6dc;border-right:4px solid #bb821c;padding:14px;border-radius:10px}button,a.button{display:inline-block;border:0;border-radius:10px;background:#065d40;color:white;padding:12px 18px;text-decoration:none;font:inherit;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:12px;text-align:right;border-bottom:1px solid #e3eee9;overflow-wrap:anywhere}th{background:#edf7f3}#status{padding:12px;border-radius:10px;background:#e4f3ed}#status.error{background:#ffe8e8;color:#951d26}.hidden{display:none}a:focus-visible,button:focus-visible{outline:3px solid #00ae84;outline-offset:3px}@media(max-width:650px){table{display:block;overflow-x:auto;white-space:nowrap}}</style></head>
+<body><header><img src="../../assets/pacp-logo-original.png" alt="شعار الجمعية الأصلي"><strong>الجمعية الفلسطينية لاختصاصيي علم النفس العيادي — PACP</strong></header>
+<main><small>PACP / DEVELOPMENT / READ ONLY</small><h1>مراجعة طلبات العضوية</h1>
+<p class="notice">بيئة تطوير فقط؛ عرض محدود لحالات الطلبات وتواريخها. لا توجد هنا صلاحيات اعتماد أو رفض أو قراءة وثائق خاصة. لا تستخدم حسابات أو بيانات أعضاء حقيقيين قبل اعتماد اختبارات الأمان.</p>
+<section class="panel"><p id="session">التحقق من جلسة الدخول…</p><p id="status" role="status" aria-live="polite">لم تُحمّل البيانات بعد.</p><div id="controls" class="hidden"><button id="load">تحديث قائمة المراجعة</button> <button id="logout">تسجيل الخروج</button></div><div id="data" class="hidden"><table><thead><tr><th>معرّف الطلب</th><th>الحالة</th><th>تاريخ التقديم</th><th>آخر مراجعة</th></tr></thead><tbody id="rows"></tbody></table></div><p id="signIn" class="hidden"><a class="button" href="auth.html">تسجيل الدخول</a></p></section>
+<p><a href="member-dashboard-staging.html">مساحة العضو</a> · <a href="../preview-center.html">مركز المعاينات</a></p></main>
+<script type="module">
+import {client,logout} from '../assets/pacp-supabase-auth.mjs';
+const el=id=>document.getElementById(id);
+const state=(s,error=false)=>{el('status').textContent=s;el('status').classList.toggle('error',error)};
+let user=null;
+async function syncSession(){const {data,error}=await client.auth.getUser();user=error?null:data?.user||null;el('session').textContent=user?'جلسة مسجّلة: '+(user.email||'مستخدم مصادق عليه'):'لا توجد جلسة موثّقة';el('controls').classList.toggle('hidden',!user);el('signIn').classList.toggle('hidden',!!user);if(!user){el('rows').replaceChildren();el('data').classList.add('hidden');state('سجّل الدخول بحساب موظف مراجعة مفوّض لاستعراض القائمة.');}}
+async function load(){el('rows').replaceChildren();el('data').classList.add('hidden');if(!user){state('المصادقة مطلوبة.',true);return;}el('load').disabled=true;state('جارٍ طلب البيانات من الخادم…');try{
+const {data,error}=await client.rpc('membership_review_queue',{p_limit:25});
+if(error)throw error;
+if(!Array.isArray(data))throw new Error('Invalid response');
+for(const record of data){const tr=document.createElement('tr');for(const field of ['application_id','status','submitted_at','reviewed_at']){const td=document.createElement('td');td.textContent=record[field]===null||record[field]===undefined?'—':String(record[field]);tr.append(td)}el('rows').append(tr)}
+el('data').classList.remove('hidden');state(data.length?'عدد الطلبات المعروضة: '+data.length:'لا توجد طلبات متاحة للمراجعة.');
+}catch(e){state('رفض الخادم الوصول أو تعذّر تحميل القائمة. يجب التحقق من صلاحيات الحساب دون محاولة تجاوزها.',true)}finally{el('load').disabled=false}}
+el('load').addEventListener('click',load);
+el('logout').addEventListener('click',async()=>{await logout();await syncSession()});
+client.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){user=null;el('rows').replaceChildren();el('data').classList.add('hidden');syncSession()}});
+await syncSession();
+</script></body></html>

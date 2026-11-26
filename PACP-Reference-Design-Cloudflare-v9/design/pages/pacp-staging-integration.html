@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>PACP — Staging Integration</title><style>body{font:15px system-ui,sans-serif;background:#f4f8f5;color:#153b29;margin:0;padding:24px}main{max-width:920px;margin:auto}section{background:white;padding:22px;margin:17px 0;border:1px solid #dbe8dd;border-radius:16px}input,select,button{font:inherit;padding:10px;margin:5px 0;max-width:100%;box-sizing:border-box}input{width:100%}select{width:100%;background:#fff;border:1px solid #aac5b5;border-radius:8px}.hint{font-size:13px;color:#52685e;margin:8px 0}.compact{font-size:13px}button{cursor:pointer;border:0;border-radius:10px;background:#086b42;color:white}button:disabled{opacity:.5}output{display:block;white-space:pre-wrap;overflow-wrap:anywhere;padding:10px;color:#23472f;background:#edf6f0;border-radius:8px;margin-top:12px}small{color:#566}h1{font-size:25px}h2{font-size:18px}.warn{border-right:5px solid #b36a17;padding:13px;background:#fff6e7}</style></head>
+<body><main><h1>بيئة اختبار PACP — العضويات والدفع النقدي</h1><p>البريد الرسمي للإدارة والطلبات: <a href="mailto:info@pacp.ps">info@pacp.ps</a>. لا تُرسل كلمات المرور أو البيانات الحساسة بالبريد.</p><p class="warn">بيئة اختبار فقط: لا تستخدم بيانات شخصية حقيقية ولا تُسجّل مبالغ مالية فعلية. التحويل البنكي غير متاح. إصدار البطاقة هنا للاختبار وليس إثبات عضوية رسمي.</p>
+<section><h2>1. الحساب</h2><input id="email" type="email" autocomplete="email" placeholder="البريد الإلكتروني التجريبي"><input id="password" type="password" minlength="10" autocomplete="current-password" placeholder="كلمة المرور"><button id="signup">إنشاء حساب اختبار</button> <button id="signin">تسجيل الدخول</button> <button id="logout">تسجيل الخروج</button><output id="account"></output></section>
+<section><h2>2. طلب الانتساب</h2><input id="fullName" placeholder="الاسم التجريبي"><input id="specialty" placeholder="التخصص التجريبي"><button id="apply">إرسال طلب</button><output id="applicationResult"></output></section>
+<section><h2>2.1 حالة طلباتي</h2><button id="myApps">عرض طلباتي</button><output id="myApplications"></output></section>
+<section id="staffArea" hidden><h2>3. عمليات الموظفين — تتطلب صلاحيات موثقة في قاعدة البيانات</h2><p class="hint">اختاري طلبًا من القائمة المتاحة حسب صلاحيات حسابك؛ يتم تعبئة معرّف الطلب تلقائيًا.</p><select id="staffApplicationSelect"><option value="">اختيار طلب عضوية...</option></select><input id="applicationId" placeholder="معرّف الطلب UUID" readonly><button id="approve">اعتماد الطلب</button> <button id="reject">رفض الطلب</button><input id="receipt" placeholder="رقم الإيصال التجريبي"><input id="amount" type="number" min="0.01" step="0.01" placeholder="القيمة التجريبية"><button id="cash">تأكيد إيصال نقدي تجريبي</button><input id="memberCode" placeholder="رقم بطاقة تجريبي"><input id="cardYear" type="number" min="2026" max="2100" value="2026"><button id="card">إصدار بطاقة اختبار</button><output id="staffResult"></output></section>
+<section id="adminArea" hidden><h2>3.1 قائمة الطلبات للمراجعة</h2><button id="loadApplications">تحديث الطلبات واختيار طلب</button><output id="reviewQueue"></output></section><section id="notificationArea" hidden><h2>4. إشعارات الإدارة</h2><p>ملخص محدود بصلاحيات المدير العام أو مسؤول المراجعة. لا يعني وجود سجل أنه تم إرسال رسالة.</p><button id="notifications">عرض حالة الإشعارات</button><output id="notificationsResult"></output></section><section><h2>5. حالة بطاقتي</h2><button id="check">قراءة حالة البطاقة</button><output id="cardResult"></output><small>لا يظهر رمز التحقق السري في حالة العضو.</small></section>
+</main><script type="module">
+import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
+const db=createClient('https://aweebuukeovcekctclws.supabase.co','sb_publishable_GsNzPuKDqN8GHRNPbLiTsA_l7dPrZ_w',{auth:{flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const el=id=>document.getElementById(id);
+const show=(id,data)=>{el(id).textContent=typeof data==='string'?data:JSON.stringify(data,null,2)};
+const call=async(fn,args,out)=>{try{const {data,error}=await db.rpc(fn,args);if(error)throw error;show(out,data??'اكتمل الطلب');}catch(e){show(out,'خطأ: '+e.message)}};
+const loadQueue=async()=>{
+ const {data,error}=await db.rpc('pacp_admin_list_applications');
+ if(error){show('reviewQueue','خطأ: '+error.message);return}
+ const select=el('staffApplicationSelect'), selected=select.value;
+ select.replaceChildren(new Option('اختيار طلب عضوية...', ''));
+ for(const app of data||[]){
+  const label=(app.full_name||'طلب')+' — '+(app.professional_specialty||'')+' — '+app.status+' — '+app.id.slice(0,8);
+  select.add(new Option(label,app.id));
+ }
+ if((data||[]).some(x=>x.id===selected)) select.value=selected;
+ el('applicationId').value=select.value;
+ show('reviewQueue',(data||[]).map(a=>({name:a.full_name,specialty:a.professional_specialty,status:a.status,id:a.id})));
+};
+el('staffApplicationSelect').onchange=()=>{el('applicationId').value=el('staffApplicationSelect').value};
+const memberAction=async(fn,args)=>{
+ if(!el('applicationId').value){show('staffResult','اختاري طلبًا من القائمة أولًا');return}
+ await call(fn,args,'staffResult');
+ await loadQueue();
+};
+const staffRoles=new Set(['superadmin','membership_reviewer','membership_approver','finance']);
+const loadPermissions=async(user)=>{
+  el('staffArea').hidden=true;el('adminArea').hidden=true;el('notificationArea').hidden=true;
+  for(const id of ['approve','reject','card','cash']) el(id).disabled=true;
+  if(!user)return;
+  const {data,error}=await db.rpc('pacp_my_staff_roles');
+  if(error){show('staffResult','تعذر قراءة الصلاحيات: '+error.message);return}
+  const roles=new Set((data||[]).map(x=>x.role));
+  el('staffArea').hidden=![...roles].some(r=>staffRoles.has(r));
+  const canReview=roles.has('superadmin')||roles.has('membership_approver');
+  el('adminArea').hidden=!canReview;
+  if(canReview) await loadQueue();
+  for(const id of ['approve','reject','card']) el(id).disabled=!roles.has('membership_approver');
+  el('cash').disabled=!roles.has('finance');
+  el('notificationArea').hidden=!(roles.has('superadmin')||roles.has('membership_reviewer'));
+};
+const refresh=async()=>{const {data,error}=await db.auth.getUser();const user=!error?data?.user:null;show('account',user?'تم تسجيل الدخول: '+user.email:'لا يوجد مستخدم مسجّل الدخول');await loadPermissions(user)};
+el('myApps').onclick=async()=>{const {data:{user}}=await db.auth.getUser();if(!user){show('myApplications','يجب تسجيل الدخول');return}
+const {data,error}=await db.from('pacp_applications').select('id,full_name,professional_specialty,status,created_at').eq('applicant_id',user.id).order('created_at',{ascending:false}).limit(20);
+show('myApplications',error?'خطأ: '+error.message:(data||[]))};
+el('signup').onclick=async()=>{const {error}=await db.auth.signUp({email:el('email').value,password:el('password').value});show('account',error?'خطأ: '+error.message:'تم طلب إنشاء الحساب. تحقق من البريد إذا كان التأكيد مطلوبًا.');await refresh()};
+el('signin').onclick=async()=>{const {error}=await db.auth.signInWithPassword({email:el('email').value,password:el('password').value});show('account',error?'خطأ: '+error.message:'تم تسجيل الدخول');if(!error)await refresh()};
+el('logout').onclick=async()=>{await db.auth.signOut();await refresh()};
+el('apply').onclick=async()=>{const {data:{user}}=await db.auth.getUser();if(!user){show('applicationResult','يجب تسجيل الدخول');return}const {data,error}=await db.from('pacp_applications').insert({applicant_id:user.id,full_name:el('fullName').value,professional_specialty:el('specialty').value}).select('id,status').single();show('applicationResult',error?'خطأ: '+error.message:data)};
+el('approve').onclick=()=>memberAction('pacp_review_application',{p_id:el('applicationId').value,p_action:'approved'},'staffResult');
+el('reject').onclick=()=>memberAction('pacp_review_application',{p_id:el('applicationId').value,p_action:'rejected'},'staffResult');
+el('cash').onclick=()=>memberAction('pacp_record_cash',{p_id:el('applicationId').value,p_receipt:el('receipt').value,p_amount:Number(el('amount').value)},'staffResult');
+el('card').onclick=async()=>{const data=new Uint8Array(32);crypto.getRandomValues(data);const token=Array.from(data,b=>b.toString(16).padStart(2,'0')).join('');const hash=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(token)));const tokenHash=Array.from(hash,b=>b.toString(16).padStart(2,'0')).join('');await memberAction('pacp_issue_card',{p_id:el('applicationId').value,p_member_code:el('memberCode').value,p_token_hash:tokenHash,p_year:Number(el('cardYear').value)},'staffResult');};
+el('loadApplications').onclick=loadQueue;
+el('notifications').onclick=()=>call('pacp_admin_notification_summary',{},'notificationsResult');
+el('check').onclick=()=>call('pacp_my_card_status',{},'cardResult');
+await refresh();
+</script></body></html>

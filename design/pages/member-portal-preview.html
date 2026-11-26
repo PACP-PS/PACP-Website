@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بوابة العضو | PACP</title>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#087447;--d:#043d29;--r:#c51f32;--ink:#183328;--muted:#718078;--line:#e0eae2;--bg:#eef4ef}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#dcece1,transparent 30%),radial-gradient(ellipse at 0% 75%,#f6e8e8,transparent 23%),var(--bg);font-family:Alexandria,sans-serif;color:var(--ink)}
+.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
+.side{background:linear-gradient(155deg,#032f20,#075b3a 65%,#0b8050);color:white;padding:24px 16px;position:relative;overflow:hidden}
+.side:after{content:"";position:absolute;width:280px;height:280px;border:1px solid #ffffff20;border-radius:50%;bottom:-120px;right:-130px;box-shadow:0 0 0 24px #ffffff08,0 0 0 50px #ffffff06;pointer-events:none}
+.brand{display:flex;gap:10px;align-items:center;padding:0 8px 25px;border-bottom:1px solid #ffffff24;position:relative;z-index:1}
+.mark{width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#fff,#d9eadf);color:var(--g);display:grid;place-items:center;font-size:12px;font-weight:700;box-shadow:0 8px 18px #001d143d}
+.brand b{font-size:11px;line-height:1.8}.brand small{display:block;font-size:8px;color:#d2e7d9}
+.navlabel{font-size:9px;color:#b8d8c4;margin:22px 10px 9px}
+nav{display:grid;gap:6px;position:relative;z-index:1}
+nav button{border:1px solid transparent;background:transparent;color:#e4f0e8;text-align:right;padding:12px;border-radius:12px;font:500 10px Alexandria;cursor:pointer;transition:.2s}
+nav button:hover{background:#ffffff14;transform:translateX(-3px)}
+nav button.active{background:linear-gradient(100deg,#ffffff2b,#ffffff10);border-color:#ffffff20;box-shadow:inset -3px 0 #e2c477}
+.main{min-width:0}
+.top{height:72px;background:#ffffffbd;backdrop-filter:blur(16px);border-bottom:1px solid #e1ebe3;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,3vw,36px);position:sticky;top:0;z-index:5}
+.crumb{font-size:10px;color:var(--muted)}.user{display:flex;align-items:center;gap:10px;font-size:10px}.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,#dceee1,#fff);display:grid;place-items:center;color:var(--g);font-weight:700;box-shadow:0 5px 12px #075b361b}
+.content{max-width:1400px;margin:auto;padding:clamp(16px,3vw,34px)}
+.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:22px;flex-wrap:wrap}
+.eyebrow{font-size:9px;color:var(--g);font-weight:700;letter-spacing:.4px}
+h1{font-size:clamp(22px,3vw,30px);color:var(--d);margin:6px 0}.sub{font-size:10px;color:var(--muted);line-height:2}
+.btn{border:0;border-radius:11px;background:linear-gradient(135deg,#0a8050,#03452d);color:white;padding:11px 16px;font:600 10px Alexandria;box-shadow:0 8px 17px #075b362c;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px);box-shadow:0 12px 22px #075b363d}.btn.light{background:linear-gradient(145deg,#fff,#edf5ef);color:var(--g);border:1px solid var(--line);box-shadow:0 5px 12px #123c250c}
+.banner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 24px;border-radius:22px;background:radial-gradient(circle at 90% 15%,#16865a,#075537 58%,#033b28);color:#fff;box-shadow:0 20px 42px #06462d30;position:relative;overflow:hidden;margin-bottom:18px}
+.banner:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #ffffff24;border-radius:50%;left:-55px;top:-125px;box-shadow:0 0 0 18px #ffffff08,0 0 0 38px #ffffff06}
+.banner h2{font-size:16px;margin:0 0 7px}.banner p{font-size:9px;line-height:2;color:#d9eee1;margin:0}.badge{white-space:nowrap;background:#ffffff1c;border:1px solid #ffffff38;border-radius:30px;padding:8px 13px;font-size:9px;position:relative;z-index:1}
+.notice{background:#fff8e9;border:1px solid #f0dfbf;color:#75551e;border-radius:13px;padding:12px 15px;font-size:9px;line-height:2;margin-bottom:18px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.metric,.panel,.shortcut{background:linear-gradient(145deg,#ffffffed,#f5faf6d9);border:1px solid #ffffff;box-shadow:0 12px 28px #163d2410,inset 0 1px #fff;backdrop-filter:blur(12px);border-radius:17px}
+.metric{padding:16px;position:relative;overflow:hidden;transition:.22s}.metric:hover,.panel:hover,.shortcut:hover{transform:translateY(-4px);box-shadow:0 18px 34px #163d2418}
+.metric:after{content:"";position:absolute;width:70px;height:70px;border-radius:50%;background:#e1f0e5;left:-24px;bottom:-34px}
+.metric .label{font-size:9px;color:var(--muted)}.metric strong{display:block;font-size:24px;color:var(--g);margin:8px 0 3px}.metric small{font-size:8px;color:#849188}
+.cols{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,.8fr);gap:15px}
+.panel{padding:18px;margin-bottom:15px}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.panel h3{font-size:12px;color:var(--d);margin:0}.muted{font-size:9px;color:var(--muted)}
+.cardmini{border-radius:16px;background:linear-gradient(120deg,#053d2a,#087449 65%,#0b573a);padding:18px;color:white;box-shadow:0 15px 28px #073c2930;position:relative;overflow:hidden;transform:perspective(900px) rotateY(-2deg)}
+.cardmini:after{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffffff26;border-radius:50%;left:-50px;top:-105px;box-shadow:0 0 0 15px #ffffff08,0 0 0 32px #ffffff06}
+.cardbrand{font-size:9px;font-weight:700;line-height:1.8;position:relative;z-index:1}.cardtitle{font-size:8px;color:#d8eade;margin-top:18px}.membername{font-size:15px;font-weight:700;margin:6px 0;position:relative;z-index:1}.memberid{font-size:12px;color:#f1d99e;letter-spacing:1px;direction:ltr;text-align:right}
+.cardfoot{display:flex;justify-content:space-between;gap:10px;align-items:end;margin-top:18px;font-size:8px;color:#dcebe1}
+.shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.shortcut{padding:14px;text-align:right;cursor:pointer;font:inherit;color:var(--ink);transition:.2s}.shortcut .ico{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#fff,#dceee2);display:grid;place-items:center;color:var(--g);font-weight:700;margin-bottom:9px;box-shadow:0 5px 12px #075b3617}.shortcut b{display:block;font-size:9px}.shortcut span{font-size:8px;color:var(--muted)}
+.progress{height:9px;border-radius:20px;background:#e7eee8;overflow:hidden;margin:12px 0 8px;box-shadow:inset 0 2px 4px #173c2410}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#075b36,#29a06b);border-radius:20px}
+.activity{display:grid;grid-template-columns:25px 1fr auto;gap:10px;align-items:start;padding:12px 0;border-bottom:1px solid #edf2ed}.activity:last-child{border:0}.dot{width:9px;height:9px;border-radius:50%;background:#8ab99a;margin:4px auto;box-shadow:0 0 0 4px #e8f3eb}.activity b{font-size:9px}.activity span{display:block;font-size:8px;color:var(--muted);margin-top:4px}
+.view{display:none;animation:enter .3s ease}.view.active{display:block}@keyframes enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.empty{border:1px dashed #cbdccf;border-radius:13px;padding:25px;text-align:center;color:var(--muted);font-size:9px;line-height:2;background:#fbfdfb}
+table{width:100%;border-collapse:collapse;min-width:480px}th,td{text-align:right;padding:12px 10px;border-bottom:1px solid #edf2ed;font-size:9px}th{color:var(--muted);background:#f7faf7}
+.tablewrap{overflow:auto}.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#edf5ef;color:var(--g);font-size:8px}
+@media(max-width:980px){.metrics{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+@media(max-width:700px){.shell{grid-template-columns:1fr}.side{padding:12px 14px}.brand{padding-bottom:10px}.side .navlabel{display:none}.side nav{display:flex;overflow:auto;padding-top:10px}.side nav button{white-space:nowrap;padding:9px 12px}.side:after{display:none}.top{height:58px}.content{padding:15px}.banner{align-items:flex-start;flex-direction:column}.shortcuts{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head>
+<body>
+<div class="shell">
+<aside class="side"><div class="brand"><div class="mark">PACP</div><div><b>بوابة أعضاء الجمعية</b><small>MEMBER PORTAL</small></div></div><div class="navlabel">مساحة العضو</div>
+<nav id="memberNav">
+<button class="active" data-view="home">◈　الرئيسية</button><button data-view="profile">◎　ملفي الشخصي</button><button data-view="membership">▣　العضوية والبطاقة</button><button data-view="courses">▤　الدورات والتسجيل</button><button data-view="cpd">✧　نقاط CPD</button><button data-view="certs">▧　الشهادات</button><button data-view="requests">◷　طلباتي</button><button data-view="settings">⚙　الإعدادات</button>
+</nav></aside>
+<div class="main"><header class="top"><div class="crumb">PACP / بوابة العضو / <span id="crumb">الرئيسية</span></div><div class="user"><span>حساب العضو · معاينة</span><div class="avatar">م</div></div></header>
+<main class="content">
+<div class="heading"><div><div class="eyebrow">مساحة مهنية موحدة</div><h1 id="pageTitle">مرحبًا بك في بوابة الأعضاء</h1><div class="sub">إدارة عضويتك وأنشطتك المهنية من مكان واحد.</div></div><button class="btn light" type="button" onclick="toast('ستتوفر إعدادات اللغة عند تشغيل الحسابات.')">العربية　/　English</button></div>
+<div class="notice"><b>نسخة تصميمية غير تشغيلية:</b> لا يوجد تسجيل دخول أو ربط بقاعدة بيانات في هذه المعاينة. لا تُدخل بيانات شخصية حقيقية. الأرقام والحقول غير المعروضة تعني أن البيانات ستُجلب من حساب العضو بعد الإطلاق.</div>
+<section class="view active" id="view-home">
+<div class="banner"><div><h2>مرحبًا بك في مجتمع PACP المهني</h2><p>هذه مساحتك لمتابعة العضوية والتطوير المهني والتدريب والأنشطة العلمية.</p></div><div class="badge">حالة العضوية: تظهر بعد التحقق</div></div>
+<div class="metrics"><div class="metric"><div class="label">حالة العضوية</div><strong>—</strong><small>تُجلب من سجل العضوية</small></div><div class="metric"><div class="label">نقاط CPD المعتمدة</div><strong>—</strong><small>الرصيد الفعلي بعد اعتماد الأنشطة</small></div><div class="metric"><div class="label">الدورات المسجل بها</div><strong>—</strong><small>التسجيلات المرتبطة بحسابك</small></div><div class="metric"><div class="label">الشهادات الصادرة</div><strong>—</strong><small>الشهادات المعتمدة فقط</small></div></div>
+<div class="cols"><div><div class="panel"><div class="panelhead"><h3>الوصول السريع</h3><span class="muted">خدمات العضو</span></div><div class="shortcuts"><button class="shortcut" data-go="membership"><div class="ico">▣</div><b>بطاقة العضوية</b><span>عرض الحالة والبطاقة</span></button><button class="shortcut" data-go="courses"><div class="ico">▤</div><b>الدورات</b><span>استعراض البرامج المتاحة</span></button><button class="shortcut" data-go="cpd"><div class="ico">✧</div><b>نقاط CPD</b><span>سجل التطوير المهني</span></button></div></div>
+<div class="panel"><div class="panelhead"><h3>آخر الأنشطة</h3><span class="muted">سجل حسابك</span></div><div class="empty">ستظهر هنا تحديثات العضوية والتسجيلات والشهادات بعد ربط الحساب بالنظام.</div></div></div>
+<div><div class="panel"><div class="panelhead"><h3>ملخص ملف العضو</h3><span class="tag">خاص</span></div><div class="cardmini"><div class="cardbrand">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي<br><small>Palestinian Association of Clinical Psychologists</small></div><div class="cardtitle">بطاقة العضوية · MEMBER CARD</div><div class="membername">اسم العضو المعتمد</div><div class="memberid">PACPXXXX</div><div class="cardfoot"><span>تُعرض بعد الاعتماد النهائي</span><span>••••</span></div></div><p class="muted" style="line-height:2;margin-top:12px">معاينة شكلية فقط؛ لا تمثل بطاقة صادرة أو رقم عضوية حقيقيًا.</p></div>
+<div class="panel"><div class="panelhead"><h3>تقدم التطوير المهني</h3><span class="muted">CPD</span></div><div style="font-size:9px;color:var(--muted)">الرصيد المعتمد</div><div class="progress"><i></i></div><div class="muted">يُعرض التقدم بعد اعتماد سياسة النقاط وربط سجلك التدريبي.</div></div></div></div>
+</section>
+<section class="view" id="view-profile"><div class="panel"><div class="panelhead"><h3>ملفي الشخصي</h3><span class="tag">بيانات خاصة</span></div><div class="empty">سيتم عرض الاسم الرباعي بالعربية والإنجليزية، بيانات الاتصال، المؤهلات، التخصص، جهة العمل، وسنوات الخبرة. تعديل البيانات الحساسة يخضع للتحقق والمراجعة.</div></div></section>
+<section class="view" id="view-membership"><div class="panel"><div class="panelhead"><h3>العضوية والبطاقة الرقمية</h3><span class="tag">تصدر بعد الاعتماد</span></div><div class="empty">ستظهر فئة العضوية وحالتها وتاريخ الانتساب ورقم العضوية الفريد. تتاح البطاقة الرقمية للتنزيل والطباعة بعد الاعتماد النهائي فقط. رمز QR سيقود إلى صفحة تحقق عامة لا تكشف البيانات الشخصية.</div></div></section>
+<section class="view" id="view-courses"><div class="panel"><div class="panelhead"><h3>الدورات والتسجيل</h3><span class="muted">التعلم والتطوير</span></div><div class="empty">ستظهر الدورات المنشورة ومواعيدها ومتطلبات التسجيل وحالة كل طلب. لن يتم تأكيد تسجيل مدفوع قبل التحقق من الدفع عبر مزود معتمد.</div></div></section>
+<section class="view" id="view-cpd"><div class="panel"><div class="panelhead"><h3>سجل نقاط التطوير المهني المستمر</h3><span class="muted">Continuing Professional Development</span></div><div class="empty">سيعرض السجل النشاط التدريبي، الجهة المنظمة، التاريخ، عدد النقاط، وحالة الاعتماد. لا تُضاف النقاط إلا بعد اعتماد النشاط والتحقق من الحضور أو الإنجاز وفق السياسة المعتمدة.</div></div></section>
+<section class="view" id="view-certs"><div class="panel"><div class="panelhead"><h3>الشهادات</h3><span class="muted">سجل الشهادات الصادرة</span></div><div class="empty">ستظهر الشهادات المعتمدة مع تاريخ الإصدار ورقم تحقق فريد وإمكانية تنزيل نسخة PDF.</div></div></section>
+<section class="view" id="view-requests"><div class="panel"><div class="panelhead"><h3>طلباتي</h3><span class="muted">متابعة الطلبات</span></div><div class="empty">ستظهر طلبات الانتساب والتجديد وتحديث البيانات والتسجيل في الفعاليات، مع سجل زمني للحالة والإجراءات المطلوبة.</div></div></section>
+<section class="view" id="view-settings"><div class="panel"><div class="panelhead"><h3>إعدادات الحساب</h3><span class="muted">الأمان والتفضيلات</span></div><div class="empty">إدارة كلمة المرور والتحقق متعدد العوامل واللغة والإشعارات والجلسات النشطة. هذه الخيارات غير مفعلة في المعاينة.</div></div></section>
+</main></div></div>
+<div id="toast" style="display:none;position:fixed;bottom:18px;left:18px;background:#123e2b;color:#fff;padding:12px 16px;border-radius:10px;font-size:10px;box-shadow:0 10px 24px #0002"></div>
+<script>
+const titles={home:"مرحبًا بك في بوابة الأعضاء",profile:"ملفي الشخصي",membership:"العضوية والبطاقة الرقمية",courses:"الدورات والتسجيل",cpd:"نقاط التطوير المهني CPD",certs:"الشهادات",requests:"طلباتي",settings:"إعدادات الحساب"};
+function openView(key){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+key));document.querySelectorAll('#memberNav button').forEach(b=>b.classList.toggle('active',b.dataset.view===key));document.getElementById('pageTitle').textContent=titles[key];document.getElementById('crumb').textContent=titles[key];}
+document.querySelectorAll('#memberNav button').forEach(b=>b.addEventListener('click',()=>openView(b.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>openView(b.dataset.go)));
+function toast(s){const t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+</script></body></html>

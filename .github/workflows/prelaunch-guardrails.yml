@@ -1,0 +1,55 @@
+name: Prelaunch guardrails (no deployment)
+on:
+  pull_request:
+  push:
+    branches: ['rebuild/platform-foundation']
+permissions:
+  contents: read
+jobs:
+  prelaunch-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify canonical original 3D site
+        run: python3 scripts/check_canonical_release.py
+      - name: Static prelaunch checks
+        run: python3 scripts/prelaunch_static_check.py
+      - name: Verify distinct public and private release paths
+        run: python3 scripts/test_final_release_paths.py
+      - name: Check accessibility and accommodation integration
+        run: python3 scripts/test_accessibility_integration.py
+      - name: Verify optional Washington Group short set
+        run: python3 scripts/test_wg_ss_inclusion.py
+      - name: Check keyboard tabs and legibility regression
+        run: python3 scripts/test_accessibility_regression.py
+      - name: Check identity-first membership contract
+        run: python3 scripts/test_identity_first_contract.py
+      - name: Verify private identity-link service fails closed
+        run: python3 scripts/test_identity_link_scaffold.py
+      - name: Validate migration draft structure
+        run: python3 scripts/check_migrations.py
+      - name: Verify staging auth and submission contracts
+        run: python3 scripts/test_staging_contracts.py
+      - name: Compile manual authorization test (no credentials)
+        run: python3 -m py_compile scripts/test_member_auth_live_readonly.py
+      - name: Check privileged membership authorization order
+        run: python3 scripts/test_approval_order.py
+      - name: Verify approval patch security ordering
+        run: python3 scripts/test_approval_patch.py
+      - name: Ensure incomplete release evidence fails closed
+        run: python3 scripts/test_release_gate.py
+      - name: Verify digital card remains non-official and auth-scoped
+        run: python3 scripts/test_digital_card_contract.py
+      - name: Run isolated end-to-end membership, card, courses, revocation tests
+        run: python3 PACP-Reference-Design-Cloudflare-v9/portal/test_workflows.py
+      - name: Verify original homepage navigation and assets
+        run: python3 scripts/test_primary_navigation.py
+      - name: Check production-candidate feature flags
+        run: python3 scripts/test_public_feature_flags.py
+      - name: Check read-only Supabase integration contract
+        run: python3 scripts/test_operational_membership_rpc_contract.py
+      - name: Enforce preview deployment isolation
+        run: python3 scripts/test_preview_deployment_guard.py

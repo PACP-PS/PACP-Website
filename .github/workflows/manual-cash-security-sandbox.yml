@@ -1,0 +1,36 @@
+name: Manual cash and staff authorization sandbox (no deployment)
+on:
+  push:
+    branches: ['rebuild/platform-foundation']
+    paths:
+      - 'scripts/test_cash_admin_authorization_postgres.sql'
+      - '.github/workflows/manual-cash-security-sandbox.yml'
+  pull_request:
+    paths:
+      - 'scripts/test_cash_admin_authorization_postgres.sql'
+      - '.github/workflows/manual-cash-security-sandbox.yml'
+permissions:
+  contents: read
+jobs:
+  cash-security:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: pacp_cash_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: sandbox-test-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d pacp_cash_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enforce cashier-only writes, disabled bank transfer, role isolation
+        env:
+          PGPASSWORD: sandbox-test-only
+        run: psql -v ON_ERROR_STOP=1 -h localhost -U postgres -d pacp_cash_test -f scripts/test_cash_admin_authorization_postgres.sql

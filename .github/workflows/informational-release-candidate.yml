@@ -1,0 +1,70 @@
+name: PACP informational release artifact (NO DEPLOYMENT)
+on:
+  push:
+    branches: ['release/informational-2026-11-18']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-informational-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify approved visual homepage
+        run: python3 scripts/check_canonical_release.py
+      - name: Build informational-only website
+        run: python3 scripts/build_public_preview.py
+      - name: Validate public artifact isolation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+          root=Path('build/pacp-public-preview')
+          pages=list(root.rglob('*.html'))
+          assert len(pages)==7, [str(p) for p in pages]
+          allowed={'index.html','about.html','membership.html','training.html','news.html','resources.html','contact.html'}
+          assert {p.name for p in pages}==allowed
+          text=' '.join(p.read_text(encoding='utf8') for p in pages)
+          for bad in ('sb_secret_','service_role','supabase/functions','-staging.html'):
+              assert bad not in text,bad
+          assert (root/'assets/pacp-accessibility.js').exists()
+          assert (root/'assets/pacp-accessibility.css').exists()
+          assert 'غير مفعّلة حاليًا' in text
+          for page in pages:
+              html=page.read_text(encoding='utf8')
+              assert 'https://wa.me/970594090972' in html, str(page)
+              assert 'https://www.facebook.com/share/1KW6rSfwkF/' in html, str(page)
+              assert 'aria-label="قنوات التواصل الاجتماعي للجمعية"' in html, str(page)
+          for page in pages:
+              if page.name != 'index.html':
+                  html=page.read_text(encoding='utf8')
+                  assert 'class="pacp-mobile-nav"' in html, f'Missing mobile navigation: {page}'
+                  for name in ('about.html','membership.html','training.html','news.html','resources.html','contact.html'):
+                      assert 'href="'+name+'"' in html, f'Missing mobile {name} in {page}'
+          contact=(root/'PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html').read_text(encoding='utf8')
+          assert '<h2>واتساب الجمعية</h2>' in contact
+          assert '<h2>صفحة الجمعية على فيسبوك</h2>' in contact
+          assert "mailto:info@pacp.ps" in contact
+          assert "tel:+970594090972" in contact
+          assert '+970 59-409-0972' in contact
+          homepage=(root/'index.html').read_text(encoding='utf8')
+          footer=homepage.split('<div class="footer-icons">',1)[1].split('</div>',1)[0]
+          for required in ('instagram.com','wa.me/970594090972','facebook.com/share/1KW6rSfwkF','contact.html'):
+              assert required in footer, 'Missing footer icon '+required
+          cloudflare=Path('pacp-public-preview')
+          assert cloudflare.is_dir(), 'Configured Cloudflare output missing'
+          assert sorted(str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()) == sorted(str(p.relative_to(cloudflare)) for p in cloudflare.rglob('*') if p.is_file()), 'Cloudflare mirror differs from release artifact'
+          assert (cloudflare/'index.html').is_file()
+          print('PASS informational release files and safe services warning')
+          PY
+      - name: Verify all public navigation and asset references
+        run: python3 scripts/test_published_internal_links.py
+      - name: Archive release candidate for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacp-informational-release-candidate
+          path: build/pacp-public-preview
+          if-no-files-found: error

@@ -1,0 +1,358 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#005e3c"><meta name="description" content="الجمعية الفلسطينية لاختصاصيي علم النفس العيادي PACP — مجتمع مهني لدعم الممارسة العيادية والتطوير المهني"><title>PACP | الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</title><link rel="icon" href="/PACP-Reference-Design-Cloudflare-v9/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{--forest:#005e3c;--forest-dark:#064630;--red:#d4132d;--ink:#0a2227;--glass:#e5f5f3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f4fafc;color:var(--ink);font-family:Alexandria,Tahoma,Arial,sans-serif}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #0bbf9f;outline-offset:4px}svg{display:block}
+.site{position:relative;min-height:100vh;overflow:hidden;background:radial-gradient(ellipse at 22% 48%,#c0e7e4bb,transparent 45%),radial-gradient(ellipse at 85% 48%,#d5eef3ad,transparent 55%),linear-gradient(180deg,#f8fbfd,#eef7f9 78%,#e9f5f8)}
+.site:before{content:"";position:absolute;left:-15%;right:-15%;bottom:2%;height:140px;border-top:2px solid #ffffffd9;border-radius:50%;pointer-events:none}
+.container{width:min(96%,1500px);margin-inline:auto;position:relative;z-index:1}
+.header{min-height:87px;display:flex;align-items:center;gap:24px;justify-content:space-between;position:relative;z-index:10;direction:rtl}
+.brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.brand img{width:72px;height:72px;object-fit:contain}
+.brand-words{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.brand-words strong{font-size:24px;color:#005b3c}
+.brand-words span{font-size:10px;line-height:1.55;font-weight:700}
+.nav{display:flex;align-items:center;gap:clamp(10px,1.5vw,22px)}
+.nav a{font-size:12px;font-weight:800;white-space:nowrap;padding:12px 1px;border-bottom:3px solid transparent}
+.nav a[aria-current=page]{color:#005633;border-bottom-color:var(--red)}
+.header-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.small-action{padding:11px 14px;border-radius:14px;background:#ffffffb8;box-shadow:0 4px 12px #073d2412;font-size:11px;font-weight:800}
+.join{background:linear-gradient(120deg,#d90924,#e81b2e);color:white;box-shadow:0 6px 13px #c8122a35}
+.menu-button{display:none;border:1px solid #bbddd2;background:white;padding:9px 13px;border-radius:12px;color:#075d40}
+.hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.86fr) minmax(0,1.1fr);align-items:center;gap:13px;min-height:350px;direction:ltr;padding-top:3px}
+.hero-art{height:346px;display:flex;align-items:center;justify-content:center;position:relative}
+.hero-art img{width:112%;height:100%;object-fit:contain;max-width:none;filter:drop-shadow(0 9px 17px #00756425)}
+.hero-copy{direction:rtl;text-align:center;display:flex;align-items:center;flex-direction:column;gap:12px;z-index:2}
+.eyebrow{border:1px solid #4f9774;padding:8px 13px;border-radius:40px;background:#ffffffb9;font-size:11px;white-space:nowrap;font-weight:800}
+.hero h1{font-size:clamp(34px,3.7vw,58px);line-height:1.15;letter-spacing:-1px;margin:0;font-weight:800}
+.hero h1 em{color:#00673b;font-style:normal;display:block}
+.hero-copy p{font-size:clamp(11px,1.2vw,17px);font-weight:650;line-height:1.9;max-width:450px;margin:2px 0}
+.hero-buttons{display:flex;align-items:center;gap:12px}
+.btn{padding:12px 21px;border-radius:30px;font-size:12px;font-weight:800;white-space:nowrap;border:1.5px solid #006d45;background:#fff7}
+.btn.primary{background:#006c43;color:#fff;box-shadow:0 7px 15px #00643c38}
+.jerusalem-hero{height:320px;display:flex;align-items:center;overflow:hidden;position:relative;clip-path:ellipse(87% 72% at 100% 55%)}
+.jerusalem-hero img{width:100%;height:100%;object-fit:cover;object-position:56% 49%;border:0}
+.jerusalem-hero:after{content:"";position:absolute;left:-20%;right:-5%;bottom:0;height:30px;background:linear-gradient(172deg,#006d40 0 30%,#fff 31% 43%,#d5172f 44% 57%,#006943 58%);border-radius:75% 0 0 0}
+.services{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;max-width:1250px;margin:2px auto 0;direction:ltr}
+.service{min-height:124px;padding:17px 8px 12px;border-radius:26px;background:linear-gradient(145deg,#ffffffdf,#edf6f9eb);box-shadow:0 11px 22px #0a5a5615;border:1px solid #fff;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;gap:8px;direction:rtl;transition:transform .25s}
+.service:hover{transform:translateY(-5px)}
+.service svg{width:30px;height:30px;color:#00673e}
+.service h3{font-size:15px;font-weight:800;margin:0}
+.service p{font-size:10px;margin:0;color:#355c51;line-height:1.55}
+.membership-display{position:relative;display:flex;align-items:center;flex-direction:column;justify-content:center;margin:21px auto 9px;gap:10px}
+.card-plinth{width:min(90%,610px);height:23px;border-radius:50%;background:radial-gradient(ellipse,#ffffff 10%,#cee9e7a3 75%,transparent 77%);box-shadow:0 6px 16px #1f8a8a13;position:absolute;bottom:-5px}
+.cards-pair{position:relative;display:flex;align-items:center;justify-content:center;gap:20px;width:100%;direction:ltr;padding:0 4px}
+.member-card{position:relative;isolation:isolate;flex:0 1 260px;width:260px;aspect-ratio:1.56;border:2px solid #66f3d8;border-radius:17px;background:#f7ffff;box-shadow:inset 0 0 0 2px #fff,inset 0 0 10px #13eacc80,0 0 12px #1becc7a1,0 10px 18px #003c3a31;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:9px 10px;gap:3px;color:#102b25}
+.member-card:before{content:"";position:absolute;inset:4px;border:1px solid #ffffffdc;border-radius:12px;z-index:4;pointer-events:none}
+.card-front{background:linear-gradient(145deg,#fff,#e7f3f2 40%,#fff 72%,#d6e8e4)}
+.corner-flag{position:absolute;right:-10px;top:-12px;width:50%;height:24px;background:linear-gradient(170deg,#d11c2f 0 34%,#fff 35% 44%,#06653e 45% 68%,#1a2c24 69%);transform:rotate(9deg);border-radius:40%}
+.front-heading{direction:ltr;display:flex;justify-content:space-between;gap:5px;align-items:center;z-index:2;position:relative}
+.card-brand{display:flex;gap:4px;align-items:center;direction:ltr;min-width:0}
+.card-brand img{width:31px;height:37px;object-fit:contain;flex:none}
+.card-brand>div{display:flex;flex-direction:column;gap:1px;direction:rtl;text-align:right}
+.card-brand strong{font-size:7.5px;white-space:nowrap}
+.card-brand small{font-size:6px;font-weight:800;white-space:nowrap}
+.card-brand span{font:700 5.5px/1.15 Arial,sans-serif;color:#bb1830;text-align:left;direction:ltr}
+.card-label{display:flex;flex-direction:column;align-items:center;gap:4px;border-left:1px solid #8caa9d;padding-left:6px;direction:rtl}
+.card-label strong{font-size:11px;color:#00633d;white-space:nowrap}
+.card-label span{padding:3px 5px;border-radius:12px;font:700 6.5px Arial,sans-serif;background:#04683f;color:white;white-space:nowrap}
+.front-mid{position:relative;z-index:2;display:grid;grid-template-columns:24% minmax(0,1fr) 19%;gap:6px;align-items:center;direction:ltr}
+.avatar{width:100%;border:2px solid #126947;border-radius:13px;overflow:hidden;aspect-ratio:.88;background:#e1f0e7}
+.avatar svg{width:100%;height:100%}
+.sample-person{direction:rtl;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.sample-person>strong{font-size:11px;white-space:nowrap}
+.sample-person>b{font:800 9px Arial,sans-serif;color:#d9162b;white-space:nowrap}
+.member-no{display:flex;direction:ltr;gap:3px;align-items:center;background:#d9e9e5;padding:3px;border-radius:6px}
+.member-no>span{color:#04633f;font-size:13px}
+.member-no>div{display:flex;flex-direction:column;gap:2px;direction:rtl;align-items:flex-start}
+.member-no small{font-size:5px}
+.member-no b{font:800 7px Arial,sans-serif;color:#07563b;white-space:nowrap}
+.decorative-qr svg{width:100%;border:1px solid #3c9e71;border-radius:3px;background:#fff}
+.card-dates{position:relative;z-index:2;display:flex;gap:6px;justify-content:space-evenly;align-items:center;border-radius:14px;background:#ffffffa8;padding:4px 1px;direction:ltr}
+.card-dates>div{display:flex;gap:4px;align-items:center}
+.card-dates>div>span{font-size:13px;color:#d91c33}
+.card-dates>div>div{display:flex;flex-direction:column;gap:2px;direction:rtl}
+.card-dates small{font-size:6px;white-space:nowrap}
+.card-dates b{font:700 7px Arial,sans-serif}
+.card-dates i{width:1px;height:18px;background:#92baac}
+.sample-watermark{font-size:5.5px;color:#a74c53;text-align:center;align-self:center;z-index:3;background:#ffffffdc;border-radius:6px;padding:1px 5px}
+.flag-bottom{position:absolute;left:-12%;right:-11%;bottom:-20px;height:45px;border-radius:55% 50% 0 0;background:linear-gradient(166deg,#006945 0 43%,#fff 44% 51%,#d41d31 52% 63%,#04744a 64%);z-index:1}
+.card-back{background:linear-gradient(180deg,#00593d 0%,#006c45 35%,#f6faf9 35.3%,#e5f3f1 100%)}
+.back-heading{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;color:white;min-height:32%;position:relative;z-index:2}
+.back-heading>strong{font-size:10px}
+.back-heading>span{font:600 7px/1.3 Arial,sans-serif;max-width:76%}
+.back-heading>img{position:absolute;right:0;bottom:-8px;width:29%;height:40px;object-fit:cover;object-position:65% 55%;clip-path:ellipse(51% 48% at 50% 50%);border-radius:40%}
+.back-curve{position:absolute;top:33%;left:-5%;width:110%;height:17px;background:linear-gradient(178deg,#d2172b 0 26%,#fff 27% 43%,transparent 44%);border-radius:55%;z-index:1}
+.back-text{display:grid;grid-template-columns:1fr 1fr;gap:8px;direction:rtl;position:relative;z-index:2}
+.back-text p{margin:0;font-size:6.8px;line-height:1.5;font-weight:750;text-align:right;color:#12382c}
+.back-text p[lang=en]{direction:ltr;text-align:left;border-right:1px solid #569c80;padding-right:6px;font:600 6.5px/1.45 Arial,sans-serif}
+.back-bottom{display:flex;direction:ltr;align-items:center;justify-content:space-between;gap:8px;background:#ffffffb3;border-radius:15px;padding:4px 7px;position:relative;z-index:2}
+.fake-barcode{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1}
+.fake-barcode span{height:22px;width:85%;background:repeating-linear-gradient(90deg,#162d25 0 2px,transparent 2px 3px,#162d25 3px 5px,transparent 5px 7px,#162d25 7px 9px,transparent 9px 12px)}
+.fake-barcode b{font:800 7px Arial,sans-serif}
+.back-brand{display:flex;align-items:center;gap:4px;flex:1;min-width:0;direction:ltr}
+.back-brand img{width:31px;height:35px;object-fit:contain}
+.back-brand>div{display:flex;flex-direction:column;gap:1px;direction:rtl;text-align:right}
+.back-brand strong{font-size:6.8px;white-space:nowrap}
+.back-brand small{font-size:5px;font-weight:700;white-space:nowrap}
+.back-brand span{font:600 5px/1.15 Arial,sans-serif;color:#c7192f;text-align:left;direction:ltr}
+.demo-mark{font:700 5.5px Arial,sans-serif;color:#a6454c;position:relative;z-index:3;background:#fffd;border-radius:8px;align-self:center;padding:1px 5px}
+.stats{position:relative;z-index:2;width:min(90%,1250px);margin:13px auto 28px;display:grid;grid-template-columns:repeat(4,1fr);background:linear-gradient(120deg,#00593a,#006b44 62%,#005638);border-radius:23px;box-shadow:0 9px 19px #0059422b;color:white;padding:14px 7px}
+.stat{text-align:center;padding:0 10px;border-inline-start:1px solid #ffffff7b;display:flex;flex-direction:column;gap:4px}
+.stat:first-child{border:0}.stat strong{font-size:22px}.stat small{font-size:10px}
+.footer{position:relative;z-index:1;text-align:center;padding:24px 0 35px;color:#426356;font-size:10px}
+.footer-icons{display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:9px}
+.footer-icons a,.footer-icons span{width:36px;height:36px;border-radius:11px;background:#fff9;display:grid;place-items:center;border:1px solid #fff;box-shadow:0 5px 12px #005e3219}
+.footer-icons svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+@media(max-width:1150px){.header{flex-wrap:wrap;gap:5px;justify-content:center;padding:8px 0}.nav{order:3;width:100%;justify-content:center;gap:15px;flex-wrap:wrap}.hero{grid-template-columns:1fr 1fr 1fr;min-height:295px}.hero-art{height:280px}.jerusalem-hero{height:260px}.brand img{width:55px;height:55px}}
+@media(max-width:750px){.container{width:min(94%,580px)}.header{justify-content:space-between;min-height:76px;flex-wrap:wrap}.brand img{width:50px;height:50px}.brand-words strong{font-size:19px}.brand-words span{font-size:8px}.menu-button{display:block}.header-actions{gap:5px}.header-actions .small-action{padding:8px 9px;font-size:9px}.nav{display:none;order:4;flex:0 0 100%;background:#ffffffed;border-radius:16px;padding:10px;box-shadow:0 7px 20px #003b2e1c}.nav.open{display:flex;justify-content:flex-start;gap:8px}.nav a{font-size:11px;padding:9px}.hero{grid-template-columns:1fr 1fr;gap:7px;padding-top:12px}.hero-art{height:180px}.hero-copy{grid-column:1/-1;grid-row:1;gap:8px;margin-bottom:12px}.eyebrow{font-size:9px;max-width:100%;white-space:normal}.hero h1{font-size:38px}.hero-copy p{font-size:11px;max-width:340px}.btn{font-size:10px;padding:10px 12px}.hero-art.brain-hero{grid-column:1;grid-row:2;height:160px}.jerusalem-hero{grid-column:2;grid-row:2;height:150px}.services{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.service{min-height:113px;border-radius:19px}.service h3{font-size:12px}.service p{font-size:9px}.service svg{width:24px;height:24px}.membership-display{margin-top:18px}.cards-pair{gap:10px}.member-card{flex-basis:50%;min-width:0;width:50%;padding:6px;border-radius:12px;gap:2px;border-width:2px}.card-brand img{width:21px;height:27px}.card-brand strong{font-size:5px}.card-brand small{font-size:4px}.card-brand span{font-size:3.7px}.card-label strong{font-size:7.3px}.card-label span{font-size:4.3px;padding:2px 4px}.front-mid{gap:3px}.avatar{border-width:1px;border-radius:7px}.sample-person{gap:2px}.sample-person>strong{font-size:7px}.sample-person>b{font-size:6px}.member-no{padding:2px;gap:2px}.member-no>span{display:none}.member-no small{font-size:4px}.member-no b{font-size:4.6px}.card-dates{gap:2px;padding:2px}.card-dates>div{gap:2px}.card-dates>div>span{font-size:9px}.card-dates small{font-size:4.1px}.card-dates b{font-size:4.7px}.card-dates i{height:12px}.sample-watermark{font-size:4px}.back-heading>strong{font-size:6.4px}.back-heading>span{font-size:4.6px}.back-heading>img{height:24px}.back-text{gap:4px}.back-text p{font-size:4.4px}.back-text p[lang=en]{font-size:4.3px;padding-right:3px}.back-bottom{padding:2px 3px;gap:3px}.fake-barcode span{height:14px}.fake-barcode b{font-size:4.6px}.back-brand img{width:18px;height:20px}.back-brand strong{font-size:4.5px}.back-brand small{font-size:3.7px}.back-brand span{font-size:3px}.demo-mark{font-size:4px}.stats{width:96%;grid-template-columns:repeat(2,1fr);gap:12px;padding:15px 7px}.stat{border:0}.stat strong{font-size:17px}.stat small{font-size:9px}}
+@media(max-width:385px){.header-actions .small-action{padding:7px 6px}.hero h1{font-size:33px}.cards-pair{gap:5px}.member-card{padding:5px}.brand-words span{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Colored professional service pictograms — PACP staging refresh */
+.service{--icon-main:#0a8f74;--icon-soft:#dcf6ee;--icon-glow:#0aa57d25;position:relative;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.service-icon{width:53px;height:53px;display:grid;place-items:center;flex:0 0 auto;border-radius:17px;background:linear-gradient(145deg,#fff,var(--icon-soft));border:1px solid #ffffffcf;box-shadow:inset 0 2px 3px #ffffffd9,0 5px 13px var(--icon-glow)}
+.service-icon svg{width:31px;height:31px;color:var(--icon-main);stroke:var(--icon-main);stroke-width:1.85;filter:drop-shadow(0 1px 0 #ffffffbd)}
+.service-community{--icon-main:#078663;--icon-soft:#d8f4e8;--icon-glow:#0b916035}
+.service-training{--icon-main:#ad6e11;--icon-soft:#fff0cb;--icon-glow:#d6a12d3c}
+.service-membership{--icon-main:#00799f;--icon-soft:#d4f1fb;--icon-glow:#138ab63a}
+.service-standards{--icon-main:#bb274a;--icon-soft:#ffdfeb;--icon-glow:#cb33503a}
+.service:hover{box-shadow:0 14px 27px #0a5a561e;border-color:#bfe9dd}
+.service:hover .service-icon{transform:translateY(-2px)}
+@media(max-width:750px){.service-icon{width:43px;height:43px;border-radius:14px}.service-icon svg{width:26px;height:26px}}
+
+/* Approved visual reference: dimensional translucent glass membership cards. */
+.member-card{
+  border:1.5px solid rgba(176,255,240,.95);
+  background:linear-gradient(132deg,rgba(255,255,255,.82),rgba(207,251,246,.62) 43%,rgba(255,255,255,.88) 70%,rgba(53,172,144,.32));
+  backdrop-filter:blur(13px) saturate(170%);
+  -webkit-backdrop-filter:blur(13px) saturate(170%);
+  box-shadow:inset 0 2px 2px #fff, inset 0 -2px 6px #08886c66,0 0 0 3px #8dfff13d,0 0 20px #12ebc787,0 17px 25px #054e493a;
+  transform:perspective(900px) rotateY(-5deg) rotateX(2deg);
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.member-card:nth-child(2){transform:perspective(900px) rotateY(5deg) rotateX(2deg)}
+.member-card:hover,.member-card:focus-within{transform:perspective(900px) translateY(-5px) rotateY(0deg);box-shadow:inset 0 2px 3px #fff,0 0 25px #14e7cba8,0 23px 30px #054e4940}
+.member-card:after{content:"";position:absolute;pointer-events:none;z-index:5;inset:0;border-radius:inherit;background:linear-gradient(119deg,rgba(255,255,255,.52) 0%,transparent 23%,transparent 59%,rgba(255,255,255,.25) 73%,transparent 85%);mix-blend-mode:screen}
+.card-front{background:linear-gradient(145deg,#fffefee0,#ddf8f1b8 41%,#fff 70%,#9addc7a8)}
+@media(max-width:750px){
+ .header{align-items:center}
+ .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:100%;overflow:hidden}
+ .hero-copy{padding-inline:8px}
+ .hero-art.brain-hero,.jerusalem-hero{min-width:0}
+ .hero-art img,.jerusalem-hero img{max-width:100%;object-fit:contain}
+ .cards-pair{gap:7px;max-width:100%}
+ .member-card{min-width:0;transform:none;flex:1 1 0}
+ .member-card:nth-child(2){transform:none}
+}
+
+/* Reference-aligned desktop composition: coherent three-panel hero and five glass tiles. */
+@media(min-width:1200px){
+ .site{background:radial-gradient(ellipse at 19% 40%,#a8dbd9a8,transparent 34%),radial-gradient(ellipse at 83% 33%,#dbeff4a9,transparent 39%),linear-gradient(180deg,#f8fbfd,#e9f5f8 80%,#e8f3f5)}
+ .hero{grid-template-columns:minmax(0,1.15fr) minmax(0,.96fr) minmax(0,1.14fr);gap:0;min-height:390px;padding:0;margin-top:0;position:relative}
+ .hero-art{height:380px;z-index:1}
+ .hero-art img{width:112%;height:100%;object-fit:contain}
+ .hero-copy{gap:10px;padding-inline:8px;z-index:3}
+ .hero h1{font-size:clamp(48px,4.1vw,72px);line-height:1.05}
+ .hero-copy p{font-size:clamp(12px,1.05vw,16px);max-width:390px}
+ .jerusalem-hero{height:350px;clip-path:ellipse(90% 77% at 100% 55%)}
+ .jerusalem-hero:after{height:38px;background:linear-gradient(170deg,#006d40 0 28%,#fff 29% 43%,#e11931 44% 60%,#08743f 61%)}
+ .services{max-width:1320px;gap:12px;margin:7px auto 0}
+ .service{min-height:124px;border:1px solid #fff;background:linear-gradient(137deg,#ffffffec,#e8f4f7d9);box-shadow:0 12px 20px #0a62531a,inset 0 1px 0 #fff}
+ .membership-display{margin:18px auto 10px}
+ .member-card{flex-basis:270px;width:270px}
+}
+@media(max-width:750px){
+ .services{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .service:nth-child(5){grid-column:1/-1;max-width:100%;width:100%}
+ .membership-display{max-width:100%}
+}
+@media(prefers-reduced-motion:reduce){.member-card{transition:none;transform:none!important}}
+
+/* PACP approved refinements: balanced center, integrated Jerusalem and premium card reverse. */
+@media(min-width:1200px){
+ .hero-copy{max-width:100%;padding-inline:18px;gap:9px}
+ .hero h1{font-size:clamp(40px,3.25vw,54px);line-height:1.11;letter-spacing:-.6px}
+ .hero-copy p{font-size:clamp(11px,.93vw,14px);line-height:1.75;max-width:365px}
+ .hero-buttons{gap:8px}
+ .hero-buttons .btn{padding:10px 15px;font-size:11px}
+ .eyebrow{font-size:10px;white-space:normal;max-width:100%;line-height:1.5}
+}
+.jerusalem-hero{isolation:isolate;filter:drop-shadow(-10px 9px 16px rgba(12,115,95,.14));clip-path:ellipse(94% 78% at 99% 54%)}
+.jerusalem-hero:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(232,249,249,.36),transparent 24%),linear-gradient(0deg,rgba(14,119,95,.11),transparent 45%)}
+.jerusalem-hero img{object-position:55% 50%}
+.jerusalem-hero:after{z-index:2;height:38px;background:linear-gradient(173deg,#00663f 0 29%,#fff 30% 43%,#dd1831 44% 60%,#007245 61%);border-radius:85% 15% 0 0;opacity:.96}
+.card-back{background:linear-gradient(160deg,rgba(5,116,81,.94) 0%,rgba(3,88,62,.95) 32%,rgba(234,252,249,.92) 32.5%,rgba(250,255,254,.85) 73%,rgba(189,234,222,.78));}
+.back-heading{align-items:flex-start;text-align:right;padding:3px 3px 0 33%;min-height:29%;gap:3px}
+.back-heading>strong{font-size:9px;line-height:1.3}
+.back-heading>span{font-size:6px;line-height:1.35;max-width:100%;text-align:right}
+.back-heading>img{right:auto;left:3px;top:0;bottom:auto;width:30%;height:47px;object-fit:cover;object-position:65% 54%;clip-path:ellipse(49% 48% at 50% 50%);border:1px solid rgba(255,255,255,.8);box-shadow:0 2px 10px #00a88960}
+.back-curve{top:29%;height:15px;opacity:.82}
+.back-text{gap:9px;margin-top:1px}
+.back-text p{font-size:6.5px;line-height:1.48}
+.back-text p[lang=en]{font-size:6.2px;line-height:1.45}
+.back-bottom{background:rgba(255,255,255,.76);border:1px solid #ffffffb8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:3px 7px}
+.back-brand img{width:27px;height:31px}
+.fake-barcode span{height:18px}
+@media(max-width:750px){
+ .hero-copy{max-width:100%;padding-inline:5px}
+ .hero h1{font-size:clamp(30px,9vw,39px);line-height:1.12}
+ .hero-copy p{font-size:clamp(10px,2.9vw,12px);line-height:1.7;max-width:340px}
+ .jerusalem-hero{clip-path:ellipse(96% 78% at 100% 53%)}
+ .back-heading{padding-left:32%}
+}
+
+/* PACP 2026 approved visual rebuild — reference #2 membership and #3 panoramic homepage */
+@media (min-width:1100px){
+ .container{width:min(98%,1620px)}
+ .header{min-height:99px;gap:20px;padding-inline:12px;background:linear-gradient(180deg,#ffffffb8,#ffffff36)}
+ .brand img{width:89px;height:89px}
+ .brand-words strong{font-size:28px}
+ .brand-words span{font-size:11px}
+ .nav a{font-size:12px}
+ .hero{grid-template-columns:minmax(0,1.14fr) minmax(0,.94fr) minmax(0,1.14fr);min-height:390px;gap:0;align-items:center}
+ .hero-art{height:390px}
+ .hero-art img{width:116%;height:100%;filter:drop-shadow(0 5px 18px #00a17f40)}
+ .hero-copy{max-width:100%;padding:0 20px;gap:12px}
+ .hero h1{font-size:clamp(39px,3vw,52px);line-height:1.14;letter-spacing:-.65px}
+ .hero-copy p{max-width:390px;font-size:clamp(11px,.9vw,14px);line-height:1.85}
+ .jerusalem-hero{height:365px;clip-path:ellipse(98% 83% at 100% 52%);filter:drop-shadow(-14px 8px 14px #0d7e6835)}
+ .jerusalem-hero:after{height:48px;left:-35%;right:-4%;background:linear-gradient(170deg,#07804e 0 24%,#fff 25% 37%,#e1122d 38% 51%,#087748 52% 74%,#00623d 75%);border-radius:100% 0 0 0}
+ .services{max-width:1330px;gap:12px;margin-top:3px}
+ .service{min-height:126px;border:1px solid #fffffff0;background:linear-gradient(145deg,#ffffffef,#e7f2f5c9);box-shadow:0 13px 20px #09645a23}
+ .membership-display{margin:22px auto 9px}
+ .cards-pair{gap:22px}
+ .member-card{flex:0 0 340px;width:340px;border-radius:21px;padding:12px 14px}
+ .member-card:before{inset:5px;border-radius:16px}
+ .card-brand img{width:39px;height:44px}
+ .card-brand strong{font-size:9px}
+ .card-brand small{font-size:7px}
+ .card-brand span{font-size:6.2px}
+ .card-label strong{font-size:14px}
+ .back-heading>strong{font-size:13px}
+ .back-heading>span{font-size:8px}
+ .back-heading>img{width:32%;height:63px}
+ .back-text p{font-size:9px;line-height:1.55}
+ .back-text p[lang=en]{font-size:8px;line-height:1.5}
+ .back-bottom{padding:7px 9px}
+ .fake-barcode span{height:27px}
+ .fake-barcode b{font-size:9px}
+ .back-brand img{width:35px;height:38px}
+ .back-brand strong{font-size:8px}
+ .back-brand small{font-size:6px}
+ .demo-mark{font-size:7px}
+ .card-plinth{width:min(91%,860px);height:29px;bottom:-9px;box-shadow:0 11px 24px #1c8c8850}
+}
+.site{background:radial-gradient(ellipse at 18% 41%,#a9dedbb8,transparent 37%),radial-gradient(ellipse at 84% 39%,#d4e7ef9e,transparent 42%),linear-gradient(180deg,#f9fcff,#e8f5f6 75%,#e8f3f7)}
+.hero{position:relative}
+.hero::after{content:"";position:absolute;z-index:0;pointer-events:none;bottom:0;left:-3%;width:106%;height:48px;background:linear-gradient(176deg,transparent 0 32%,#ffffffb5 33% 42%,#e4fcf4bd 43%);border-radius:50%;opacity:.65}
+.hero-art,.hero-copy,.jerusalem-hero{position:relative;z-index:1}
+.jerusalem-hero::before{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(90deg,#eaf8f875,transparent 25%),linear-gradient(0deg,#004b3c26,transparent 34%)}
+.member-card{box-shadow:inset 0 2px 3px #fff,inset 0 -4px 8px #028e6860,0 0 0 3px #adfff15b,0 0 27px #1bf5d6a8,0 17px 29px #00644d4a}
+.card-back{background:linear-gradient(166deg,#006240f5 0%,#004c37f5 36%,#f3fffcda 36.5%,#eefcfbcb 76%,#c6eee2b3 100%)}
+.card-back .back-heading{min-height:35%;padding:4px 2px 4px 31%;align-items:center;justify-content:center;text-align:center}
+.card-back .back-heading>img{left:3px;right:auto;top:2px;width:30%;height:55%;max-height:80px;object-fit:cover;object-position:64% 53%;clip-path:ellipse(49% 48% at 50% 50%)}
+.card-back .back-curve{top:35%;height:16px;background:linear-gradient(174deg,#d0152e 0 31%,#fff 32% 46%,transparent 47%)}
+.card-back .back-text{grid-template-columns:1fr 1fr;gap:11px}
+.card-back .back-bottom{border:1px solid #fff;background:#f9fffcba;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card-back .flag-bottom{opacity:.85}
+@media (min-width:751px) and (max-width:1099px){
+ .member-card{flex-basis:295px;width:295px}
+ .hero-copy{padding-inline:13px}
+ .hero h1{font-size:clamp(30px,3.7vw,43px)}
+}
+@media (max-width:750px){
+ .hero::after{display:none}
+ .card-back .back-heading>img{max-height:44px}
+ .member-card{box-shadow:inset 0 1px 2px white,0 0 12px #0af4c783,0 10px 18px #00644d3b}
+}
+
+/* PACP membership reverse v2 — approved two-sided premium reference, demo only. */
+.card-back-v2{display:flex;flex-direction:column;justify-content:space-between;gap:0;padding:0!important;overflow:hidden;background:linear-gradient(165deg,#06764d 0%,#00623f 41%,#f7fffd 41.3%,#e4f7f1 95%)!important}
+.card-back-v2 .back-v2-head{height:35%;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 30%;align-items:center;gap:4px;padding:7px 12px 4px;direction:ltr;position:relative;z-index:2;color:white}
+.card-back-v2 .back-v2-title{direction:rtl;text-align:center;min-width:0}
+.card-back-v2 .back-v2-title strong{display:block;font-size:clamp(10px,1vw,14px);line-height:1.2;font-weight:800;white-space:normal}
+.card-back-v2 .back-v2-title span{display:block;font:600 clamp(6px,.61vw,9px)/1.35 Arial,sans-serif;margin-top:4px}
+.card-back-v2 .back-v2-city{width:100%;aspect-ratio:1.9;overflow:hidden;border-radius:50%;box-shadow:0 0 0 1px #fff9,0 4px 10px #003f3460}
+.card-back-v2 .back-v2-city img{display:block;width:100%;height:100%;object-fit:cover;object-position:60% 48%}
+.card-back-v2 .back-v2-ribbon{height:12px;flex:none;margin-top:-3px;position:relative;z-index:3;background:linear-gradient(178deg,#e21d36 0 30%,#fff 31% 53%,#08824e 54% 75%,transparent 76%);border-radius:60% 40% 30% 20%}
+.card-back-v2 .back-v2-copy{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;direction:ltr;min-height:0;flex:1;padding:4px 12px}
+.card-back-v2 .back-v2-copy p{font-size:clamp(6px,.56vw,8px);font-weight:750;line-height:1.48;margin:0;color:#133b2e}
+.card-back-v2 .back-v2-copy p:first-child{border-right:1px solid #16846566;padding-right:9px;text-align:left;font-family:Arial,sans-serif}
+.card-back-v2 .back-v2-copy p:last-child{direction:rtl;text-align:right}
+.card-back-v2 .back-v2-shield{display:inline-grid;place-items:center;font-size:11px;color:#07824e;margin-right:3px}
+.card-back-v2 .back-v2-bottom{display:grid;grid-template-columns:1fr 1fr;gap:7px;direction:ltr;align-items:center;margin:0 10px 9px;background:#ffffffbe;border:1px solid #fff;border-radius:13px;padding:5px 7px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:2}
+.card-back-v2 .back-v2-barcode{display:flex;flex-direction:column;align-items:center;min-width:0;gap:3px}
+.card-back-v2 .back-v2-barcode span{display:block;width:100%;height:24px;background:repeating-linear-gradient(90deg,#152c24 0 2px,transparent 2px 4px,#152c24 4px 5px,transparent 5px 7px,#152c24 7px 10px,transparent 10px 12px)}
+.card-back-v2 .back-v2-barcode b{font:800 clamp(6px,.65vw,9px) Arial,sans-serif;color:#132d24}
+.card-back-v2 .back-v2-identity{display:flex;align-items:center;gap:5px;min-width:0;direction:ltr}
+.card-back-v2 .back-v2-identity img{width:32px;height:36px;flex:none;object-fit:contain}
+.card-back-v2 .back-v2-identity div{display:flex;flex-direction:column;direction:rtl;text-align:right;min-width:0}
+.card-back-v2 .back-v2-identity strong{font-size:clamp(6px,.64vw,9px);line-height:1.2}
+.card-back-v2 .back-v2-identity small{font-size:clamp(5px,.5vw,7px);font-weight:700;line-height:1.2}
+.card-back-v2 .back-v2-identity span{font:700 clamp(4px,.48vw,7px)/1.15 Arial,sans-serif;color:#bf1830;text-align:left;direction:ltr}
+.card-back-v2 .back-v2-bottom-wave{position:absolute;bottom:0;left:0;right:0;height:15px;background:linear-gradient(174deg,transparent 0 25%,#fff 26% 44%,#d71b34 45% 59%,#008450 60%);z-index:1}
+.card-back-v2 .back-v2-demo{position:absolute;z-index:5;bottom:1px;left:50%;transform:translateX(-50%);font:800 6px Arial,sans-serif;letter-spacing:.2px;color:#8c3542;background:#fffffff0;padding:1px 6px;border-radius:12px;white-space:nowrap}
+@media(max-width:750px){.card-back-v2 .back-v2-head{padding:4px 6px 2px}.card-back-v2 .back-v2-title strong{font-size:8px}.card-back-v2 .back-v2-title span{font-size:5px;margin-top:1px}.card-back-v2 .back-v2-ribbon{height:7px}.card-back-v2 .back-v2-copy{gap:4px;padding:2px 5px}.card-back-v2 .back-v2-copy p{font-size:4.8px;line-height:1.3}.card-back-v2 .back-v2-copy p:first-child{padding-right:3px}.card-back-v2 .back-v2-bottom{margin:0 4px 5px;padding:2px 3px;gap:2px}.card-back-v2 .back-v2-barcode span{height:11px}.card-back-v2 .back-v2-barcode b{font-size:5px}.card-back-v2 .back-v2-identity img{width:15px;height:19px}.card-back-v2 .back-v2-identity strong{font-size:4.6px}.card-back-v2 .back-v2-identity small{font-size:3.5px}.card-back-v2 .back-v2-identity span{font-size:3px}.card-back-v2 .back-v2-demo{font-size:4.5px}}
+
+/* PACP reverse v3: balanced full-width Jerusalem banner, reference-aligned card proportions. */
+.card-back-v3{container-type:inline-size;display:grid!important;grid-template-rows:37% 5% 30% 28%;align-items:stretch;gap:0;padding:0!important;background:linear-gradient(#fbfffd,#e7f8f3)!important;isolation:isolate;overflow:hidden}
+.card-back-v3 .reverse-banner{position:relative;z-index:1;background:linear-gradient(105deg,#004c34,#006f47 70%,#078753);color:white;overflow:hidden}
+.card-back-v3 .reverse-city{position:absolute;right:0;top:0;width:37%;height:100%;overflow:hidden;mask-image:linear-gradient(to left,#000 63%,transparent 100%);-webkit-mask-image:linear-gradient(to left,#000 63%,transparent 100%)}
+.card-back-v3 .reverse-city img{width:100%;height:100%;object-fit:cover;object-position:65% 48%;filter:saturate(1.12)}
+.card-back-v3 .reverse-heading{position:relative;z-index:2;width:72%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.2cqw;padding:1cqw 1cqw 1cqw 4cqw;direction:rtl}
+.card-back-v3 .reverse-heading strong{color:white;font-size:3.25cqw;line-height:1.28;font-weight:800;letter-spacing:0}
+.card-back-v3 .reverse-heading span{color:#f9fffc;font:700 2.65cqw/1.25 Arial,sans-serif}
+.card-back-v3 .reverse-swoosh{position:relative;z-index:2;background:linear-gradient(175deg,#dc1631 0 30%,#fff 31% 56%,#047548 57%);border-radius:52% 0 0 0}
+.card-back-v3 .reverse-body{display:grid;grid-template-columns:1fr 1fr;direction:ltr;align-items:center;gap:3cqw;padding:1cqw 4.2cqw;background:linear-gradient(180deg,#fffefd,#effaf6)}
+.card-back-v3 .reverse-body p{margin:0;color:#17372b;font-weight:750;font-size:2.8cqw;line-height:1.33}
+.card-back-v3 .reverse-body p:first-child{font-family:Arial,sans-serif;text-align:left;border-right:1px solid #0b654d55;padding-right:2.2cqw}
+.card-back-v3 .reverse-body p:last-child{text-align:right}
+.card-back-v3 .reverse-shield{color:#08764d;font-size:3cqw;font-weight:900;padding-right:1cqw}
+.card-back-v3 .reverse-foot{margin:0 3cqw 2.5cqw;padding:1.5cqw 2.4cqw;display:grid;grid-template-columns:1fr 1fr;gap:3cqw;align-items:center;direction:ltr;background:linear-gradient(155deg,#fff,#edfbf7b8);border:1px solid white;border-radius:4cqw;box-shadow:0 0 0 1px #c9f6e7b5,inset 0 1px 0 white;z-index:2}
+.card-back-v3 .reverse-barcode{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1cqw;min-width:0}
+.card-back-v3 .reverse-barcode span{width:100%;height:8cqw;background:repeating-linear-gradient(90deg,#0e2b22 0 2px,transparent 2px 3px,#14271f 3px 6px,transparent 6px 8px)}
+.card-back-v3 .reverse-barcode b{font:800 2.55cqw Arial,sans-serif;color:#18362b}
+.card-back-v3 .reverse-identity{min-width:0;display:flex;align-items:center;gap:1.5cqw;direction:ltr}
+.card-back-v3 .reverse-identity img{flex:0 0 13%;width:13%;height:auto;aspect-ratio:1;object-fit:contain}
+.card-back-v3 .reverse-identity div{min-width:0;display:flex;flex-direction:column;gap:.3cqw;direction:rtl;text-align:right}
+.card-back-v3 .reverse-identity b{font-size:2.7cqw;line-height:1.12}
+.card-back-v3 .reverse-identity small{font-size:2.25cqw;font-weight:700;line-height:1.1}
+.card-back-v3 .reverse-identity em{font:700 2cqw/1.15 Arial,sans-serif;color:#c62136;text-align:left;font-style:normal}
+.card-back-v3 .reverse-flag{position:absolute;z-index:1;bottom:0;left:0;right:0;height:6%;background:linear-gradient(169deg,transparent 0 12%,#fff 13% 28%,#da1732 29% 46%,#00754b 47%)}
+.card-back-v3 .reverse-demo{position:absolute;z-index:5;bottom:.5cqw;left:50%;transform:translateX(-50%);font:800 1.7cqw Arial,sans-serif;letter-spacing:.15px;color:#a23e4a;background:#fffE;padding:.2cqw 2cqw;border-radius:100px;white-space:nowrap}
+
+/* Final refinement: balanced hero headline between brain and Jerusalem. */
+.hero-copy h1{font-size:clamp(31px,2.65vw,46px);line-height:1.22;letter-spacing:0;max-width:100%;text-wrap:balance}
+@media(min-width:751px) and (max-width:1199px){.hero-copy h1{font-size:clamp(29px,3.3vw,39px)}}
+@media(max-width:750px){.hero-copy h1{font-size:clamp(29px,8vw,36px);line-height:1.2}}
+
+/* Accessibility polish: readable stacked membership cards on small phones. */
+@media(max-width:520px){
+ .membership-display{width:100%;padding-inline:4px}
+ .cards-pair{flex-direction:column;gap:16px;align-items:center;padding:4px 0 16px}
+ .cards-pair .member-card{box-sizing:border-box;flex:0 0 auto;width:min(100%,360px);min-width:0;max-width:360px;aspect-ratio:1.56;border-radius:17px;padding:10px 11px}
+ .cards-pair .card-back-v3{padding:0!important}
+ .cards-pair .card-brand img{width:31px;height:36px}
+ .cards-pair .card-brand strong{font-size:8px}
+ .cards-pair .card-brand small{font-size:6px}
+ .cards-pair .card-brand span{font-size:5px}
+ .cards-pair .card-label strong{font-size:11px}
+ .cards-pair .card-label span{font-size:6px}
+ .cards-pair .sample-person>strong{font-size:10px}
+ .cards-pair .sample-person>b{font-size:8px}
+ .cards-pair .member-no b{font-size:8px}
+ .cards-pair .member-no small{font-size:6px}
+ .cards-pair .card-dates>div>span{font-size:6px}
+ .cards-pair .card-dates>div>b{font-size:7px}
+ .card-plinth{width:min(92%,380px)}
+}
+</style><link rel="stylesheet" href="/assets/pacp-accessibility.css"><script defer src="/assets/pacp-accessibility.js"></script><style id="pacp-social-contact-style">
+.pacp-social-links{position:fixed;inset-inline-end:16px;bottom:20px;z-index:999;display:flex;flex-direction:column;gap:9px;direction:rtl}
+.pacp-social-links a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 14px;border-radius:24px;color:#fff!important;font:700 15px/1.4 Tahoma,Arial,sans-serif;text-decoration:none!important;box-shadow:0 3px 12px #0003}
+.pacp-social-links a:focus-visible{outline:3px solid #222;outline-offset:3px}
+.pacp-social-links .pacp-whatsapp{background:#147d45}.pacp-social-links .pacp-facebook{background:#1554a7}
+@media(max-width:480px){.pacp-social-links{bottom:10px;inset-inline-end:10px}.pacp-social-links a{font-size:13px;padding:8px 10px}}
+@media print{.pacp-social-links{display:none}}
+</style></head><body><div class="site" id="top"><div class="container"><header class="header"><a class="brand" href="#top" aria-label="الرئيسية PACP"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="الشعار الأصلي للجمعية الفلسطينية لاختصاصيي علم النفس العيادي"><span class="brand-words"><strong>PACP</strong><span>الجمعية الفلسطينية<br>لاختصاصيي علم النفس العيادي</span></span></a><button class="menu-button" id="menu" aria-controls="siteNav" aria-expanded="false">القائمة ☰</button><nav class="nav" id="siteNav" aria-label="التنقل الرئيسي"><a href="#top" aria-current="page">الرئيسية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html" >عن الجمعية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html" >العضوية</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html" >التدريب وCPD</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html" >الموارد</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/news.html" >الأخبار والفعاليات</a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html" >اتصل بنا</a></nav><div class="header-actions"><a class="small-action join" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">شروط الانتساب</a><a class="small-action" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">معلومات العضوية</a><button class="small-action" type="button" id="lang" title="النسخة الإنجليزية قيد الإعداد">EN 🌐</button></div></header><main><section class="hero" aria-label="مرحبًا بكم في PACP"><div class="hero-art brain-hero"><img src="/assets/brain-scene-v2.webp" alt="تصوير فني لعقل متوهج يرمز إلى علم النفس العيادي"></div><div class="hero-copy"><span class="eyebrow">الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</span><h1>نحو مجتمع نفسي <em>داعم وواعٍ</em></h1><p>منصة مهنية تجمع الاختصاصيين، وتعزز الممارسة العيادية، وتدعم التطوير المهني، وخدمة المجتمع الفلسطيني.</p><div class="hero-buttons"><a class="btn primary" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html">استكشف العضوية ←</a><a class="btn" style="background:#075b36;color:#fff;font-weight:800" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/auth.html">ادخل إلى بوابة الانتساب ←</a><a class="btn" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html">تعرف على الجمعية ⊙</a></div></div><div class="jerusalem-hero"><img src="/PACP-Reference-Design-Cloudflare-v9/design/assets/jerusalem-panorama-v6.webp" alt="صورة فوتوغرافية للقدس وقبة الصخرة"></div></section><section class="services" aria-label="خدمات الجمعية"><a class="service service-community" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="5" fill="#79d4bf" fill-opacity=".25" stroke="none"/><circle cx="12" cy="8" r="3"/><path d="M6 20v-2a6 6 0 0 1 12 0v2M3 20v-2a4 4 0 0 1 3-3.7M21 20v-2a4 4 0 0 0-3-3.7"/></svg></span><h3>خدمة المجتمع</h3><p>مبادرات وبرامج للصحة النفسية</p></a><a class="service service-training" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/training.html"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" aria-hidden="true"><path d="M12 4 2 9l10 5 10-5Z" fill="#f4b942" fill-opacity=".26" stroke="none"/><path d="m2 9 10-5 10 5-10 5-10-5ZM6 11v6c3.5 3 8.5 3 12 0v-6M22 10v7"/></svg></span><h3>التدريب والتطوير</h3><p>دورات معتمدة ونقاط CPD</p></a><a class="service service-membership" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/membership.html"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="#36b5d6" fill-opacity=".16" stroke="none"/><rect x="2.5" y="4" width="19" height="16" rx="2"/><circle cx="8" cy="10" r="2"/><path d="M5 17c0-3 6-3 6 0M14 9h5M14 13h5"/></svg></span><h3>العضوية المهنية</h3><p>انتساب، اعتماد، وامتيازات</p></a><a class="service service-standards" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/about.html"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="5.5" fill="#f5c34d" fill-opacity=".35" stroke="none"/><circle cx="12" cy="8" r="5"/><path d="m9 12-2 10 5-3 5 3-2-10M12 5v6m-3-3h6"/></svg></span><h3>معايير وممارسة مهنية</h3><p>تعزيز جودة الخدمة العيادية</p></a><a class="service service-guidance" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/resources.html"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10l3 3v15H4V3h3"/><path d="M7 8h10M7 12h10M7 16h7"/></svg></span><h3>دليل الممارسة المهنية</h3><p>معايير وموارد مهنية</p></a></section><section class="membership-display" aria-label="نموذج مرئي لبطاقة العضوية الأمامية والخلفية"><div class="cards-pair"><article class="member-card card-front" aria-label="الوجه الأمامي لنموذج بطاقة العضوية"><div class="corner-flag" aria-hidden="true"></div><header class="front-heading"><div class="card-brand"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt=""><div><strong>الجمعية الفلسطينية</strong><small>لاختصاصيي علم النفس العيادي</small><span lang="en">Palestinian Association<br>of Clinical Psychologists</span></div></div><div class="card-label"><strong>بطاقة عضوية</strong><span lang="en">Membership Card</span></div></header><div class="front-mid"><div class="avatar"><svg viewBox="0 0 100 115" aria-hidden="true"><rect width="100" height="115" rx="12" fill="#e6f2ec"/><path d="M17 97C10 29 28 13 50 13s40 16 33 84" fill="#1b694d"/><ellipse cx="50" cy="59" rx="23" ry="30" fill="#f1d1bc"/><path d="M8 115c3-30 19-37 31-39l11 20 11-20c17 3 28 11 31 39" fill="#106145"/><path d="m32 84 18 21 18-21" fill="none" stroke="#d3eee0" stroke-width="4"/></svg></div><div class="sample-person"><strong>عضو افتراضي</strong><b lang="en">Sample Member</b><div class="member-no"><span aria-hidden="true">▣</span><div><small>رقم العضوية</small><b dir="ltr">PACP-DEMO-0001</b></div></div></div><div class="decorative-qr" aria-label="رمز زخرفي غير قابل للمسح"><svg viewBox="0 0 72 72" aria-hidden="true"><rect width="72" height="72" fill="#fff"/><g fill="#123b31"><path fill-rule="evenodd" d="M3 3h22v22H3zm5 5v12h12V8zm39-5h22v22H47zm5 5v12h12V8zM3 47h22v22H3zm5 5v12h12V52z"/><path d="M30 3h5v6h-5zm8 3h5v16h-5zm-9 14h8v6h-8zm10 9h10v7H39zm-9 6h6v7h-6zm11-2h6v6h-6zm11 0h8v6h-8zm12-4h6v9h-6zm-33 17h8v8h-8zm11-4h6v12h-6zm11 8h6v6h-6zm11-8h6v8h-6zM29 60h6v8h-6zm10 1h9v5h-9zm14-1h6v9h-6zm10 1h6v8h-6z"/></g></svg></div></div><div class="card-dates"><div><span aria-hidden="true">▦</span><div><small>تاريخ الانتساب</small><b dir="ltr">01 / 01 / 2025</b></div></div><i></i><div><span aria-hidden="true">☑</span><div><small>صالحة حتى</small><b dir="ltr">31 / 12 / 2025</b></div></div></div><div class="sample-watermark">نموذج توضيحي غير صالح لإثبات العضوية</div><div class="flag-bottom" aria-hidden="true"></div></article><article class="member-card card-back card-back-v3" aria-label="الوجه الخلفي التجريبي لبطاقة عضوية PACP"><div class="reverse-banner"><div class="reverse-city" aria-hidden="true"><img src="/PACP-Reference-Design-Cloudflare-v9/design/assets/jerusalem-panorama-v6.webp" alt=""></div><div class="reverse-heading"><strong>نحو مجتمع نفسي داعم وواعٍ</strong><span lang="en" dir="ltr">Towards a psychologically aware<br>and supportive society</span></div></div><div class="reverse-swoosh" aria-hidden="true"></div><div class="reverse-body"><p lang="en" dir="ltr"><span class="reverse-shield" aria-hidden="true">✓</span>Demonstration design for a PACP membership card. Not proof of registered membership.</p><p dir="rtl">نموذج توضيحي لتصميم بطاقة عضوية الجمعية الفلسطينية لاختصاصيي علم النفس العيادي، وليس إثباتاً لعضوية فعلية.</p></div><div class="reverse-foot"><div class="reverse-barcode"><span aria-hidden="true"></span><b dir="ltr">PACP-DEMO-0001</b></div><div class="reverse-identity"><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="شعار PACP"><div><b>الجمعية الفلسطينية</b><small>لاختصاصيي علم النفس العيادي</small><em lang="en" dir="ltr">Palestinian Association<br>of Clinical Psychologists</em></div></div></div><div class="reverse-flag" aria-hidden="true"></div><span class="reverse-demo">DEMO · NOT VALID</span></article></div><div class="card-plinth" aria-hidden="true"></div></section><section class="stats" aria-label="مجالات المنصة"><div class="stat"><strong>العضوية</strong><small>خدمات الانتساب والتحقق</small></div><div class="stat"><strong>CPD</strong><small>التطوير المهني المستمر</small></div><div class="stat"><strong>الدورات</strong><small>الأنشطة والفعاليات</small></div><div class="stat"><strong>PACP</strong><small>المجتمع المهني الفلسطيني</small></div></section></main><footer class="footer"><div class="footer-icons"><a href="https://www.instagram.com/pacp.ps?cplk=dmlrMWN6NXA5cnVz" target="_blank" rel="noopener noreferrer" aria-label="إنستغرام PACP" title="إنستغرام"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a><a href="https://wa.me/970594090972" target="_blank" rel="noopener noreferrer" aria-label="واتساب الجمعية على الرقم +970594090972" title="واتساب"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.4 7.5L3.5 20.5l1.3-4.4A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.4 8.1c-.3-.6-.7-.6-1-.1-.6.7-.5 1.6.1 2.7 1.1 2 3.1 3.6 5.2 4.2 1.1.3 2 .2 2.6-.5.5-.5.5-.9-.1-1.2l-1.7-.8c-.3-.2-.6.2-1 .7-.2.3-.4.3-.8.1-1.1-.5-2.3-1.6-2.8-2.6-.2-.4.2-.6.4-.9.2-.3.1-.5 0-.8Z"/></svg></a><a href="https://www.facebook.com/share/1KW6rSfwkF/" target="_blank" rel="noopener noreferrer" aria-label="صفحة الجمعية على فيسبوك" title="فيسبوك"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 20v-7h2.4l.4-3h-2.8V8.1c0-.9.3-1.5 1.5-1.5h1.5V4c-.3-.1-1.3-.2-2.5-.2-2.6 0-4.3 1.6-4.3 4.5V10H8v3h2.6v7Z"/></svg></a><a href="/PACP-Reference-Design-Cloudflare-v9/design/pages/contact.html" aria-label="التواصل مع الجمعية"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></div><small>واجهة تجريبية لتصميم PACP — بطاقات العضوية المعروضة نماذج افتراضية غير صالحة للتحقق</small></footer></div></div><script>const menu=document.getElementById('menu'),nav=document.getElementById('siteNav');menu.addEventListener('click',()=>{const opened=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(opened))});document.getElementById('lang').addEventListener('click',()=>alert('النسخة الإنجليزية قيد الإعداد.'));</script><nav class="pacp-social-links" aria-label="قنوات التواصل الاجتماعي للجمعية">
+<a class="pacp-whatsapp" href="https://wa.me/970594090972" target="_blank" rel="noopener noreferrer" aria-label="التواصل مع الجمعية عبر واتساب على الرقم +970594090972">واتساب <span aria-hidden="true">◉</span></a>
+<a class="pacp-facebook" href="https://www.facebook.com/share/1KW6rSfwkF/" target="_blank" rel="noopener noreferrer" aria-label="زيارة صفحة الجمعية على فيسبوك">فيسبوك <span aria-hidden="true">f</span></a>
+</nav></body></html>

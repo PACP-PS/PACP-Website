@@ -1,0 +1,16 @@
+name: PACP live official website smoke check (read only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-live-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Cloudflare and official-domain public pages
+        run: python3 scripts/test_live_informational_release.py
