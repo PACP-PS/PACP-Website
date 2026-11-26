@@ -22,7 +22,7 @@ EN_CSS = (
     "html[dir=ltr] .links,html[dir=ltr] .nav{direction:ltr}"
     "html[dir=ltr] dl{text-align:left}html[dir=ltr] .hero-copy{text-align:left}"
     "html[dir=ltr] h1,html[dir=ltr] h2,html[dir=ltr] h3{letter-spacing:0;line-height:1.25}"
-    "html[dir=ltr] .brand small{letter-spacing:0}html[dir=ltr] body,html[dir=ltr] body *{direction:ltr}html[dir=ltr] .pacp-lang{direction:ltr}</style>"
+    "html[dir=ltr] .brand small{letter-spacing:0}html[dir=ltr] body,html[dir=ltr] body *{direction:ltr}html[dir=ltr] .pacp-lang{direction:ltr}html[dir=ltr] .hero-copy p{margin-left:0;margin-right:auto;text-align:left;max-width:640px}html[dir=ltr] .hero-buttons{justify-content:flex-start}</style>"
 )
 
 
