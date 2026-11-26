@@ -38,3 +38,5 @@ export async function portraitUrl(userId){
   return s.data?s.data.signedUrl:null;
 }
 export async function receiptUrl(path){return client.storage.from('membership-receipts').createSignedUrl(path,300)}
+
+export async function verifyCard(code){return client.rpc('verify_membership_card',{p_code:code})}

@@ -42,7 +42,7 @@ if(!user){$('guest').classList.remove('hidden')}else{
   for(const x of list){const d=document.createElement('div');d.innerHTML='<span class="pill"></span> <span class="small"></span>';d.children[0].textContent=stat[x.status]||x.status;d.children[1].textContent=' — قُدّم في '+new Date(x.submitted_at).toLocaleDateString('ar');$('appList').appendChild(d)}
   const cd=c.data||{valid:false};const pUrl=await portraitUrl(user.id);if(pUrl){$('portraitPrev').src=pUrl;$('portraitPrev').classList.remove('hidden')}
   $('cardInfo').textContent=cd.membership_code?`رقم العضوية ${cd.membership_code} — ${cd.valid?'سارية حتى '+cd.valid_until:'منتهية أو موقوفة'}`:'لا توجد بطاقة عضوية صادرة بعد.';
-  const cf=$('cardFrame');cf.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){const f=x=>x?String(x).split('-').reverse().join(' / '):'';cf.src='card.html?'+new URLSearchParams({c:cd.membership_code,n:cd.name_ar||'',e:cd.name_en||'',f:f(cd.valid_from),u:f(cd.valid_until),v:cd.valid?'1':'0',...(pUrl?{p:pUrl}:{})})}
+  const cf=$('cardFrame');cf.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){const f=x=>x?String(x).split('-').reverse().join(' / '):'';cf.src='card.html?'+new URLSearchParams({c:cd.membership_code,n:cd.name_ar||'',e:cd.name_en||'',f:f(cd.valid_from),u:f(cd.valid_until),v:cd.valid?'1':'0',k:cd.verify_code||'',...(pUrl?{p:pUrl}:{})})}
   $('formSec').classList.toggle('hidden',!!openApp||!!cd.membership_code);
   $('receiptSec').classList.toggle('hidden',!openApp);
   const step=cd.membership_code?5:openApp?(openApp.status==='under_review'?4:2):1;

@@ -1,0 +1,19 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>التحقق من بطاقة العضوية | الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</title>
+<style>:root{font-family:Alexandria,system-ui,sans-serif;color:#153d2f;background:#f3faf6}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px}main{width:min(100%,520px);padding:30px;background:#fff;border:1px solid #dceee3;border-radius:25px;box-shadow:0 20px 50px #0a5c4620;text-align:center}img{width:84px}h1{font-size:21px;margin:12px 0 4px;color:#04281d}p{color:#37574b;line-height:1.8;margin:6px 0}.badge{display:inline-block;margin:16px 0 8px;padding:9px 26px;border-radius:99px;font-weight:800;font-size:18px}.ok{background:#dff5e8;color:#0a6b3b}.bad{background:#fde4e4;color:#a01629}.warn{background:#fff1d6;color:#8a5a00}dl{margin:18px 0 0;text-align:right;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;border-top:1px solid #dceee3;padding-top:16px}dt{color:#55766a;font-size:14px}dd{margin:0;font-weight:700;color:#04281d}.en{direction:ltr;text-align:left}a{color:#0a6b3b}</style><link rel="stylesheet" href="/PACP-Reference-Design-Cloudflare-v9/assets/fonts/fonts.css"></head><body><main>
+<img src="../../assets/pacp-logo-original.png" alt="شعار الجمعية"><h1>التحقق من بطاقة العضوية</h1><p>الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</p>
+<div id="out"><p>جارٍ التحقق…</p></div><p style="font-size:13px;margin-top:20px">لا تُعرض هنا إلا بيانات التحقق الأساسية. للاستفسار: <a href="mailto:info@pacp.ps">info@pacp.ps</a></p></main>
+<script type="module">
+import {verifyCard} from '../assets/pacp-supabase-auth.mjs';
+const out=document.getElementById('out');const c=new URLSearchParams(location.search).get('c')||'';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmt=d=>d?String(d).split('-').reverse().join(' / '):'';
+const L={valid:['بطاقة سارية','ok'],expired:['بطاقة منتهية الصلاحية','warn'],revoked:['بطاقة ملغاة','bad'],not_yet_valid:['بطاقة لم يبدأ سريانها بعد','warn']};
+(async()=>{
+  if(!/^[0-9a-f]{32}$/.test(c)){out.innerHTML='<div class="badge bad">رمز تحقق غير صالح</div><p>تعذّر قراءة رمز البطاقة. تأكدي من مسح الرمز كاملاً.</p>';return}
+  const {data,error}=await verifyCard(c);
+  if(error){out.innerHTML='<div class="badge warn">تعذّر التحقق الآن</div><p>حاولوا مرة أخرى بعد قليل.</p>';return}
+  if(!data||!data.found){out.innerHTML='<div class="badge bad">البطاقة غير موجودة</div><p>لا توجد بطاقة مطابقة لهذا الرمز في سجلات الجمعية.</p>';return}
+  const [t,k]=L[data.status]||L.expired;
+  out.innerHTML=`<div class="badge ${k}">${t}</div><dl><dt>الاسم</dt><dd>${esc(data.name_ar)}</dd><dt>Name</dt><dd class="en">${esc(data.name_en)}</dd><dt>رقم العضوية</dt><dd class="en">${esc(data.membership_code)}</dd><dt>سارية من</dt><dd>${fmt(data.valid_from)}</dd><dt>سارية حتى</dt><dd>${fmt(data.valid_until)}</dd></dl>`;
+})();
+</script></body></html>
