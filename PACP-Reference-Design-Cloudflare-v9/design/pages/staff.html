@@ -1,0 +1,59 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>لوحة الطاقم | الجمعية الفلسطينية لاختصاصيي علم النفس العيادي</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+:root{font-family:Alexandria,system-ui,sans-serif;color:#153d2f;background:#f3faf6;--g:#075b36;--r:#c9102c}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:980px;margin:auto;display:grid;gap:16px}
+header{text-align:center}header img{width:80px;height:80px;object-fit:contain}h1{font-size:1.4rem;margin:.3rem 0}
+section,.item{background:#fff;border:1px solid #dceee3;border-radius:20px;padding:18px;box-shadow:0 12px 34px #004a2710}
+.item{display:grid;gap:6px}.pill{display:inline-block;padding:3px 12px;border-radius:99px;background:#e0f5eb;font-size:.82rem}
+input{padding:9px;border:1px solid #bcd9c8;border-radius:10px;font:inherit;max-width:100%}button,.btn{background:var(--g);color:#fff;border:0;border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer;margin:4px 0 0 6px}button.red{background:var(--r)}button.ghost{background:#fff;color:var(--g);border:1px solid var(--g)}button:disabled{opacity:.5}
+.hidden{display:none}.error{color:var(--r)}.ok{color:#0a6b3f}.small{font-size:.85rem;color:#53665e}.acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+</style></head><body><main>
+<header><img src="../../assets/pacp-logo-original.png" alt="شعار الجمعية"><h1>لوحة الطاقم — الانتساب</h1><p id="who" class="small"></p></header>
+<section id="guest" class="hidden"><p>يلزم تسجيل الدخول بحساب طاقم مفوَّض.</p><a class="btn" href="auth.html">تسجيل الدخول</a></section>
+<section id="denied" class="hidden"><p class="error">هذا الحساب ليس له صلاحية في لوحة الطاقم.</p></section>
+<section id="panel" class="hidden"><p class="small">صلاحياتك: <span id="roles"></span> <button id="refresh" class="ghost">تحديث</button> <button id="out" class="ghost">خروج</button></p><p id="msg" role="status"></p><div id="list"></div></section>
+</main>
+<script type="module">
+import {client,myStaffRoles,staffQueue,recordCash,processApplication,issueCard,receiptUrl,logout} from '../assets/pacp-supabase-auth.mjs';
+const $=id=>document.getElementById(id);
+const stat={submitted:'قيد الانتظار',under_review:'قيد المراجعة',needs_changes:'مطلوب تعديل',approved:'مقبول',rejected:'مرفوض',withdrawn:'مسحوب'};
+const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+const msg=(t,e)=>{$('msg').textContent=t;$('msg').className=e?'error':'ok'};
+const {data:u}=await client.auth.getUser();const user=u?.user;
+if(!user){$('guest').classList.remove('hidden')}else{
+ $('who').textContent=user.email;
+ const rr=await myStaffRoles();const roles=rr.data||[];
+ const fin=roles.includes('finance_officer'),appr=roles.includes('membership_approver'),off=roles.includes('membership_officer'),adm=roles.includes('admin');
+ if(!roles.length){$('denied').classList.remove('hidden')}else{
+  $('panel').classList.remove('hidden');$('roles').textContent=roles.join('، ');
+  $('out').onclick=async()=>{await logout();location.reload()};$('refresh').onclick=load;
+  async function act(fn,ok){msg('جارٍ التنفيذ...');const r=await fn();if(r.error){msg('رُفضت العملية: '+(r.error.message||'غير مسموح'),true)}else{msg(ok)}await load()}
+  async function load(){
+   const r=await staffQueue();$('list').innerHTML='';
+   if(r.error){msg('تعذر تحميل القائمة',true);return}
+   if(!r.data.length)$('list').innerHTML='<p class="small">لا توجد طلبات.</p>';
+   for(const a of r.data){
+    const d=document.createElement('div');d.className='item';
+    const h=document.createElement('div');h.innerHTML='<b></b> <span class="pill"></span> <span class="small"></span>';
+    h.children[0].textContent=a.name_ar||'—';h.children[1].textContent=stat[a.status]||a.status;h.children[2].textContent=' '+a.email+(a.cash_recorded?' — وصل مسجَّل: '+a.receipt_number:'')+(a.card_issued?' — بطاقة صادرة':'');d.appendChild(h);
+    const acts=document.createElement('div');acts.className='acts';d.appendChild(acts);
+    const btn=(t,cls,fn)=>{const b=document.createElement('button');b.textContent=t;if(cls)b.className=cls;b.onclick=fn;acts.appendChild(b)};
+    if(a.receipt_file)btn('عرض وصل الدفع','ghost',async()=>{const s=await receiptUrl(a.receipt_file);if(s.data)window.open(s.data.signedUrl,'_blank','noopener');else msg('تعذر فتح الوصل',true)});
+    else{const s=document.createElement('span');s.className='small';s.textContent='لم يُرفع وصل بعد';acts.appendChild(s)}
+    const open=['submitted','under_review','needs_changes'].includes(a.status);
+    if(fin&&open&&!a.cash_recorded&&a.receipt_file){
+      const n=document.createElement('input');n.placeholder='رقم الوصل';n.dir='ltr';const m=document.createElement('input');m.placeholder='المبلغ (₪)';m.type='number';m.min='1';m.step='0.01';acts.append(n,m);
+      btn('تأكيد استلام الدفع','',()=>{const v=parseFloat(m.value);if(!n.value.trim()||!(v>0)){msg('أدخلي رقم الوصل والمبلغ.',true);return}act(()=>recordCash(a.application_id,n.value.trim(),v),'سُجّل الدفع.')});
+    }
+    if((appr||off)&&open&&a.status!=='under_review')btn('بدء المراجعة','ghost',()=>act(()=>processApplication(a.application_id,'start_review','بدء المراجعة'),'بدأت المراجعة.'));
+    if(appr&&a.status==='under_review'){
+      if(a.cash_recorded)btn('موافقة','',()=>{const why=prompt('سبب القرار (مطلوب):','استيفاء الشروط وتأكيد الدفع');if(why)act(()=>processApplication(a.application_id,'approve',why),'تمت الموافقة.')});
+      else{const s=document.createElement('span');s.className='small';s.textContent='بانتظار تأكيد المالية للدفع قبل الموافقة';acts.appendChild(s)}
+      btn('رفض','red',()=>{const why=prompt('سبب الرفض (مطلوب):');if(why)act(()=>processApplication(a.application_id,'reject',why),'تم الرفض.')});
+    }
+    if(appr&&a.status==='approved'&&!a.card_issued&&a.cash_recorded)btn('إصدار بطاقة العضوية','',()=>{const y=parseInt(prompt('سنة صلاحية البطاقة:',String(new Date().getFullYear())),10);if(!y)return;const t=crypto.randomUUID()+crypto.randomUUID();act(async()=>{const r=await issueCard(a.application_id,await sha(t),y);if(!r.error)alert('تم إصدار البطاقة. رمز التحقق (يظهر مرة واحدة، احفظيه):\n'+t);return r},'صدرت البطاقة.')});
+    $('list').appendChild(d);
+   }
+  }
+  await load();
+ }
+}
+</script></body></html>

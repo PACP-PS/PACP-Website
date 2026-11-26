@@ -1,0 +1,33 @@
+name: PACP portal candidate preview (manual, preview branch only)
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: "Type PACP-PORTAL-PREVIEW to publish a PREVIEW (not production)"
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  preview:
+    if: ${{ github.ref == 'refs/heads/release/portal-production-candidate' && inputs.approval == 'PACP-PORTAL-PREVIEW' }}
+    runs-on: ubuntu-latest
+    environment: pacp-preview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build portal candidate
+        run: python3 scripts/build_portal_candidate.py
+      - name: Refuse staging/dev project references
+        run: |
+          ! grep -r -q -e 'aweebuukeovcekctclws' -e 'lofvxgubetdslvaczvjp' build/pacp-portal-candidate
+          grep -r -q 'nwbiazllkpiggbrwhpmh' build/pacp-portal-candidate
+          ! grep -r -q -e 'service_role' build/pacp-portal-candidate
+      - name: Publish Cloudflare Pages PREVIEW branch
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PREVIEW }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build/pacp-portal-candidate --project-name=pacp-website --branch=portal-candidate --commit-dirty=true
