@@ -69,6 +69,13 @@ _ix=DEST/"index.html";_it=_ix.read_text(encoding="utf8")
 if "pacp-home-card-style" not in _it:
     _it=_it.replace("</head>",'<style id="pacp-home-card-style">'+_m.group(1)+".cards-pair .card-front .card-brand img{width:44px;height:50px;transform:translateY(-4px)}.cards-pair .card-front .card-brand strong{font-size:11.5px}.cards-pair .card-front .card-brand small{font-size:9px}.cards-pair .card-front .card-brand span{font-size:8px}.cards-pair .card-front .card-label strong{font-size:13px}.cards-pair .card-front .front-heading{margin-top:0}.cards-pair .card-front .front-mid{margin-top:2px}.cards-pair .card-front .sample-person>strong{font-size:14.5px}.cards-pair .card-front .sample-person>b{font-size:10.5px}.cards-pair .card-front .member-no b{font-size:9.5px}.cards-pair .card-front .member-no small{font-size:7.5px}.cards-pair .card-front .card-dates small{font-size:8px}.cards-pair .card-front .card-dates b{font-size:10.5px}"+'</style></head>',1);_ix.write_text(_it,encoding="utf8")
 
+sys.path.insert(0,str(ROOT/"scripts"))
+import build_english
+_left=build_english.build(DEST)
+_seen=set()
+for _k,_v in _left:
+    if (_k,_v) not in _seen: _seen.add((_k,_v));print("EN-MISSING",_k,_v[:90])
+
 import re as _re2
 shutil.copytree(SRC/'assets/fonts',DEST/INNER/'assets/fonts',dirs_exist_ok=True)
 _fl='<link rel="stylesheet" href="/PACP-Reference-Design-Cloudflare-v9/assets/fonts/fonts.css">'

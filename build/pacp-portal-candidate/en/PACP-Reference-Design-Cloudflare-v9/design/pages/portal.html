@@ -1,0 +1,72 @@
+<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Membership Portal | Palestinian Association of Clinical Psychologists</title><style>
+:root{font-family:Alexandria,system-ui,sans-serif;color:#153d2f;background:#f3faf6;--g:#075b36;--r:#c9102c}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:760px;margin:auto;display:grid;gap:18px}
+header{text-align:center}header img{width:86px;height:86px;object-fit:contain}h1{font-size:1.5rem;margin:.4rem 0}h2{font-size:1.15rem;margin:0 0 10px;color:#063d31}p{line-height:1.8}
+section{background:#fff;border:1px solid #dceee3;border-radius:22px;padding:22px;box-shadow:0 14px 40px #004a2710}
+label{display:block;font-size:.9rem;margin:10px 0 4px}input,select{width:100%;padding:11px;border:1px solid #bcd9c8;border-radius:12px;font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:600px){.row{grid-template-columns:1fr}}
+button,.btn{background:var(--g);color:#fff;border:0;border-radius:12px;padding:11px 18px;font:inherit;cursor:pointer;text-decoration:none;display:inline-block;margin-top:14px}button:disabled{opacity:.55;cursor:not-allowed}.ghost{background:#fff;color:var(--g);border:1px solid var(--g)}
+.ok{color:#0a6b3f}.error{color:var(--r)}.pill{display:inline-block;padding:3px 12px;border-radius:99px;background:#e0f5eb;font-size:.85rem}.hidden{display:none}.small{font-size:.85rem;color:#53665e}
+.steps{display:flex;gap:8px;flex-wrap:wrap;padding:0;list-style:none;margin:0 0 6px}.steps li{background:#eef8f4;border-radius:99px;padding:4px 12px;font-size:.82rem}.steps li.on{background:var(--g);color:#fff}
+</style><link rel="alternate" hreflang="ar" href="https://www.pacp.ps/PACP-Reference-Design-Cloudflare-v9/design/pages/portal.html"><link rel="alternate" hreflang="en" href="https://www.pacp.ps/en/PACP-Reference-Design-Cloudflare-v9/design/pages/portal.html"><style id='pacp-lang-style'>.pacp-lang{position:fixed;top:12px;inset-inline-end:12px;z-index:9999;background:#0a5c3e;color:#fff!important;font:700 13px Alexandria,system-ui,sans-serif;padding:7px 14px;border-radius:99px;text-decoration:none;box-shadow:0 4px 14px #0a5c3e40;direction:ltr}.pacp-lang:hover{background:#c4122f}</style><style id='pacp-en-style'>html[dir=ltr] body{text-align:left}html[dir=ltr]{font-family:Alexandria,system-ui,sans-serif}html[dir=ltr] .links,html[dir=ltr] .nav{direction:ltr}html[dir=ltr] dl{text-align:left}html[dir=ltr] .hero-copy{text-align:left}html[dir=ltr] h1,html[dir=ltr] h2,html[dir=ltr] h3{letter-spacing:0;line-height:1.25}html[dir=ltr] .brand small{letter-spacing:0}</style><link rel="stylesheet" href="/PACP-Reference-Design-Cloudflare-v9/assets/fonts/fonts.css"></head><body><a class="pacp-lang" href="/PACP-Reference-Design-Cloudflare-v9/design/pages/portal.html" lang="ar" hreflang="ar">العربية</a><main>
+<header><img src="/PACP-Reference-Design-Cloudflare-v9/assets/pacp-logo-original.png" alt="Logo of the Palestinian Association of Clinical Psychologists"><h1>Membership Portal</h1><p class="small">Palestinian Association of Clinical Psychologists</p></header>
+<section id="guest" class="hidden"><h2>Please sign in first</h2><p>Sign in with the account created from your invitation, then return to this page.</p><a class="btn" href="auth.html">Sign in / Create account</a></section>
+<section id="main" class="hidden">
+<p><span id="who" class="small"></span> <button id="out" class="ghost" style="margin:0 8px;padding:5px 12px">Sign out</button></p>
+<ol class="steps"><li id="s1">1 Submit application</li><li id="s2">2 Pay fee and upload receipt</li><li id="s3">3 Finance verification</li><li id="s4">4 Committee approval</li><li id="s5">5 Membership card</li></ol>
+<section id="card"><h2>My membership status</h2><p id="cardInfo">...</p><iframe id="cardFrame" class="hidden" title="Membership Card" style="width:100%;height:340px;border:0;background:transparent" loading="lazy"></iframe></section>
+<section id="portraitSec"><h2>My portrait for the card</h2><p class="small">A clear photo of your face (JPG, PNG or WebP). It is resized automatically before upload and appears on your membership card once approved.</p><img id="portraitPrev" alt="" class="hidden" style="width:110px;height:128px;object-fit:cover;border-radius:14px;border:2px solid #126947;display:block;margin:8px 0"><input id="pfile" type="file" accept="image/jpeg,image/png,image/webp"><button id="pup">Upload photo</button><p id="pstatus" role="status"></p></section>
+<section id="apps"><h2>My applications</h2><div id="appList" class="small">...</div></section>
+<section id="formSec"><h2>New membership application</h2><p class="small">Payment is made in cash or by direct deposit/transfer according to the association's instructions; then upload a photo of the receipt after submitting your application. There is no online card payment.</p>
+<form id="form"></form><p id="fstatus" role="status"></p></section>
+<section id="receiptSec" class="hidden"><h2>Upload payment receipt</h2><p class="small">An image (JPG/PNG/WebP) or PDF, maximum 5 MB.</p><input id="file" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"><button id="up">Upload receipt</button><p id="rstatus" role="status"></p></section>
+</section></main>
+<script type="module">
+import {client,mySummary,myApplications,submitApplication,myCard,uploadReceipt,uploadPortrait,portraitUrl,logout} from '/PACP-Reference-Design-Cloudflare-v9/design/assets/pacp-supabase-auth.mjs';
+const $=id=>document.getElementById(id);
+const spec=[['name_ar_first','First name (Arabic)'],['name_ar_father','Father's name (Arabic)'],['name_ar_grandfather','Grandfather's name (Arabic)'],['name_ar_family','Family name (Arabic)'],['name_en_first','First name'],['name_en_father','Father name'],['name_en_grandfather','Grandfather name'],['name_en_family','Family name'],['national_id','National ID (9 digits)'],['email','Email'],['phone','Phone number'],['residence','Place of residence'],['academic_level','Academic qualification'],['specialty','Specialty'],['workplace','Workplace']];
+const required=new Set(['name_ar_first','name_ar_father','name_ar_grandfather','name_ar_family','name_en_first','name_en_father','name_en_grandfather','name_en_family','email','national_id']);
+addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.pacpCardH){const f=document.getElementById('cardFrame');if(f)f.style.height=Math.min(1200,e.data.pacpCardH)+'px'}});
+const stat={submitted:'Pending',under_review:'Under review',needs_changes:'Changes requested',approved:'Approved',rejected:'Rejected',withdrawn:'Withdrawn'};
+const fm=$('form');for(const [k,l] of spec){const lb=document.createElement('label');lb.textContent=l;const i=document.createElement('input');i.name=k;i.required=required.has(k);i.maxLength=k==='email'?254:150;if(k==='email')i.type='email';if(k==='national_id'){i.inputMode='numeric';i.pattern='[0-9]{9}';i.maxLength=9;i.dir='ltr';i.autocomplete='off'}if(/^name_en/.test(k))i.dir='ltr';lb.appendChild(i);fm.appendChild(lb)}
+const sb=document.createElement('button');sb.textContent='Submit application';fm.appendChild(sb);
+const {data:u}=await client.auth.getUser();const user=u?.user;
+if(!user){$('guest').classList.remove('hidden')}else{
+ $('main').classList.remove('hidden');$('who').textContent=user.email;fm.elements.email.value=user.email||'';fm.elements.email.readOnly=true;
+ $('out').onclick=async()=>{await logout();location.reload()};
+ let openApp=null;
+ async function refresh(){
+  const [a,c]=await Promise.all([myApplications(),myCard()]);
+  const list=a.data||[];openApp=list.find(x=>['submitted','under_review','needs_changes'].includes(x.status))||null;
+  $('appList').innerHTML='';
+  if(!list.length)$('appList').textContent='No applications yet.';
+  for(const x of list){const d=document.createElement('div');d.innerHTML='<span class="pill"></span> <span class="small"></span>';d.children[0].textContent=stat[x.status]||x.status;d.children[1].textContent=' — submitted on '+new Date(x.submitted_at).toLocaleDateString('en-GB');$('appList').appendChild(d)}
+  const cd=c.data||{valid:false};const pUrl=await portraitUrl(user.id);if(pUrl){$('portraitPrev').src=pUrl;$('portraitPrev').classList.remove('hidden')}
+  $('cardInfo').textContent=cd.membership_code?`Membership No. ${cd.membership_code} — ${cd.valid?'valid until '+cd.valid_until:'expired or suspended'}`:'No membership card has been issued yet.';
+  const cf=$('cardFrame');cf.classList.toggle('hidden',!cd.membership_code);if(cd.membership_code){const f=x=>x?String(x).split('-').reverse().join(' / '):'';cf.src='/PACP-Reference-Design-Cloudflare-v9/design/pages/card.html?'+new URLSearchParams({c:cd.membership_code,n:cd.name_ar||'',e:cd.name_en||'',f:f(cd.valid_from),u:f(cd.valid_until),v:cd.valid?'1':'0',k:cd.verify_code||'',...(pUrl?{p:pUrl}:{})})}
+  $('formSec').classList.toggle('hidden',!!openApp||!!cd.membership_code);
+  $('receiptSec').classList.toggle('hidden',!openApp);
+  const step=cd.membership_code?5:openApp?(openApp.status==='under_review'?4:2):1;
+  ['s1','s2','s3','s4','s5'].forEach((id,i)=>$(id).classList.toggle('on',i+1<=step));
+ }
+ fm.addEventListener('submit',async e=>{e.preventDefault();sb.disabled=true;$('fstatus').className='';$('fstatus').textContent='Submitting...';
+  const d={};for(const [k] of spec){const v=fm.elements[k].value.trim();if(v)d[k]=v}
+  const r=await submitApplication(d);
+  if(r.error){$('fstatus').className='error';$('fstatus').textContent=r.error.code==='22023'?'Check the national ID (9 digits) and the other details.':r.error.code==='23505'?'You already have an open application, or this national ID is already registered.':'Submission failed. Check your details and try again later.'}else{$('fstatus').className='ok';$('fstatus').textContent='Application submitted. Please upload your payment receipt now.'}
+  sb.disabled=false;await refresh()});
+ $('up').onclick=async()=>{const f=$('file').files[0];if(!f||!openApp){$('rstatus').className='error';$('rstatus').textContent='Choose the receipt file first.';return}
+  if(f.size>5242880){$('rstatus').className='error';$('rstatus').textContent='The file is larger than 5 MB.';return}
+  $('up').disabled=true;$('rstatus').className='';$('rstatus').textContent='Uploading...';
+  const r=await uploadReceipt(user.id,openApp.application_id,f);
+  $('rstatus').className=r.error?'error':'ok';$('rstatus').textContent=r.error?'Could not upload the receipt. Check the file type and size.':'Receipt uploaded. Finance will verify it.';
+  $('up').disabled=false;if(!r.error)$('file').value=''};
+ $('pup').onclick=async()=>{const f=$('pfile').files[0];const st=$('pstatus');if(!f){st.className='error';st.textContent='Choose a photo first.';return}
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type)){st.className='error';st.textContent='Unsupported image type.';return}
+  $('pup').disabled=true;st.className='';st.textContent='Processing and uploading...';
+  try{const bmp=await createImageBitmap(f);const sc=Math.min(1,720/Math.max(bmp.width,bmp.height));const cv=document.createElement('canvas');cv.width=Math.round(bmp.width*sc);cv.height=Math.round(bmp.height*sc);cv.getContext('2d').drawImage(bmp,0,0,cv.width,cv.height);
+   const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.88));const r=await uploadPortrait(user.id,blob);
+   st.className=r.error?'error':'ok';st.textContent=r.error?'Could not upload the photo.':'Photo uploaded.';if(!r.error){$('pfile').value='';await refresh()}
+  }catch(e){st.className='error';st.textContent='Could not read the image.'}
+  $('pup').disabled=false};
+ await refresh();
+}
+</script></body></html>

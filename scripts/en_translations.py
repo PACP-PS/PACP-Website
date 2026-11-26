@@ -158,6 +158,8 @@ T = {
 "الدفع النقدي: تسلّم المبلغ للموظف المالي المخوّل، وتُحفظ بيانات الإيصال للمطابقة.": "Cash payment: hand the amount to the authorised finance officer; the receipt details are kept for reconciliation.",
 "ارفعي وصل الدفع من بوابة الانتساب بعد تقديم الطلب. لا تُفعَّل العضوية إلا بعد تحقق أمين الصندوق واعتماد المسؤول المخوّل.": "Upload your payment receipt in the membership portal after submitting your application. Membership is activated only after the treasurer's verification and approval by the authorised officer.",
 "بوابة الانتساب": "Membership Portal",
+"الاتصال هاتفياً بالجمعية على الرقم +970594090972": "Call the association on +970594090972",
+"التحويل البنكي: تُعرض بيانات الحساب الرسمي بعد اعتمادها، ويُراجع التحويل مقابل كشف البنك قبل إثبات السداد.": "Bank transfer: the official account details will be shown once approved, and the transfer is checked against the bank statement before payment is confirmed.",
 "الدخول إلى بوابة الانتساب": "Go to the membership portal",
 "مسارات العضوية الإلكترونية": "Online membership paths",
 # ---- news ----
