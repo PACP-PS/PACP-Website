@@ -45,7 +45,7 @@ if(!user){$('guest').classList.remove('hidden')}else{
     const open=['submitted','under_review','needs_changes'].includes(a.status);
     if(fin&&open&&!a.cash_recorded&&a.receipt_file){
       const n=document.createElement('input');n.placeholder='رقم الوصل';n.dir='ltr';const m=document.createElement('input');m.placeholder='المبلغ (₪)';m.type='number';m.min='1';m.step='0.01';acts.append(n,m);
-      btn('تأكيد استلام الدفع','',()=>{const v=parseFloat(m.value);if(!n.value.trim()||!(v>0)){msg('أدخلي رقم الوصل والمبلغ.',true);return}act(()=>recordCash(a.application_id,n.value.trim(),v),'سُجّل الدفع.')});
+      btn('تأكيد استلام الدفع','',()=>{const v=parseFloat(m.value);if(n.value.trim().length<3||!(v>0)){msg('رقم الوصل يجب ألا يقل عن 3 خانات، والمبلغ أكبر من صفر.',true);return}act(()=>recordCash(a.application_id,n.value.trim(),v),'سُجّل الدفع.')});
     }
     if((appr||off)&&open&&a.status!=='under_review')btn('بدء المراجعة','ghost',()=>act(()=>processApplication(a.application_id,'start_review','بدء المراجعة'),'بدأت المراجعة.'));
     if(appr&&a.status==='under_review'){
